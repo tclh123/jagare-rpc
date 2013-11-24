@@ -1,0 +1,11 @@
+# DAE
+/venv
+/permdir
+dev.yaml
+local_config.py
+
+# Python
+*.py[cod]
+
+# Editor
+*.swp

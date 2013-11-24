@@ -1,0 +1,24 @@
+application: jagare
+version: 1
+runtime: python
+api_version: 1
+
+release_managers:
+- xutao
+- lh_intern
+- lihan
+
+# services:
+# - interface:
+#
+
+# services_idls:
+# - jagare.thrift
+
+handlers:
+- url: /.*
+  wsgi_app: app:app
+
+selftest:
+- url: /
+  status: 200
