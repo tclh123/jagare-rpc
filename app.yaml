@@ -2,6 +2,8 @@ application: jagare
 version: 1
 runtime: python
 api_version: 1
+# irc_report_channel: code
+report_observer_emails: lihan@intern.douban.com
 
 release_managers:
 - xutao
