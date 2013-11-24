@@ -1,0 +1,1 @@
+-e git+http://code.dapps.douban.com/lh_intern/ellen.git@ebefc964c38ead972ebcd1f01ee1d2f8aec8bf84#egg=ellen
