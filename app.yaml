@@ -1,0 +1,30 @@
+application: jagare
+version: 1
+runtime: python
+api_version: 1
+irc_report_channel: code
+report_observer_emails: lihan@intern.douban.com
+
+release_managers:
+- xutao
+- lh_intern
+- lihan
+
+services:
+- interface: jagare.Jagare
+  handler: services.jagare_handler:Handler
+  client_param:
+    retries: 3
+    connect_timeout: 10
+    read_timeout: 60
+
+services_idls:
+- jagare.thrift
+
+handlers:
+- url: /.*
+  wsgi_app: app:app
+
+selftest:
+- url: /
+  status: 200
