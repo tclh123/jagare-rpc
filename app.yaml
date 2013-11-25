@@ -10,12 +10,16 @@ release_managers:
 - lh_intern
 - lihan
 
-# services:
-# - interface:
-#
+services:
+- interface: jagare.Jagare
+  handler: services.jagare_handler:Handler
+  client_param:
+    retries: 3
+    connect_timeout: 10
+    read_timeout: 60
 
-# services_idls:
-# - jagare.thrift
+services_idls:
+- jagare.thrift
 
 handlers:
 - url: /.*
