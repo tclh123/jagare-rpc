@@ -12,3 +12,5 @@ local_config.py
 
 # Others
 tmp
+.cache
+.xprocess
