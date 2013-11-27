@@ -9,3 +9,8 @@ local_config.py
 
 # Editor
 *.swp
+
+# Others
+tmp
+.cache
+.xprocess
