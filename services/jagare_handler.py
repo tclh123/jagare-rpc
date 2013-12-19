@@ -41,3 +41,10 @@ class Handler(object):
             return repo.format_patch(ref, from_ref)
         except Exception as e:
             raise ServiceUnavailable(repr(e))
+
+    def detect_renamed(self, path, ref):
+        try:
+            repo = Jagare(path)
+            return repo.detect_renamed(ref)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))

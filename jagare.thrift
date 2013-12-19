@@ -42,6 +42,10 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
+    map<string, string> detect_renamed(1:string path, 2:string ref)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
 
     # oneway void fetch()
