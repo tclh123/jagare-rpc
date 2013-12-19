@@ -24,6 +24,7 @@ class Repository(object):
    - is_empty
    - is_bare
    - workdir
+   - head
   """
 
   thrift_spec = (
@@ -32,13 +33,15 @@ class Repository(object):
     (2, TType.BOOL, 'is_empty', None, None, ), # 2
     (3, TType.BOOL, 'is_bare', None, None, ), # 3
     (4, TType.STRING, 'workdir', None, None, ), # 4
+    (5, TType.STRING, 'head', None, None, ), # 5
   )
 
-  def __init__(self, path=None, is_empty=None, is_bare=None, workdir=None,):
+  def __init__(self, path=None, is_empty=None, is_bare=None, workdir=None, head=None,):
     self.path = path
     self.is_empty = is_empty
     self.is_bare = is_bare
     self.workdir = workdir
+    self.head = head
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -69,6 +72,11 @@ class Repository(object):
           self.workdir = iprot.readString();
         else:
           iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRING:
+          self.head = iprot.readString();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -96,6 +104,10 @@ class Repository(object):
       oprot.writeFieldBegin('workdir', TType.STRING, 4)
       oprot.writeString(self.workdir)
       oprot.writeFieldEnd()
+    if self.head is not None:
+      oprot.writeFieldBegin('head', TType.STRING, 5)
+      oprot.writeString(self.head)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -106,6 +118,83 @@ class Repository(object):
       raise TProtocol.TProtocolException(message='Required field is_empty is unset!')
     if self.is_bare is None:
       raise TProtocol.TProtocolException(message='Required field is_bare is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class Author(object):
+  """
+  Attributes:
+   - name
+   - email
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'name', None, None, ), # 1
+    (2, TType.STRING, 'email', None, None, ), # 2
+  )
+
+  def __init__(self, name=None, email=None,):
+    self.name = name
+    self.email = email
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.name = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.email = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('Author')
+    if self.name is not None:
+      oprot.writeFieldBegin('name', TType.STRING, 1)
+      oprot.writeString(self.name)
+      oprot.writeFieldEnd()
+    if self.email is not None:
+      oprot.writeFieldBegin('email', TType.STRING, 2)
+      oprot.writeString(self.email)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.name is None:
+      raise TProtocol.TProtocolException(message='Required field name is unset!')
+    if self.email is None:
+      raise TProtocol.TProtocolException(message='Required field email is unset!')
     return
 
 

@@ -24,6 +24,11 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print ''
   print 'Functions:'
   print '  Repository get(string path)'
+  print '   list_branches(string path)'
+  print '   list_tags(string path)'
+  print '  string format_patch(string path, string ref, string from_ref)'
+  print '   detect_renamed(string path, string ref)'
+  print '  bool commit(string path, string branch, string parent_ref, string author_name, string author_email, string message, string reflog,  data)'
   print ''
   sys.exit(0)
 
@@ -80,6 +85,36 @@ if cmd == 'get':
     print 'get requires 1 args'
     sys.exit(1)
   pp.pprint(client.get(args[0],))
+
+elif cmd == 'list_branches':
+  if len(args) != 1:
+    print 'list_branches requires 1 args'
+    sys.exit(1)
+  pp.pprint(client.list_branches(args[0],))
+
+elif cmd == 'list_tags':
+  if len(args) != 1:
+    print 'list_tags requires 1 args'
+    sys.exit(1)
+  pp.pprint(client.list_tags(args[0],))
+
+elif cmd == 'format_patch':
+  if len(args) != 3:
+    print 'format_patch requires 3 args'
+    sys.exit(1)
+  pp.pprint(client.format_patch(args[0],args[1],args[2],))
+
+elif cmd == 'detect_renamed':
+  if len(args) != 2:
+    print 'detect_renamed requires 2 args'
+    sys.exit(1)
+  pp.pprint(client.detect_renamed(args[0],args[1],))
+
+elif cmd == 'commit':
+  if len(args) != 8:
+    print 'commit requires 8 args'
+    sys.exit(1)
+  pp.pprint(client.commit(args[0],args[1],args[2],args[3],args[4],args[5],args[6],eval(args[7]),))
 
 else:
   print 'Unrecognized method %s' % cmd
