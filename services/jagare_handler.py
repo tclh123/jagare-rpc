@@ -48,3 +48,14 @@ class Handler(object):
             return repo.detect_renamed(ref)
         except Exception as e:
             raise ServiceUnavailable(repr(e))
+
+    def commit(self, path, branch, parent_ref,
+               author_name, author_email, message, reflog, data):
+        try:
+            repo = Jagare(path)
+            repo.commit_file(branch, parent_ref,
+                             author_name, author_email,
+                             message, reflog, data)
+            return True
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))

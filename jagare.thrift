@@ -6,6 +6,17 @@ struct Repository {
     5: optional string head,
 }
 
+struct Author {
+    1: required string name,
+    2: required string email,
+}
+
+# struct Signature {
+#     1: required Author author,
+#     2: required string time,
+#     3: required string time_offset,
+# }
+
 exception ServiceUnavailable {
     1: string message,
 }
@@ -26,7 +37,7 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # show, TODO: formated dict -> struct or map(JSON)
+    # show, TODO: formated dict -> struct or map(JSON)?
 
     # ls_tree
 
@@ -47,6 +58,12 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
+    bool commit(1:string path, 2:string branch, 3:string parent_ref,
+                       4:string author_name, 5:string author_email,
+                       6:string message, 7:string reflog, 8:list<list<string>> data)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
     # oneway void fetch()
 }
