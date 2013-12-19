@@ -34,3 +34,10 @@ class Handler(object):
             return repo.tags
         except Exception as e:
             raise ServiceUnavailable(repr(e))
+
+    def format_patch(self, path, ref, from_ref):
+        try:
+            repo = Jagare(path)
+            return repo.format_patch(ref, from_ref)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))

@@ -9,4 +9,4 @@ def test_list_branches(tmpdir):
     t_repo = temp_repo.create_temp_repo(path, is_bare=True)
     tags = Jagare.list_tags(path)
 
-    assert tags == t_repo.tags
+    assert tags == list(t_repo.tags)

@@ -25,4 +25,24 @@ service Jagare {
         throws (
             1: ServiceUnavailable unavailable,
         ),
+
+    # show, TODO: formated dict -> struct or map(JSON)
+
+    # ls_tree
+
+    # rev_list, return commits list
+    # def rev_list(repository, to_ref, from_ref=None, path=None, skip=0,
+    #              max_count=0, author=None, query=None, first_parent=None,
+    #              since=0, no_merges=None):
+
+    # blame
+
+    string format_patch(1:string path, 2:string ref, 3:string from_ref)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+
+
+    # oneway void fetch()
 }
