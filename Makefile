@@ -9,3 +9,11 @@ service:
 
 service_stop:
 	-@kill -9 `lsof -i:7303 -t` 2> /dev/null
+
+service_gen:
+	dae service gen
+
+clean_pyc:
+	@find . -name "*.pyc" -exec rm {} +
+
+.PHONY: service_gen
