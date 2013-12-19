@@ -20,4 +20,9 @@ service Jagare {
         throws (
             1: ServiceUnavailable unavailable,
         ),
+
+    list<string> list_tags(1:string path)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 }
