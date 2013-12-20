@@ -59,3 +59,18 @@ class Handler(object):
             return True
         except Exception as e:
             raise ServiceUnavailable(repr(e))
+
+    def resolve_commit(self, path, ref):
+        try:
+            repo = Jagare(path)
+            return repo.resolve_commit(ref)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def resolve_type(self, path, version):
+        """version means git object sha, return str of blob/tree/commit/tag"""
+        try:
+            repo = Jagare(path)
+            return repo.resolve_type(version)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))

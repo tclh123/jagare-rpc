@@ -65,5 +65,17 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
+    # diff
+
+    string resolve_commit(1:string path, 2:string version)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    string resolve_type(1:string path, 2:string version)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
     # oneway void fetch()
 }
