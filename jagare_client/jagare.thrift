@@ -59,8 +59,44 @@ service Jagare {
         ),
 
     bool commit(1:string path, 2:string branch, 3:string parent_ref,
-                       4:string author_name, 5:string author_email,
-                       6:string message, 7:string reflog, 8:list<list<string>> data)
+                4:string author_name, 5:string author_email,
+                6:string message, 7:string reflog, 8:list<list<string>> data)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    # diff, TODO: refactor ellen
+
+    string resolve_commit(1:string path, 2:string version)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    string resolve_type(1:string path, 2:string version)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    bool create_branch(1:string path, 2:string name, 3:string ref, 4:bool force)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    Repository clone_to(1:string path, 2:string to_path, 3:bool is_bare, 4:string branch,
+                     5:bool is_mirror, 6:map<string, string> env)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    # classmethod
+    Repository mirror(1:string url, 2:string to_path, 3:bool is_bare,
+                      4:string branch, 5:map<string, string> env)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    # classmethod
+    Repository init(1:string to_path, 2:string work_path, 3:bool is_bare)
         throws (
             1: ServiceUnavailable unavailable,
         ),

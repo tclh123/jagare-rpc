@@ -29,6 +29,12 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  string format_patch(string path, string ref, string from_ref)'
   print '   detect_renamed(string path, string ref)'
   print '  bool commit(string path, string branch, string parent_ref, string author_name, string author_email, string message, string reflog,  data)'
+  print '  string resolve_commit(string path, string version)'
+  print '  string resolve_type(string path, string version)'
+  print '  bool create_branch(string path, string name, string ref, bool force)'
+  print '  Repository clone_to(string path, string to_path, bool is_bare, string branch, bool is_mirror,  env)'
+  print '  Repository mirror(string url, string to_path, bool is_bare, string branch,  env)'
+  print '  Repository init(string to_path, string work_path, bool is_bare)'
   print ''
   sys.exit(0)
 
@@ -115,6 +121,42 @@ elif cmd == 'commit':
     print 'commit requires 8 args'
     sys.exit(1)
   pp.pprint(client.commit(args[0],args[1],args[2],args[3],args[4],args[5],args[6],eval(args[7]),))
+
+elif cmd == 'resolve_commit':
+  if len(args) != 2:
+    print 'resolve_commit requires 2 args'
+    sys.exit(1)
+  pp.pprint(client.resolve_commit(args[0],args[1],))
+
+elif cmd == 'resolve_type':
+  if len(args) != 2:
+    print 'resolve_type requires 2 args'
+    sys.exit(1)
+  pp.pprint(client.resolve_type(args[0],args[1],))
+
+elif cmd == 'create_branch':
+  if len(args) != 4:
+    print 'create_branch requires 4 args'
+    sys.exit(1)
+  pp.pprint(client.create_branch(args[0],args[1],args[2],eval(args[3]),))
+
+elif cmd == 'clone_to':
+  if len(args) != 6:
+    print 'clone_to requires 6 args'
+    sys.exit(1)
+  pp.pprint(client.clone_to(args[0],args[1],eval(args[2]),args[3],eval(args[4]),eval(args[5]),))
+
+elif cmd == 'mirror':
+  if len(args) != 5:
+    print 'mirror requires 5 args'
+    sys.exit(1)
+  pp.pprint(client.mirror(args[0],args[1],eval(args[2]),args[3],eval(args[4]),))
+
+elif cmd == 'init':
+  if len(args) != 3:
+    print 'init requires 3 args'
+    sys.exit(1)
+  pp.pprint(client.init(args[0],args[1],eval(args[2]),))
 
 else:
   print 'Unrecognized method %s' % cmd
