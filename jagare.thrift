@@ -88,7 +88,12 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # def mirror(cls, url, path, bare=None, branch=None, env=None):
+    # classmethod
+    Repository mirror(1:string url, 2:string to_path, 3:bool is_bare,
+                      4:string branch, 5:map<string, string> env)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
     # oneway void fetch()
 }

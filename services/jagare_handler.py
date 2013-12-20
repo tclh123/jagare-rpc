@@ -95,3 +95,15 @@ class Handler(object):
                               head=to_repo.head.name)
         except Exception as e:
             raise ServiceUnavailable(repr(e))
+
+    def mirror(self, url, to_path, is_bare, branch, env):
+        try:
+            to_repo = Jagare.mirror(url=url, path=to_path, bare=is_bare,
+                                    branch=branch, env=env)
+            return Repository(path=to_repo.path,
+                              is_empty=to_repo.empty,
+                              is_bare=to_repo.bare,
+                              workdir=to_repo.repository.workdir,
+                              head=to_repo.head.name)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
