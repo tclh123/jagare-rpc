@@ -18,7 +18,7 @@ class Handler(object):
                               is_empty=repo.empty,
                               is_bare=repo.bare,
                               workdir=repo.repository.workdir,
-                              head=repo.head.name)
+                              head=repo.head and repo.head.name)
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
@@ -92,7 +92,7 @@ class Handler(object):
                               is_empty=to_repo.empty,
                               is_bare=to_repo.bare,
                               workdir=to_repo.repository.workdir,
-                              head=to_repo.head.name)
+                              head=to_repo.head and to_repo.head.name)
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
@@ -104,6 +104,18 @@ class Handler(object):
                               is_empty=to_repo.empty,
                               is_bare=to_repo.bare,
                               workdir=to_repo.repository.workdir,
-                              head=to_repo.head.name)
+                              head=to_repo.head and to_repo.head.name)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def init(self, to_path, work_path, is_bare):
+        try:
+            to_repo = Jagare.init(path=to_path, work_path=work_path,
+                                  bare=is_bare)
+            return Repository(path=to_repo.path,
+                              is_empty=to_repo.empty,
+                              is_bare=to_repo.bare,
+                              workdir=to_repo.repository.workdir,
+                              head=to_repo.head and to_repo.head.name)
         except Exception as e:
             raise ServiceUnavailable(repr(e))

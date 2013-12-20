@@ -65,7 +65,7 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # diff
+    # diff, TODO: refactor ellen
 
     string resolve_commit(1:string path, 2:string version)
         throws (
@@ -91,6 +91,12 @@ service Jagare {
     # classmethod
     Repository mirror(1:string url, 2:string to_path, 3:bool is_bare,
                       4:string branch, 5:map<string, string> env)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    # classmethod
+    Repository init(1:string to_path, 2:string work_path, 3:bool is_bare)
         throws (
             1: ServiceUnavailable unavailable,
         ),
