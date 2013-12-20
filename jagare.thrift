@@ -59,8 +59,8 @@ service Jagare {
         ),
 
     bool commit(1:string path, 2:string branch, 3:string parent_ref,
-                       4:string author_name, 5:string author_email,
-                       6:string message, 7:string reflog, 8:list<list<string>> data)
+                4:string author_name, 5:string author_email,
+                6:string message, 7:string reflog, 8:list<list<string>> data)
         throws (
             1: ServiceUnavailable unavailable,
         ),
@@ -81,6 +81,14 @@ service Jagare {
         throws (
             1: ServiceUnavailable unavailable,
         ),
+
+    Repository clone_to(1:string path, 2:string to_path, 3:bool is_bare, 4:string branch,
+                     5:bool is_mirror, 6:map<string, string> env)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    # def mirror(cls, url, path, bare=None, branch=None, env=None):
 
     # oneway void fetch()
 }

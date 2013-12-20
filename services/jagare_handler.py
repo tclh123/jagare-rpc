@@ -82,3 +82,16 @@ class Handler(object):
             return repo.create_branch(name, ref, force)
         except Exception as e:
             raise ServiceUnavailable(repr(e))
+
+    def clone_to(self, path, to_path, is_bare, branch, is_mirror, env):
+        try:
+            repo = Jagare(path)
+            to_repo = repo.clone(path=to_path, bare=is_bare, branch=branch,
+                                 mirror=is_mirror, env=env)
+            return Repository(path=to_repo.path,
+                              is_empty=to_repo.empty,
+                              is_bare=to_repo.bare,
+                              workdir=to_repo.repository.workdir,
+                              head=to_repo.head.name)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
