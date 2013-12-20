@@ -5,9 +5,10 @@ from ellen.repo import Jagare
 from service_gen.jagare.ttypes import (Repository,
                                        ServiceUnavailable)
 
+# Code provide jagare_client wrapper, save `path` arg.
+
 
 # TODO: wrap commands to Handler
-
 class Handler(object):
 
     def get(self, path):
@@ -72,5 +73,12 @@ class Handler(object):
         try:
             repo = Jagare(path)
             return repo.resolve_type(version)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def create_branch(self, path, name, ref, force):
+        try:
+            repo = Jagare(path)
+            return repo.create_branch(name, ref, force)
         except Exception as e:
             raise ServiceUnavailable(repr(e))

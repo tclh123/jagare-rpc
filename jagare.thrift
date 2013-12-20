@@ -77,5 +77,10 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
+    bool create_branch(1:string path, 2:string name, 3:string ref, 4:bool force)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
     # oneway void fetch()
 }
