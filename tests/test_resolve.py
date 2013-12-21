@@ -20,3 +20,13 @@ def test_resolve_type(tmpdir):
 
     type_ = Jagare.resolve_type(path, 'master')
     assert type_ == 'commit'
+
+
+def test_sha(tmpdir):
+    path = tmpdir.strpath
+    t_repo = temp_repo.create_temp_repo(path, is_bare=True)
+
+    t_sha = t_repo.sha('master')
+    sha = Jagare.sha(path, 'master')
+
+    assert sha == t_sha

@@ -29,6 +29,13 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    def list_remotes(self, path):
+        try:
+            repo = Jagare(path)
+            return [r.name for r in repo.remotes()]
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
     def list_tags(self, path):
         try:
             repo = Jagare(path)
@@ -117,5 +124,51 @@ class Handler(object):
                               is_bare=to_repo.bare,
                               workdir=to_repo.repository.workdir,
                               head=to_repo.head and to_repo.head.name)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def list_references(self, path):
+        try:
+            repo = Jagare(path)
+            return repo.listall_references()
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def add_remote(self, path, name, url):
+        try:
+            repo = Jagare(path)
+            repo.add_remote(name, url)
+            return True
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def update_ref(self, path, ref, newvalue):
+        try:
+            repo = Jagare(path)
+            repo.update_ref(ref, newvalue)
+            return True
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def update_head(self, path, branch_name):
+        try:
+            repo = Jagare(path)
+            repo.update_head(branch_name)
+            return True
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def sha(self, path, revision):
+        try:
+            repo = Jagare(path)
+            return repo.sha(revision)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def merge_base(self, path, to_sha, from_sha):
+        try:
+            repo = Jagare(path)
+            oid = repo.merge_base(to_sha, from_sha)
+            return oid.hex if oid else None
         except Exception as e:
             raise ServiceUnavailable(repr(e))

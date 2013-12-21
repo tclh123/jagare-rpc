@@ -32,6 +32,11 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
+    list<string> list_remotes(1:string path)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
     list<string> list_tags(1:string path)
         throws (
             1: ServiceUnavailable unavailable,
@@ -97,6 +102,36 @@ service Jagare {
 
     # classmethod
     Repository init(1:string to_path, 2:string work_path, 3:bool is_bare)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    list<string> list_references(1:string path)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    bool add_remote(1:string path, 2:string name, 3:string url)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    bool update_ref(1:string path, 2:string ref, 3:string newvalue)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    bool update_head(1:string path, 2:string branch_name)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    string sha(1:string path, 2:string rev)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    string merge_base(1:string path, 2:string to_sha, 3:string from_sha)
         throws (
             1: ServiceUnavailable unavailable,
         ),
