@@ -21,6 +21,6 @@
 
 `make test`
 
-## 运行测试
+## 生成service接口和client文件
 
 当修改了 `thrift` 文件后，应当执行 `make service_gen` 来重新生成 `client/` 及 `service_gen/`。
