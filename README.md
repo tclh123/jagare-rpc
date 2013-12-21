@@ -11,12 +11,16 @@
 - `dae service serve`
 - 测试服务 `dae service call Jagare get '.'`
 
-*更多内容请参照[DAE Service 文档](http://code.dapps.douban.com/dae/docs/userdoc/backend/service/)*
+*更多内容请参照 [DAE Service 文档](http://code.dapps.douban.com/dae/docs/userdoc/backend/service/)*
+
+## 运行服务
+
+`make service`
 
 ## 运行测试
 
-`dae venv py.test tests`
+`make test`
 
-Or,
+## 运行测试
 
-`dae test -p tests`
+当修改了 `thrift` 文件后，应当执行 `make service_gen` 来重新生成 `client/` 及 `service_gen/`。
