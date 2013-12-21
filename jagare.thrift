@@ -17,6 +17,13 @@ struct Author {
 #     3: required string time_offset,
 # }
 
+struct ProcessResult {
+    1: required string stdout,
+    2: required string stderr,
+    3: required string fullcmd,
+    4: optional i16 returncode,  # None if process hasn't terminated yet.
+}
+
 exception ServiceUnavailable {
     1: string message,
 }
@@ -87,6 +94,11 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
+    bool delete_branch(1:string path, 2:string name)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
     Repository clone_to(1:string path, 2:string to_path, 3:bool is_bare, 4:string branch,
                      5:bool is_mirror, 6:map<string, string> env)
         throws (
@@ -136,5 +148,24 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # oneway void fetch()
+    oneway void fetch_all(1:string path)
+
+    oneway void fetch(1:string path, 2:string name)
+
+    ProcessResult merge(1:string path, 2:string ref, 3:string msg, 4:string commit_msg,
+                        5:bool no_ff, 6:map<string, string> env)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    ProcessResult push(1:string path, 2:string remote, 3:string ref
+                       4:map<string, string> env)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    string archive(1:string path, 2:string prefix, 3:string ref)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 }

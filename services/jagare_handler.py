@@ -3,6 +3,7 @@
 from ellen.repo import Jagare
 
 from service_gen.jagare.ttypes import (Repository,
+                                       ProcessResult,
                                        ServiceUnavailable)
 
 # Code provide jagare_client wrapper, save `path` arg.
@@ -90,6 +91,14 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    def delete_branch(self, path, name):
+        try:
+            repo = Jagare(path)
+            repo.delete_branch(name)
+            return True
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
     def clone_to(self, path, to_path, is_bare, branch, is_mirror, env):
         try:
             repo = Jagare(path)
@@ -170,5 +179,39 @@ class Handler(object):
             repo = Jagare(path)
             oid = repo.merge_base(to_sha, from_sha)
             return oid.hex if oid else None
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def fetch_all(self, path):
+        repo = Jagare(path)
+        repo.fetch_all()
+
+    def fetch(self, path, name):
+        repo = Jagare(path)
+        repo.fetch(name)
+
+    def merge(self, path, ref, msg, commit_msg, no_ff, env):
+        try:
+            repo = Jagare(path)
+            ret = repo.merge(ref=ref, msg=msg, commit_msg=commit_msg,
+                             no_ff=no_ff, _env=env)
+            return ProcessResult(**ret)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def push(self, path, remote, ref, env):
+        try:
+            repo = Jagare(path)
+            ret = repo.push(remote, ref, _env=env)
+            return ProcessResult(**ret)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def archive(self, path, prefix, ref):
+        try:
+            repo = Jagare(path)
+            # TODO: ref, fix ellen
+            stdout = repo.archive(prefix=prefix)
+            return stdout
         except Exception as e:
             raise ServiceUnavailable(repr(e))
