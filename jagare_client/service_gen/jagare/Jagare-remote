@@ -25,6 +25,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print 'Functions:'
   print '  Repository get(string path)'
   print '   list_branches(string path)'
+  print '   list_remotes(string path)'
   print '   list_tags(string path)'
   print '  string format_patch(string path, string ref, string from_ref)'
   print '   detect_renamed(string path, string ref)'
@@ -32,9 +33,21 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  string resolve_commit(string path, string version)'
   print '  string resolve_type(string path, string version)'
   print '  bool create_branch(string path, string name, string ref, bool force)'
+  print '  bool delete_branch(string path, string name)'
   print '  Repository clone_to(string path, string to_path, bool is_bare, string branch, bool is_mirror,  env)'
   print '  Repository mirror(string url, string to_path, bool is_bare, string branch,  env)'
   print '  Repository init(string to_path, string work_path, bool is_bare)'
+  print '   list_references(string path)'
+  print '  bool add_remote(string path, string name, string url)'
+  print '  bool update_ref(string path, string ref, string newvalue)'
+  print '  bool update_head(string path, string branch_name)'
+  print '  string sha(string path, string rev)'
+  print '  string merge_base(string path, string to_sha, string from_sha)'
+  print '  void fetch_all(string path)'
+  print '  void fetch(string path, string name)'
+  print '  ProcessResult merge(string path, string ref, string msg, string commit_msg, bool no_ff,  env)'
+  print '  ProcessResult push(string path, string remote, string ref,  env)'
+  print '  string archive(string path, string prefix, string ref)'
   print ''
   sys.exit(0)
 
@@ -98,6 +111,12 @@ elif cmd == 'list_branches':
     sys.exit(1)
   pp.pprint(client.list_branches(args[0],))
 
+elif cmd == 'list_remotes':
+  if len(args) != 1:
+    print 'list_remotes requires 1 args'
+    sys.exit(1)
+  pp.pprint(client.list_remotes(args[0],))
+
 elif cmd == 'list_tags':
   if len(args) != 1:
     print 'list_tags requires 1 args'
@@ -140,6 +159,12 @@ elif cmd == 'create_branch':
     sys.exit(1)
   pp.pprint(client.create_branch(args[0],args[1],args[2],eval(args[3]),))
 
+elif cmd == 'delete_branch':
+  if len(args) != 2:
+    print 'delete_branch requires 2 args'
+    sys.exit(1)
+  pp.pprint(client.delete_branch(args[0],args[1],))
+
 elif cmd == 'clone_to':
   if len(args) != 6:
     print 'clone_to requires 6 args'
@@ -157,6 +182,72 @@ elif cmd == 'init':
     print 'init requires 3 args'
     sys.exit(1)
   pp.pprint(client.init(args[0],args[1],eval(args[2]),))
+
+elif cmd == 'list_references':
+  if len(args) != 1:
+    print 'list_references requires 1 args'
+    sys.exit(1)
+  pp.pprint(client.list_references(args[0],))
+
+elif cmd == 'add_remote':
+  if len(args) != 3:
+    print 'add_remote requires 3 args'
+    sys.exit(1)
+  pp.pprint(client.add_remote(args[0],args[1],args[2],))
+
+elif cmd == 'update_ref':
+  if len(args) != 3:
+    print 'update_ref requires 3 args'
+    sys.exit(1)
+  pp.pprint(client.update_ref(args[0],args[1],args[2],))
+
+elif cmd == 'update_head':
+  if len(args) != 2:
+    print 'update_head requires 2 args'
+    sys.exit(1)
+  pp.pprint(client.update_head(args[0],args[1],))
+
+elif cmd == 'sha':
+  if len(args) != 2:
+    print 'sha requires 2 args'
+    sys.exit(1)
+  pp.pprint(client.sha(args[0],args[1],))
+
+elif cmd == 'merge_base':
+  if len(args) != 3:
+    print 'merge_base requires 3 args'
+    sys.exit(1)
+  pp.pprint(client.merge_base(args[0],args[1],args[2],))
+
+elif cmd == 'fetch_all':
+  if len(args) != 1:
+    print 'fetch_all requires 1 args'
+    sys.exit(1)
+  pp.pprint(client.fetch_all(args[0],))
+
+elif cmd == 'fetch':
+  if len(args) != 2:
+    print 'fetch requires 2 args'
+    sys.exit(1)
+  pp.pprint(client.fetch(args[0],args[1],))
+
+elif cmd == 'merge':
+  if len(args) != 6:
+    print 'merge requires 6 args'
+    sys.exit(1)
+  pp.pprint(client.merge(args[0],args[1],args[2],args[3],eval(args[4]),eval(args[5]),))
+
+elif cmd == 'push':
+  if len(args) != 4:
+    print 'push requires 4 args'
+    sys.exit(1)
+  pp.pprint(client.push(args[0],args[1],args[2],eval(args[3]),))
+
+elif cmd == 'archive':
+  if len(args) != 3:
+    print 'archive requires 3 args'
+    sys.exit(1)
+  pp.pprint(client.archive(args[0],args[1],args[2],))
 
 else:
   print 'Unrecognized method %s' % cmd
