@@ -80,35 +80,47 @@ struct GitObject {
 }
 
 # TODO: struct  Diff Patch Hunk
-struct Diff {
-}
-#     patches = diff['diff']
-#     old_sha = diff['old_sha']
-#     new_sha = diff['new_sha']
-#     for patch in patches:
-#         _patches.append({
-#             'amode': '100644',
-#             'bmode': '100644',
-#             'asha': patch.old_oid,  # no use? same with 'old_oid'
-#             'bsha': patch.new_oid,
-#             'old_sha': old_sha,
-#             'new_sha': new_sha,
-#             'change': patch.status,
-#             'filename': patch.old_file_path,
-#             'new_filename': patch.new_file_path,
-#             'additions': patch.additions,
-#             'deletions': patch.deletions,
-#             'similarity': patch.similarity,
-#             'hunks': _format_hunks(patch.hunks),
-#             'old_oid': patch.old_oid,
-#             'new_oid': patch.new_oid,
-#             'status': patch.status,
-#             'binary': patch.is_binary,
-#             'old_file_path': patch.old_file_path,
-#             'new_file_path': patch.new_file_path,
-#         })
-#     diff['patches'] = _patches
 
+struct DiffLine {
+    1: required string attr,
+    2: required string line,
+}
+
+struct MdiffLine {
+#    old, new, changed
+}
+
+struct Hunk {
+    1: required string old_start,
+    2: required string new_start,
+    3: required string old_lines,
+    4: required string new_lines,
+    5: required list<DiffLine> lines,  # hunk.lines,
+    6: required list<MdiffLine> mdiff,  # mdiff2(hunk.lines),  # FIXME:
+}
+
+struct Patch {
+    1: required string amode,
+    2: required string bmode,
+    3: required string old_sha,  # commit from_sha
+    4: required string new_sha,  # commit to_sha
+    5: required i32 additions,
+    6: required i32 deletions,
+    7: required i32 similarity,
+    8: required list<Hunk> hunks,
+    9: required string old_oid,
+    10: required string new_oid,
+    11: required string status,  # char
+    12: required bool is_binary,
+    13: required string old_file_path,
+    14: required string new_file_path,
+}
+
+struct Diff {
+    1: required string old_sha,
+    2: required string new_sha,
+    3: required list<Patch> patches,
+}
 
 exception ServiceUnavailable {
     1: string message,
