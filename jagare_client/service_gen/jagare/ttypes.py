@@ -138,22 +138,22 @@ class Signature(object):
    - name
    - email
    - time
-   - time_offset
+   - offset
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'name', None, None, ), # 1
     (2, TType.STRING, 'email', None, None, ), # 2
-    (3, TType.STRING, 'time', None, None, ), # 3
-    (4, TType.STRING, 'time_offset', None, None, ), # 4
+    (3, TType.I64, 'time', None, None, ), # 3
+    (4, TType.I16, 'offset', None, None, ), # 4
   )
 
-  def __init__(self, name=None, email=None, time=None, time_offset=None,):
+  def __init__(self, name=None, email=None, time=None, offset=None,):
     self.name = name
     self.email = email
     self.time = time
-    self.time_offset = time_offset
+    self.offset = offset
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -175,13 +175,13 @@ class Signature(object):
         else:
           iprot.skip(ftype)
       elif fid == 3:
-        if ftype == TType.STRING:
-          self.time = iprot.readString();
+        if ftype == TType.I64:
+          self.time = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 4:
-        if ftype == TType.STRING:
-          self.time_offset = iprot.readString();
+        if ftype == TType.I16:
+          self.offset = iprot.readI16();
         else:
           iprot.skip(ftype)
       else:
@@ -204,12 +204,12 @@ class Signature(object):
       oprot.writeString(self.email)
       oprot.writeFieldEnd()
     if self.time is not None:
-      oprot.writeFieldBegin('time', TType.STRING, 3)
-      oprot.writeString(self.time)
+      oprot.writeFieldBegin('time', TType.I64, 3)
+      oprot.writeI64(self.time)
       oprot.writeFieldEnd()
-    if self.time_offset is not None:
-      oprot.writeFieldBegin('time_offset', TType.STRING, 4)
-      oprot.writeString(self.time_offset)
+    if self.offset is not None:
+      oprot.writeFieldBegin('offset', TType.I16, 4)
+      oprot.writeI16(self.offset)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -221,8 +221,8 @@ class Signature(object):
       raise TProtocol.TProtocolException(message='Required field email is unset!')
     if self.time is None:
       raise TProtocol.TProtocolException(message='Required field time is unset!')
-    if self.time_offset is None:
-      raise TProtocol.TProtocolException(message='Required field time_offset is unset!')
+    if self.offset is None:
+      raise TProtocol.TProtocolException(message='Required field offset is unset!')
     return
 
 
@@ -661,7 +661,7 @@ class Commit(object):
    - author
    - email
    - time
-   - time_offset
+   - offset
    - commit
    - message
    - body
@@ -676,14 +676,14 @@ class Commit(object):
     (5, TType.STRUCT, 'committer', (Signature, Signature.thrift_spec), None, ), # 5
     (6, TType.STRUCT, 'author', (Signature, Signature.thrift_spec), None, ), # 6
     (7, TType.STRING, 'email', None, None, ), # 7
-    (8, TType.STRING, 'time', None, None, ), # 8
-    (9, TType.STRING, 'time_offset', None, None, ), # 9
+    (8, TType.I64, 'time', None, None, ), # 8
+    (9, TType.I16, 'offset', None, None, ), # 9
     (10, TType.STRING, 'commit', None, None, ), # 10
     (11, TType.STRING, 'message', None, None, ), # 11
     (12, TType.STRING, 'body', None, None, ), # 12
   )
 
-  def __init__(self, type=None, sha=None, parents=None, tree=None, committer=None, author=None, email=None, time=None, time_offset=None, commit=None, message=None, body=None,):
+  def __init__(self, type=None, sha=None, parents=None, tree=None, committer=None, author=None, email=None, time=None, offset=None, commit=None, message=None, body=None,):
     self.type = type
     self.sha = sha
     self.parents = parents
@@ -692,7 +692,7 @@ class Commit(object):
     self.author = author
     self.email = email
     self.time = time
-    self.time_offset = time_offset
+    self.offset = offset
     self.commit = commit
     self.message = message
     self.body = body
@@ -749,13 +749,13 @@ class Commit(object):
         else:
           iprot.skip(ftype)
       elif fid == 8:
-        if ftype == TType.STRING:
-          self.time = iprot.readString();
+        if ftype == TType.I64:
+          self.time = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 9:
-        if ftype == TType.STRING:
-          self.time_offset = iprot.readString();
+        if ftype == TType.I16:
+          self.offset = iprot.readI16();
         else:
           iprot.skip(ftype)
       elif fid == 10:
@@ -816,12 +816,12 @@ class Commit(object):
       oprot.writeString(self.email)
       oprot.writeFieldEnd()
     if self.time is not None:
-      oprot.writeFieldBegin('time', TType.STRING, 8)
-      oprot.writeString(self.time)
+      oprot.writeFieldBegin('time', TType.I64, 8)
+      oprot.writeI64(self.time)
       oprot.writeFieldEnd()
-    if self.time_offset is not None:
-      oprot.writeFieldBegin('time_offset', TType.STRING, 9)
-      oprot.writeString(self.time_offset)
+    if self.offset is not None:
+      oprot.writeFieldBegin('offset', TType.I16, 9)
+      oprot.writeI16(self.offset)
       oprot.writeFieldEnd()
     if self.commit is not None:
       oprot.writeFieldBegin('commit', TType.STRING, 10)
@@ -855,6 +855,8 @@ class Commit(object):
       raise TProtocol.TProtocolException(message='Required field email is unset!')
     if self.time is None:
       raise TProtocol.TProtocolException(message='Required field time is unset!')
+    if self.offset is None:
+      raise TProtocol.TProtocolException(message='Required field offset is unset!')
     if self.commit is None:
       raise TProtocol.TProtocolException(message='Required field commit is unset!')
     if self.message is None:
@@ -1129,6 +1131,121 @@ class LightWeightTag(object):
       raise TProtocol.TProtocolException(message='Required field object is unset!')
     if self.commit is None:
       raise TProtocol.TProtocolException(message='Required field commit is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class GitObject(object):
+  """
+  Attributes:
+   - type
+   - blob
+   - tree
+   - commit
+   - tag
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'type', None, None, ), # 1
+    (2, TType.STRUCT, 'blob', (Blob, Blob.thrift_spec), None, ), # 2
+    (3, TType.STRUCT, 'tree', (Tree, Tree.thrift_spec), None, ), # 3
+    (4, TType.STRUCT, 'commit', (Commit, Commit.thrift_spec), None, ), # 4
+    (5, TType.STRUCT, 'tag', (Tag, Tag.thrift_spec), None, ), # 5
+  )
+
+  def __init__(self, type=None, blob=None, tree=None, commit=None, tag=None,):
+    self.type = type
+    self.blob = blob
+    self.tree = tree
+    self.commit = commit
+    self.tag = tag
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.type = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.blob = Blob()
+          self.blob.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRUCT:
+          self.tree = Tree()
+          self.tree.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRUCT:
+          self.commit = Commit()
+          self.commit.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRUCT:
+          self.tag = Tag()
+          self.tag.read(iprot)
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('GitObject')
+    if self.type is not None:
+      oprot.writeFieldBegin('type', TType.STRING, 1)
+      oprot.writeString(self.type)
+      oprot.writeFieldEnd()
+    if self.blob is not None:
+      oprot.writeFieldBegin('blob', TType.STRUCT, 2)
+      self.blob.write(oprot)
+      oprot.writeFieldEnd()
+    if self.tree is not None:
+      oprot.writeFieldBegin('tree', TType.STRUCT, 3)
+      self.tree.write(oprot)
+      oprot.writeFieldEnd()
+    if self.commit is not None:
+      oprot.writeFieldBegin('commit', TType.STRUCT, 4)
+      self.commit.write(oprot)
+      oprot.writeFieldEnd()
+    if self.tag is not None:
+      oprot.writeFieldBegin('tag', TType.STRUCT, 5)
+      self.tag.write(oprot)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.type is None:
+      raise TProtocol.TProtocolException(message='Required field type is unset!')
     return
 
 

@@ -9,8 +9,8 @@ struct Repository {
 struct Signature {
     1: required string name,
     2: required string email,
-    3: required string time,
-    4: required string time_offset,
+    3: required i64 time,
+    4: required i16 offset,  # Offset from UTC in minutes.
 }
 
 struct ProcessResult {
@@ -48,8 +48,8 @@ struct Commit {
     5: required Signature committer,
     6: required Signature author,
     7: required string email,
-    8: required string time,
-    9: optional string time_offset,  # optional yet
+    8: required i64 time,
+    9: required i16 offset,
     10: required string commit,
     11: required string message,
     12: required string body,  # commit message body
@@ -71,6 +71,14 @@ struct LightWeightTag {
     3: required string tag,  # same as name
     4: required string object,  # tag.hex
     5: required Commit commit,
+}
+
+struct GitObject {
+    1: required string type,
+    2: optional Blob blob,
+    3: optional Tree tree,
+    4: optional Commit commit,
+    5: optional Tag tag,
 }
 
 # TODO: struct  Diff Patch Hunk
@@ -101,9 +109,10 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # TODO:
-    # show
-    # def show(self, ref):
+    GitObject show(1:string path, 2:string ref)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
     # ls_tree  # TODO: refactor ellen
 
