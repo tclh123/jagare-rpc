@@ -48,11 +48,9 @@ struct Commit {
     5: required Signature committer,
     6: required Signature author,
     7: required string email,
-    8: required i64 time,
-    9: required i16 offset,
-    10: required string commit,
-    11: required string message,
-    12: required string body,  # commit message body
+    8: required string commit,
+    9: required string message,
+    10: required string body,  # commit message body
 }
 
 struct Tag {
@@ -82,6 +80,34 @@ struct GitObject {
 }
 
 # TODO: struct  Diff Patch Hunk
+struct Diff {
+}
+#     patches = diff['diff']
+#     old_sha = diff['old_sha']
+#     new_sha = diff['new_sha']
+#     for patch in patches:
+#         _patches.append({
+#             'amode': '100644',
+#             'bmode': '100644',
+#             'asha': patch.old_oid,  # no use? same with 'old_oid'
+#             'bsha': patch.new_oid,
+#             'old_sha': old_sha,
+#             'new_sha': new_sha,
+#             'change': patch.status,
+#             'filename': patch.old_file_path,
+#             'new_filename': patch.new_file_path,
+#             'additions': patch.additions,
+#             'deletions': patch.deletions,
+#             'similarity': patch.similarity,
+#             'hunks': _format_hunks(patch.hunks),
+#             'old_oid': patch.old_oid,
+#             'new_oid': patch.new_oid,
+#             'status': patch.status,
+#             'binary': patch.is_binary,
+#             'old_file_path': patch.old_file_path,
+#             'new_file_path': patch.new_file_path,
+#         })
+#     diff['patches'] = _patches
 
 
 exception ServiceUnavailable {

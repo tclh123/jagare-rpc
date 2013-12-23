@@ -30,6 +30,3 @@ class CommitConverter(Converter):
         self.type = 'commit'
         self.committer = SignatureConverter(**self.committer).convert()
         self.author = SignatureConverter(**self.author).convert()
-
-        self.time = self.author.time
-        self.offset = self.author.offset
