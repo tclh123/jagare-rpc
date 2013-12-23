@@ -2,6 +2,8 @@
 
 from ellen.repo import Jagare
 
+from jagare.converter.gitobject import get_gitobject_from_show
+
 from service_gen.jagare.ttypes import (Repository,
                                        ProcessResult,
                                        ServiceUnavailable)
@@ -43,6 +45,14 @@ class Handler(object):
             return repo.tags
         except Exception as e:
             raise ServiceUnavailable(repr(e))
+
+    def show(self, path, ref):
+        # try:
+            repo = Jagare(path)
+            obj_dict = repo.show(ref)
+            return get_gitobject_from_show(obj_dict)
+        # except Exception as e:
+        #     raise ServiceUnavailable(repr(e))
 
     def format_patch(self, path, ref, from_ref):
         try:
