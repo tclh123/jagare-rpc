@@ -9,8 +9,8 @@ struct Repository {
 struct Signature {
     1: required string name,
     2: required string email,
-    3: required string time,
-    4: required string time_offset,
+    3: required i64 time,
+    4: required i16 offset,  # Offset from UTC in minutes.
 }
 
 struct ProcessResult {
@@ -48,11 +48,9 @@ struct Commit {
     5: required Signature committer,
     6: required Signature author,
     7: required string email,
-    8: required string time,
-    9: optional string time_offset,  # optional yet
-    10: required string commit,
-    11: required string message,
-    12: required string body,  # commit message body
+    8: required string commit,
+    9: required string message,
+    10: required string body,  # commit message body
 }
 
 struct Tag {
@@ -73,8 +71,56 @@ struct LightWeightTag {
     5: required Commit commit,
 }
 
+struct GitObject {
+    1: required string type,
+    2: optional Blob blob,
+    3: optional Tree tree,
+    4: optional Commit commit,
+    5: optional Tag tag,
+}
+
 # TODO: struct  Diff Patch Hunk
 
+struct DiffLine {
+    1: required string attr,
+    2: required string line,
+}
+
+struct MdiffLine {
+#    old, new, changed
+}
+
+struct Hunk {
+    1: required string old_start,
+    2: required string new_start,
+    3: required string old_lines,
+    4: required string new_lines,
+    5: required list<DiffLine> lines,  # hunk.lines,
+    6: required list<MdiffLine> mdiff,  # mdiff2(hunk.lines),  # FIXME:
+}
+
+struct Patch {
+    1: required string amode,
+    2: required string bmode,
+    3: required string old_sha,  # commit from_sha
+    4: required string new_sha,  # commit to_sha
+    5: required i32 additions,
+    6: required i32 deletions,
+    7: required i32 similarity,
+    8: required list<Hunk> hunks,
+    9: required string old_oid,
+    10: required string new_oid,
+    11: required string status,  # char
+    12: required bool is_binary,
+    13: required string old_file_path,
+    14: required string new_file_path,
+}
+
+struct Diff {
+    1: required string old_sha,
+    2: required string new_sha,
+    3: required list<Patch> patches,
+}
 
 exception ServiceUnavailable {
     1: string message,
@@ -101,9 +147,10 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # TODO:
-    # show
-    # def show(self, ref):
+    GitObject show(1:string path, 2:string ref)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
     # ls_tree  # TODO: refactor ellen
 

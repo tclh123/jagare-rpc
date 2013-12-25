@@ -138,22 +138,22 @@ class Signature(object):
    - name
    - email
    - time
-   - time_offset
+   - offset
   """
 
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'name', None, None, ), # 1
     (2, TType.STRING, 'email', None, None, ), # 2
-    (3, TType.STRING, 'time', None, None, ), # 3
-    (4, TType.STRING, 'time_offset', None, None, ), # 4
+    (3, TType.I64, 'time', None, None, ), # 3
+    (4, TType.I16, 'offset', None, None, ), # 4
   )
 
-  def __init__(self, name=None, email=None, time=None, time_offset=None,):
+  def __init__(self, name=None, email=None, time=None, offset=None,):
     self.name = name
     self.email = email
     self.time = time
-    self.time_offset = time_offset
+    self.offset = offset
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -175,13 +175,13 @@ class Signature(object):
         else:
           iprot.skip(ftype)
       elif fid == 3:
-        if ftype == TType.STRING:
-          self.time = iprot.readString();
+        if ftype == TType.I64:
+          self.time = iprot.readI64();
         else:
           iprot.skip(ftype)
       elif fid == 4:
-        if ftype == TType.STRING:
-          self.time_offset = iprot.readString();
+        if ftype == TType.I16:
+          self.offset = iprot.readI16();
         else:
           iprot.skip(ftype)
       else:
@@ -204,12 +204,12 @@ class Signature(object):
       oprot.writeString(self.email)
       oprot.writeFieldEnd()
     if self.time is not None:
-      oprot.writeFieldBegin('time', TType.STRING, 3)
-      oprot.writeString(self.time)
+      oprot.writeFieldBegin('time', TType.I64, 3)
+      oprot.writeI64(self.time)
       oprot.writeFieldEnd()
-    if self.time_offset is not None:
-      oprot.writeFieldBegin('time_offset', TType.STRING, 4)
-      oprot.writeString(self.time_offset)
+    if self.offset is not None:
+      oprot.writeFieldBegin('offset', TType.I16, 4)
+      oprot.writeI16(self.offset)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -221,8 +221,8 @@ class Signature(object):
       raise TProtocol.TProtocolException(message='Required field email is unset!')
     if self.time is None:
       raise TProtocol.TProtocolException(message='Required field time is unset!')
-    if self.time_offset is None:
-      raise TProtocol.TProtocolException(message='Required field time_offset is unset!')
+    if self.offset is None:
+      raise TProtocol.TProtocolException(message='Required field offset is unset!')
     return
 
 
@@ -660,8 +660,6 @@ class Commit(object):
    - committer
    - author
    - email
-   - time
-   - time_offset
    - commit
    - message
    - body
@@ -676,14 +674,12 @@ class Commit(object):
     (5, TType.STRUCT, 'committer', (Signature, Signature.thrift_spec), None, ), # 5
     (6, TType.STRUCT, 'author', (Signature, Signature.thrift_spec), None, ), # 6
     (7, TType.STRING, 'email', None, None, ), # 7
-    (8, TType.STRING, 'time', None, None, ), # 8
-    (9, TType.STRING, 'time_offset', None, None, ), # 9
-    (10, TType.STRING, 'commit', None, None, ), # 10
-    (11, TType.STRING, 'message', None, None, ), # 11
-    (12, TType.STRING, 'body', None, None, ), # 12
+    (8, TType.STRING, 'commit', None, None, ), # 8
+    (9, TType.STRING, 'message', None, None, ), # 9
+    (10, TType.STRING, 'body', None, None, ), # 10
   )
 
-  def __init__(self, type=None, sha=None, parents=None, tree=None, committer=None, author=None, email=None, time=None, time_offset=None, commit=None, message=None, body=None,):
+  def __init__(self, type=None, sha=None, parents=None, tree=None, committer=None, author=None, email=None, commit=None, message=None, body=None,):
     self.type = type
     self.sha = sha
     self.parents = parents
@@ -691,8 +687,6 @@ class Commit(object):
     self.committer = committer
     self.author = author
     self.email = email
-    self.time = time
-    self.time_offset = time_offset
     self.commit = commit
     self.message = message
     self.body = body
@@ -750,25 +744,15 @@ class Commit(object):
           iprot.skip(ftype)
       elif fid == 8:
         if ftype == TType.STRING:
-          self.time = iprot.readString();
+          self.commit = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 9:
         if ftype == TType.STRING:
-          self.time_offset = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 10:
-        if ftype == TType.STRING:
-          self.commit = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 11:
-        if ftype == TType.STRING:
           self.message = iprot.readString();
         else:
           iprot.skip(ftype)
-      elif fid == 12:
+      elif fid == 10:
         if ftype == TType.STRING:
           self.body = iprot.readString();
         else:
@@ -815,24 +799,16 @@ class Commit(object):
       oprot.writeFieldBegin('email', TType.STRING, 7)
       oprot.writeString(self.email)
       oprot.writeFieldEnd()
-    if self.time is not None:
-      oprot.writeFieldBegin('time', TType.STRING, 8)
-      oprot.writeString(self.time)
-      oprot.writeFieldEnd()
-    if self.time_offset is not None:
-      oprot.writeFieldBegin('time_offset', TType.STRING, 9)
-      oprot.writeString(self.time_offset)
-      oprot.writeFieldEnd()
     if self.commit is not None:
-      oprot.writeFieldBegin('commit', TType.STRING, 10)
+      oprot.writeFieldBegin('commit', TType.STRING, 8)
       oprot.writeString(self.commit)
       oprot.writeFieldEnd()
     if self.message is not None:
-      oprot.writeFieldBegin('message', TType.STRING, 11)
+      oprot.writeFieldBegin('message', TType.STRING, 9)
       oprot.writeString(self.message)
       oprot.writeFieldEnd()
     if self.body is not None:
-      oprot.writeFieldBegin('body', TType.STRING, 12)
+      oprot.writeFieldBegin('body', TType.STRING, 10)
       oprot.writeString(self.body)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -853,8 +829,6 @@ class Commit(object):
       raise TProtocol.TProtocolException(message='Required field author is unset!')
     if self.email is None:
       raise TProtocol.TProtocolException(message='Required field email is unset!')
-    if self.time is None:
-      raise TProtocol.TProtocolException(message='Required field time is unset!')
     if self.commit is None:
       raise TProtocol.TProtocolException(message='Required field commit is unset!')
     if self.message is None:
@@ -1129,6 +1103,746 @@ class LightWeightTag(object):
       raise TProtocol.TProtocolException(message='Required field object is unset!')
     if self.commit is None:
       raise TProtocol.TProtocolException(message='Required field commit is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class GitObject(object):
+  """
+  Attributes:
+   - type
+   - blob
+   - tree
+   - commit
+   - tag
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'type', None, None, ), # 1
+    (2, TType.STRUCT, 'blob', (Blob, Blob.thrift_spec), None, ), # 2
+    (3, TType.STRUCT, 'tree', (Tree, Tree.thrift_spec), None, ), # 3
+    (4, TType.STRUCT, 'commit', (Commit, Commit.thrift_spec), None, ), # 4
+    (5, TType.STRUCT, 'tag', (Tag, Tag.thrift_spec), None, ), # 5
+  )
+
+  def __init__(self, type=None, blob=None, tree=None, commit=None, tag=None,):
+    self.type = type
+    self.blob = blob
+    self.tree = tree
+    self.commit = commit
+    self.tag = tag
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.type = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.blob = Blob()
+          self.blob.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRUCT:
+          self.tree = Tree()
+          self.tree.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRUCT:
+          self.commit = Commit()
+          self.commit.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRUCT:
+          self.tag = Tag()
+          self.tag.read(iprot)
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('GitObject')
+    if self.type is not None:
+      oprot.writeFieldBegin('type', TType.STRING, 1)
+      oprot.writeString(self.type)
+      oprot.writeFieldEnd()
+    if self.blob is not None:
+      oprot.writeFieldBegin('blob', TType.STRUCT, 2)
+      self.blob.write(oprot)
+      oprot.writeFieldEnd()
+    if self.tree is not None:
+      oprot.writeFieldBegin('tree', TType.STRUCT, 3)
+      self.tree.write(oprot)
+      oprot.writeFieldEnd()
+    if self.commit is not None:
+      oprot.writeFieldBegin('commit', TType.STRUCT, 4)
+      self.commit.write(oprot)
+      oprot.writeFieldEnd()
+    if self.tag is not None:
+      oprot.writeFieldBegin('tag', TType.STRUCT, 5)
+      self.tag.write(oprot)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.type is None:
+      raise TProtocol.TProtocolException(message='Required field type is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class DiffLine(object):
+  """
+  Attributes:
+   - attr
+   - line
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'attr', None, None, ), # 1
+    (2, TType.STRING, 'line', None, None, ), # 2
+  )
+
+  def __init__(self, attr=None, line=None,):
+    self.attr = attr
+    self.line = line
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.attr = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.line = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('DiffLine')
+    if self.attr is not None:
+      oprot.writeFieldBegin('attr', TType.STRING, 1)
+      oprot.writeString(self.attr)
+      oprot.writeFieldEnd()
+    if self.line is not None:
+      oprot.writeFieldBegin('line', TType.STRING, 2)
+      oprot.writeString(self.line)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.attr is None:
+      raise TProtocol.TProtocolException(message='Required field attr is unset!')
+    if self.line is None:
+      raise TProtocol.TProtocolException(message='Required field line is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class MdiffLine(object):
+
+  thrift_spec = (
+  )
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('MdiffLine')
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class Hunk(object):
+  """
+  Attributes:
+   - old_start
+   - new_start
+   - old_lines
+   - new_lines
+   - lines
+   - mdiff
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'old_start', None, None, ), # 1
+    (2, TType.STRING, 'new_start', None, None, ), # 2
+    (3, TType.STRING, 'old_lines', None, None, ), # 3
+    (4, TType.STRING, 'new_lines', None, None, ), # 4
+    (5, TType.LIST, 'lines', (TType.STRUCT,(DiffLine, DiffLine.thrift_spec)), None, ), # 5
+    (6, TType.LIST, 'mdiff', (TType.STRUCT,(MdiffLine, MdiffLine.thrift_spec)), None, ), # 6
+  )
+
+  def __init__(self, old_start=None, new_start=None, old_lines=None, new_lines=None, lines=None, mdiff=None,):
+    self.old_start = old_start
+    self.new_start = new_start
+    self.old_lines = old_lines
+    self.new_lines = new_lines
+    self.lines = lines
+    self.mdiff = mdiff
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.old_start = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.new_start = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.old_lines = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.new_lines = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.LIST:
+          self.lines = []
+          (_etype17, _size14) = iprot.readListBegin()
+          for _i18 in xrange(_size14):
+            _elem19 = DiffLine()
+            _elem19.read(iprot)
+            self.lines.append(_elem19)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.LIST:
+          self.mdiff = []
+          (_etype23, _size20) = iprot.readListBegin()
+          for _i24 in xrange(_size20):
+            _elem25 = MdiffLine()
+            _elem25.read(iprot)
+            self.mdiff.append(_elem25)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('Hunk')
+    if self.old_start is not None:
+      oprot.writeFieldBegin('old_start', TType.STRING, 1)
+      oprot.writeString(self.old_start)
+      oprot.writeFieldEnd()
+    if self.new_start is not None:
+      oprot.writeFieldBegin('new_start', TType.STRING, 2)
+      oprot.writeString(self.new_start)
+      oprot.writeFieldEnd()
+    if self.old_lines is not None:
+      oprot.writeFieldBegin('old_lines', TType.STRING, 3)
+      oprot.writeString(self.old_lines)
+      oprot.writeFieldEnd()
+    if self.new_lines is not None:
+      oprot.writeFieldBegin('new_lines', TType.STRING, 4)
+      oprot.writeString(self.new_lines)
+      oprot.writeFieldEnd()
+    if self.lines is not None:
+      oprot.writeFieldBegin('lines', TType.LIST, 5)
+      oprot.writeListBegin(TType.STRUCT, len(self.lines))
+      for iter26 in self.lines:
+        iter26.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    if self.mdiff is not None:
+      oprot.writeFieldBegin('mdiff', TType.LIST, 6)
+      oprot.writeListBegin(TType.STRUCT, len(self.mdiff))
+      for iter27 in self.mdiff:
+        iter27.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.old_start is None:
+      raise TProtocol.TProtocolException(message='Required field old_start is unset!')
+    if self.new_start is None:
+      raise TProtocol.TProtocolException(message='Required field new_start is unset!')
+    if self.old_lines is None:
+      raise TProtocol.TProtocolException(message='Required field old_lines is unset!')
+    if self.new_lines is None:
+      raise TProtocol.TProtocolException(message='Required field new_lines is unset!')
+    if self.lines is None:
+      raise TProtocol.TProtocolException(message='Required field lines is unset!')
+    if self.mdiff is None:
+      raise TProtocol.TProtocolException(message='Required field mdiff is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class Patch(object):
+  """
+  Attributes:
+   - amode
+   - bmode
+   - old_sha
+   - new_sha
+   - additions
+   - deletions
+   - similarity
+   - hunks
+   - old_oid
+   - new_oid
+   - status
+   - is_binary
+   - old_file_path
+   - new_file_path
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'amode', None, None, ), # 1
+    (2, TType.STRING, 'bmode', None, None, ), # 2
+    (3, TType.STRING, 'old_sha', None, None, ), # 3
+    (4, TType.STRING, 'new_sha', None, None, ), # 4
+    (5, TType.I32, 'additions', None, None, ), # 5
+    (6, TType.I32, 'deletions', None, None, ), # 6
+    (7, TType.I32, 'similarity', None, None, ), # 7
+    (8, TType.LIST, 'hunks', (TType.STRUCT,(Hunk, Hunk.thrift_spec)), None, ), # 8
+    (9, TType.STRING, 'old_oid', None, None, ), # 9
+    (10, TType.STRING, 'new_oid', None, None, ), # 10
+    (11, TType.STRING, 'status', None, None, ), # 11
+    (12, TType.BOOL, 'is_binary', None, None, ), # 12
+    (13, TType.STRING, 'old_file_path', None, None, ), # 13
+    (14, TType.STRING, 'new_file_path', None, None, ), # 14
+  )
+
+  def __init__(self, amode=None, bmode=None, old_sha=None, new_sha=None, additions=None, deletions=None, similarity=None, hunks=None, old_oid=None, new_oid=None, status=None, is_binary=None, old_file_path=None, new_file_path=None,):
+    self.amode = amode
+    self.bmode = bmode
+    self.old_sha = old_sha
+    self.new_sha = new_sha
+    self.additions = additions
+    self.deletions = deletions
+    self.similarity = similarity
+    self.hunks = hunks
+    self.old_oid = old_oid
+    self.new_oid = new_oid
+    self.status = status
+    self.is_binary = is_binary
+    self.old_file_path = old_file_path
+    self.new_file_path = new_file_path
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.amode = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.bmode = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.old_sha = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.new_sha = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.I32:
+          self.additions = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.I32:
+          self.deletions = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 7:
+        if ftype == TType.I32:
+          self.similarity = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 8:
+        if ftype == TType.LIST:
+          self.hunks = []
+          (_etype31, _size28) = iprot.readListBegin()
+          for _i32 in xrange(_size28):
+            _elem33 = Hunk()
+            _elem33.read(iprot)
+            self.hunks.append(_elem33)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      elif fid == 9:
+        if ftype == TType.STRING:
+          self.old_oid = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 10:
+        if ftype == TType.STRING:
+          self.new_oid = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 11:
+        if ftype == TType.STRING:
+          self.status = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 12:
+        if ftype == TType.BOOL:
+          self.is_binary = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      elif fid == 13:
+        if ftype == TType.STRING:
+          self.old_file_path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 14:
+        if ftype == TType.STRING:
+          self.new_file_path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('Patch')
+    if self.amode is not None:
+      oprot.writeFieldBegin('amode', TType.STRING, 1)
+      oprot.writeString(self.amode)
+      oprot.writeFieldEnd()
+    if self.bmode is not None:
+      oprot.writeFieldBegin('bmode', TType.STRING, 2)
+      oprot.writeString(self.bmode)
+      oprot.writeFieldEnd()
+    if self.old_sha is not None:
+      oprot.writeFieldBegin('old_sha', TType.STRING, 3)
+      oprot.writeString(self.old_sha)
+      oprot.writeFieldEnd()
+    if self.new_sha is not None:
+      oprot.writeFieldBegin('new_sha', TType.STRING, 4)
+      oprot.writeString(self.new_sha)
+      oprot.writeFieldEnd()
+    if self.additions is not None:
+      oprot.writeFieldBegin('additions', TType.I32, 5)
+      oprot.writeI32(self.additions)
+      oprot.writeFieldEnd()
+    if self.deletions is not None:
+      oprot.writeFieldBegin('deletions', TType.I32, 6)
+      oprot.writeI32(self.deletions)
+      oprot.writeFieldEnd()
+    if self.similarity is not None:
+      oprot.writeFieldBegin('similarity', TType.I32, 7)
+      oprot.writeI32(self.similarity)
+      oprot.writeFieldEnd()
+    if self.hunks is not None:
+      oprot.writeFieldBegin('hunks', TType.LIST, 8)
+      oprot.writeListBegin(TType.STRUCT, len(self.hunks))
+      for iter34 in self.hunks:
+        iter34.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    if self.old_oid is not None:
+      oprot.writeFieldBegin('old_oid', TType.STRING, 9)
+      oprot.writeString(self.old_oid)
+      oprot.writeFieldEnd()
+    if self.new_oid is not None:
+      oprot.writeFieldBegin('new_oid', TType.STRING, 10)
+      oprot.writeString(self.new_oid)
+      oprot.writeFieldEnd()
+    if self.status is not None:
+      oprot.writeFieldBegin('status', TType.STRING, 11)
+      oprot.writeString(self.status)
+      oprot.writeFieldEnd()
+    if self.is_binary is not None:
+      oprot.writeFieldBegin('is_binary', TType.BOOL, 12)
+      oprot.writeBool(self.is_binary)
+      oprot.writeFieldEnd()
+    if self.old_file_path is not None:
+      oprot.writeFieldBegin('old_file_path', TType.STRING, 13)
+      oprot.writeString(self.old_file_path)
+      oprot.writeFieldEnd()
+    if self.new_file_path is not None:
+      oprot.writeFieldBegin('new_file_path', TType.STRING, 14)
+      oprot.writeString(self.new_file_path)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.amode is None:
+      raise TProtocol.TProtocolException(message='Required field amode is unset!')
+    if self.bmode is None:
+      raise TProtocol.TProtocolException(message='Required field bmode is unset!')
+    if self.old_sha is None:
+      raise TProtocol.TProtocolException(message='Required field old_sha is unset!')
+    if self.new_sha is None:
+      raise TProtocol.TProtocolException(message='Required field new_sha is unset!')
+    if self.additions is None:
+      raise TProtocol.TProtocolException(message='Required field additions is unset!')
+    if self.deletions is None:
+      raise TProtocol.TProtocolException(message='Required field deletions is unset!')
+    if self.similarity is None:
+      raise TProtocol.TProtocolException(message='Required field similarity is unset!')
+    if self.hunks is None:
+      raise TProtocol.TProtocolException(message='Required field hunks is unset!')
+    if self.old_oid is None:
+      raise TProtocol.TProtocolException(message='Required field old_oid is unset!')
+    if self.new_oid is None:
+      raise TProtocol.TProtocolException(message='Required field new_oid is unset!')
+    if self.status is None:
+      raise TProtocol.TProtocolException(message='Required field status is unset!')
+    if self.is_binary is None:
+      raise TProtocol.TProtocolException(message='Required field is_binary is unset!')
+    if self.old_file_path is None:
+      raise TProtocol.TProtocolException(message='Required field old_file_path is unset!')
+    if self.new_file_path is None:
+      raise TProtocol.TProtocolException(message='Required field new_file_path is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class Diff(object):
+  """
+  Attributes:
+   - old_sha
+   - new_sha
+   - patches
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'old_sha', None, None, ), # 1
+    (2, TType.STRING, 'new_sha', None, None, ), # 2
+    (3, TType.LIST, 'patches', (TType.STRUCT,(Patch, Patch.thrift_spec)), None, ), # 3
+  )
+
+  def __init__(self, old_sha=None, new_sha=None, patches=None,):
+    self.old_sha = old_sha
+    self.new_sha = new_sha
+    self.patches = patches
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.old_sha = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.new_sha = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.LIST:
+          self.patches = []
+          (_etype38, _size35) = iprot.readListBegin()
+          for _i39 in xrange(_size35):
+            _elem40 = Patch()
+            _elem40.read(iprot)
+            self.patches.append(_elem40)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('Diff')
+    if self.old_sha is not None:
+      oprot.writeFieldBegin('old_sha', TType.STRING, 1)
+      oprot.writeString(self.old_sha)
+      oprot.writeFieldEnd()
+    if self.new_sha is not None:
+      oprot.writeFieldBegin('new_sha', TType.STRING, 2)
+      oprot.writeString(self.new_sha)
+      oprot.writeFieldEnd()
+    if self.patches is not None:
+      oprot.writeFieldBegin('patches', TType.LIST, 3)
+      oprot.writeListBegin(TType.STRUCT, len(self.patches))
+      for iter41 in self.patches:
+        iter41.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.old_sha is None:
+      raise TProtocol.TProtocolException(message='Required field old_sha is unset!')
+    if self.new_sha is None:
+      raise TProtocol.TProtocolException(message='Required field new_sha is unset!')
+    if self.patches is None:
+      raise TProtocol.TProtocolException(message='Required field patches is unset!')
     return
 
 
