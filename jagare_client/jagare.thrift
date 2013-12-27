@@ -63,6 +63,7 @@ struct Tag {
     7: required string body,
 }
 
+# TODO: modify this after ellen ls-tree refactor
 struct LightWeightTag {
     1: required string type,  # 'commit'  ????
     2: required string name,  # short reference name
@@ -79,36 +80,29 @@ struct GitObject {
     5: optional Tag tag,
 }
 
-# TODO: struct  Diff Patch Hunk
-
 struct DiffLine {
-    1: required string attr,
+    1: required string attr,  # char
     2: required string line,
 }
 
-struct MdiffLine {
-#    old, new, changed
-}
-
 struct Hunk {
-    1: required string old_start,
-    2: required string new_start,
-    3: required string old_lines,
-    4: required string new_lines,
+    1: required i32 old_start,
+    2: required i32 new_start,
+    3: required i32 old_lines,
+    4: required i32 new_lines,
     5: required list<DiffLine> lines,  # hunk.lines,
-    6: required list<MdiffLine> mdiff,  # mdiff2(hunk.lines),  # FIXME:
 }
 
 struct Patch {
     1: required string amode,
     2: required string bmode,
-    3: required string old_sha,  # commit from_sha
+    3: optional string old_sha,  # commit from_sha, may be None
     4: required string new_sha,  # commit to_sha
     5: required i32 additions,
     6: required i32 deletions,
     7: required i32 similarity,
     8: required list<Hunk> hunks,
-    9: required string old_oid,
+    9: required string old_oid,  # may be 0 * 40
     10: required string new_oid,
     11: required string status,  # char
     12: required bool is_binary,
@@ -117,7 +111,7 @@ struct Patch {
 }
 
 struct Diff {
-    1: required string old_sha,
+    1: optional string old_sha,  # may be None
     2: required string new_sha,
     3: required list<Patch> patches,
 }
@@ -178,7 +172,12 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # diff, TODO: refactor ellen
+    Diff diff(1:string path, 2:string ref, 3:string from_ref, 4:bool ignore_space,
+              5:i16 flags, 6:bool context_lines, 7:list<string> paths,
+              8:bool rename_detection)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
     string resolve_commit(1:string path, 2:string version)
         throws (

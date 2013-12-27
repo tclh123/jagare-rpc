@@ -1309,49 +1309,6 @@ class DiffLine(object):
   def __ne__(self, other):
     return not (self == other)
 
-class MdiffLine(object):
-
-  thrift_spec = (
-  )
-
-  def read(self, iprot):
-    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
-      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
-      return
-    iprot.readStructBegin()
-    while True:
-      (fname, ftype, fid) = iprot.readFieldBegin()
-      if ftype == TType.STOP:
-        break
-      else:
-        iprot.skip(ftype)
-      iprot.readFieldEnd()
-    iprot.readStructEnd()
-
-  def write(self, oprot):
-    self.validate()
-    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
-      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
-      return
-    oprot.writeStructBegin('MdiffLine')
-    oprot.writeFieldStop()
-    oprot.writeStructEnd()
-
-  def validate(self):
-    return
-
-
-  def __repr__(self):
-    L = ['%s=%r' % (key, value)
-      for key, value in self.__dict__.iteritems()]
-    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-  def __eq__(self, other):
-    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-  def __ne__(self, other):
-    return not (self == other)
-
 class Hunk(object):
   """
   Attributes:
@@ -1360,26 +1317,23 @@ class Hunk(object):
    - old_lines
    - new_lines
    - lines
-   - mdiff
   """
 
   thrift_spec = (
     None, # 0
-    (1, TType.STRING, 'old_start', None, None, ), # 1
-    (2, TType.STRING, 'new_start', None, None, ), # 2
-    (3, TType.STRING, 'old_lines', None, None, ), # 3
-    (4, TType.STRING, 'new_lines', None, None, ), # 4
+    (1, TType.I32, 'old_start', None, None, ), # 1
+    (2, TType.I32, 'new_start', None, None, ), # 2
+    (3, TType.I32, 'old_lines', None, None, ), # 3
+    (4, TType.I32, 'new_lines', None, None, ), # 4
     (5, TType.LIST, 'lines', (TType.STRUCT,(DiffLine, DiffLine.thrift_spec)), None, ), # 5
-    (6, TType.LIST, 'mdiff', (TType.STRUCT,(MdiffLine, MdiffLine.thrift_spec)), None, ), # 6
   )
 
-  def __init__(self, old_start=None, new_start=None, old_lines=None, new_lines=None, lines=None, mdiff=None,):
+  def __init__(self, old_start=None, new_start=None, old_lines=None, new_lines=None, lines=None,):
     self.old_start = old_start
     self.new_start = new_start
     self.old_lines = old_lines
     self.new_lines = new_lines
     self.lines = lines
-    self.mdiff = mdiff
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1391,23 +1345,23 @@ class Hunk(object):
       if ftype == TType.STOP:
         break
       if fid == 1:
-        if ftype == TType.STRING:
-          self.old_start = iprot.readString();
+        if ftype == TType.I32:
+          self.old_start = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 2:
-        if ftype == TType.STRING:
-          self.new_start = iprot.readString();
+        if ftype == TType.I32:
+          self.new_start = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 3:
-        if ftype == TType.STRING:
-          self.old_lines = iprot.readString();
+        if ftype == TType.I32:
+          self.old_lines = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 4:
-        if ftype == TType.STRING:
-          self.new_lines = iprot.readString();
+        if ftype == TType.I32:
+          self.new_lines = iprot.readI32();
         else:
           iprot.skip(ftype)
       elif fid == 5:
@@ -1418,17 +1372,6 @@ class Hunk(object):
             _elem19 = DiffLine()
             _elem19.read(iprot)
             self.lines.append(_elem19)
-          iprot.readListEnd()
-        else:
-          iprot.skip(ftype)
-      elif fid == 6:
-        if ftype == TType.LIST:
-          self.mdiff = []
-          (_etype23, _size20) = iprot.readListBegin()
-          for _i24 in xrange(_size20):
-            _elem25 = MdiffLine()
-            _elem25.read(iprot)
-            self.mdiff.append(_elem25)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1444,33 +1387,26 @@ class Hunk(object):
       return
     oprot.writeStructBegin('Hunk')
     if self.old_start is not None:
-      oprot.writeFieldBegin('old_start', TType.STRING, 1)
-      oprot.writeString(self.old_start)
+      oprot.writeFieldBegin('old_start', TType.I32, 1)
+      oprot.writeI32(self.old_start)
       oprot.writeFieldEnd()
     if self.new_start is not None:
-      oprot.writeFieldBegin('new_start', TType.STRING, 2)
-      oprot.writeString(self.new_start)
+      oprot.writeFieldBegin('new_start', TType.I32, 2)
+      oprot.writeI32(self.new_start)
       oprot.writeFieldEnd()
     if self.old_lines is not None:
-      oprot.writeFieldBegin('old_lines', TType.STRING, 3)
-      oprot.writeString(self.old_lines)
+      oprot.writeFieldBegin('old_lines', TType.I32, 3)
+      oprot.writeI32(self.old_lines)
       oprot.writeFieldEnd()
     if self.new_lines is not None:
-      oprot.writeFieldBegin('new_lines', TType.STRING, 4)
-      oprot.writeString(self.new_lines)
+      oprot.writeFieldBegin('new_lines', TType.I32, 4)
+      oprot.writeI32(self.new_lines)
       oprot.writeFieldEnd()
     if self.lines is not None:
       oprot.writeFieldBegin('lines', TType.LIST, 5)
       oprot.writeListBegin(TType.STRUCT, len(self.lines))
-      for iter26 in self.lines:
-        iter26.write(oprot)
-      oprot.writeListEnd()
-      oprot.writeFieldEnd()
-    if self.mdiff is not None:
-      oprot.writeFieldBegin('mdiff', TType.LIST, 6)
-      oprot.writeListBegin(TType.STRUCT, len(self.mdiff))
-      for iter27 in self.mdiff:
-        iter27.write(oprot)
+      for iter20 in self.lines:
+        iter20.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -1487,8 +1423,6 @@ class Hunk(object):
       raise TProtocol.TProtocolException(message='Required field new_lines is unset!')
     if self.lines is None:
       raise TProtocol.TProtocolException(message='Required field lines is unset!')
-    if self.mdiff is None:
-      raise TProtocol.TProtocolException(message='Required field mdiff is unset!')
     return
 
 
@@ -1603,11 +1537,11 @@ class Patch(object):
       elif fid == 8:
         if ftype == TType.LIST:
           self.hunks = []
-          (_etype31, _size28) = iprot.readListBegin()
-          for _i32 in xrange(_size28):
-            _elem33 = Hunk()
-            _elem33.read(iprot)
-            self.hunks.append(_elem33)
+          (_etype24, _size21) = iprot.readListBegin()
+          for _i25 in xrange(_size21):
+            _elem26 = Hunk()
+            _elem26.read(iprot)
+            self.hunks.append(_elem26)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1683,8 +1617,8 @@ class Patch(object):
     if self.hunks is not None:
       oprot.writeFieldBegin('hunks', TType.LIST, 8)
       oprot.writeListBegin(TType.STRUCT, len(self.hunks))
-      for iter34 in self.hunks:
-        iter34.write(oprot)
+      for iter27 in self.hunks:
+        iter27.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.old_oid is not None:
@@ -1719,8 +1653,6 @@ class Patch(object):
       raise TProtocol.TProtocolException(message='Required field amode is unset!')
     if self.bmode is None:
       raise TProtocol.TProtocolException(message='Required field bmode is unset!')
-    if self.old_sha is None:
-      raise TProtocol.TProtocolException(message='Required field old_sha is unset!')
     if self.new_sha is None:
       raise TProtocol.TProtocolException(message='Required field new_sha is unset!')
     if self.additions is None:
@@ -1799,11 +1731,11 @@ class Diff(object):
       elif fid == 3:
         if ftype == TType.LIST:
           self.patches = []
-          (_etype38, _size35) = iprot.readListBegin()
-          for _i39 in xrange(_size35):
-            _elem40 = Patch()
-            _elem40.read(iprot)
-            self.patches.append(_elem40)
+          (_etype31, _size28) = iprot.readListBegin()
+          for _i32 in xrange(_size28):
+            _elem33 = Patch()
+            _elem33.read(iprot)
+            self.patches.append(_elem33)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1829,16 +1761,14 @@ class Diff(object):
     if self.patches is not None:
       oprot.writeFieldBegin('patches', TType.LIST, 3)
       oprot.writeListBegin(TType.STRUCT, len(self.patches))
-      for iter41 in self.patches:
-        iter41.write(oprot)
+      for iter34 in self.patches:
+        iter34.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
   def validate(self):
-    if self.old_sha is None:
-      raise TProtocol.TProtocolException(message='Required field old_sha is unset!')
     if self.new_sha is None:
       raise TProtocol.TProtocolException(message='Required field new_sha is unset!')
     if self.patches is None:

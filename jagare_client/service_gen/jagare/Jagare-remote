@@ -31,6 +31,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  string format_patch(string path, string ref, string from_ref)'
   print '   detect_renamed(string path, string ref)'
   print '  bool commit(string path, string branch, string parent_ref, string author_name, string author_email, string message, string reflog,  data)'
+  print '  Diff diff(string path, string ref, string from_ref, bool ignore_space, i16 flags, bool context_lines,  paths, bool rename_detection)'
   print '  string resolve_commit(string path, string version)'
   print '  string resolve_type(string path, string version)'
   print '  bool create_branch(string path, string name, string ref, bool force)'
@@ -147,6 +148,12 @@ elif cmd == 'commit':
     print 'commit requires 8 args'
     sys.exit(1)
   pp.pprint(client.commit(args[0],args[1],args[2],args[3],args[4],args[5],args[6],eval(args[7]),))
+
+elif cmd == 'diff':
+  if len(args) != 8:
+    print 'diff requires 8 args'
+    sys.exit(1)
+  pp.pprint(client.diff(args[0],args[1],args[2],eval(args[3]),eval(args[4]),eval(args[5]),eval(args[6]),eval(args[7]),))
 
 elif cmd == 'resolve_commit':
   if len(args) != 2:
