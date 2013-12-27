@@ -82,15 +82,15 @@ class Handler(object):
 
     def diff(self, path, ref, from_ref, ignore_space, flags,
              context_lines, paths, rename_detection):
-        # try:
+        try:
             repo = Jagare(path)
             diff_dict = repo.diff(ref, from_ref=from_ref,
                                   ignore_space=ignore_space, flags=flags,
                                   context_lines=context_lines, paths=paths,
                                   rename_detection=rename_detection)
             return DiffConverter(**diff_dict).convert()
-        # except Exception as e:
-        #     raise ServiceUnavailable(repr(e))
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
 
     def resolve_commit(self, path, ref):
         try:
