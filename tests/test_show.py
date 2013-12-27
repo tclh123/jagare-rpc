@@ -56,7 +56,7 @@ def test_show_tag(tmpdir):
 
     # create a tag
     ret = repo.create_tag('test_tag', 'master', 'lh', 'lh@localhost', 'msg')
-    assert ret is True
+    assert ret
 
     tag_name = repo.tags[0]
     tag_ref = repo.lookup_reference('refs/tags/%s' % tag_name)

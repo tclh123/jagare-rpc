@@ -6,7 +6,8 @@ from service_gen.jagare.ttypes import (ProcessResult,
                                        TreeEntry, Tree,
                                        Blob,
                                        Tag,
-                                       GitObject)
+                                       GitObject,
+                                       Diff, Patch, Hunk, DiffLine)
 
 
 class Converter(object):

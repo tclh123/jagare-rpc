@@ -3,6 +3,7 @@
 from ellen.repo import Jagare
 
 from jagare.converter.gitobject import get_gitobject_from_show
+from jagare.converter.diff import DiffConverter
 
 from service_gen.jagare.ttypes import (Repository,
                                        ProcessResult,
@@ -78,6 +79,18 @@ class Handler(object):
             return True
         except Exception as e:
             raise ServiceUnavailable(repr(e))
+
+    def diff(self, path, ref, from_ref, ignore_space, flags,
+             context_lines, paths, rename_detection):
+        # try:
+            repo = Jagare(path)
+            diff_dict = repo.diff(ref, from_ref=from_ref,
+                                  ignore_space=ignore_space, flags=flags,
+                                  context_lines=context_lines, paths=paths,
+                                  rename_detection=rename_detection)
+            return DiffConverter(**diff_dict).convert()
+        # except Exception as e:
+        #     raise ServiceUnavailable(repr(e))
 
     def resolve_commit(self, path, ref):
         try:
@@ -220,8 +233,7 @@ class Handler(object):
     def archive(self, path, prefix, ref):
         try:
             repo = Jagare(path)
-            # TODO: ref, fix ellen
-            stdout = repo.archive(prefix=prefix)
+            stdout = repo.archive(prefix=prefix, ref=ref)
             return stdout
         except Exception as e:
             raise ServiceUnavailable(repr(e))
