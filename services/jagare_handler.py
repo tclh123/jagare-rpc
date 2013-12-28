@@ -4,6 +4,7 @@ from ellen.repo import Jagare
 
 from jagare.converter.gitobject import get_gitobject_from_show
 from jagare.converter.diff import DiffConverter
+from jagare.converter.commit import CommitConverter
 
 from service_gen.jagare.ttypes import (Repository,
                                        ProcessResult,
@@ -52,6 +53,20 @@ class Handler(object):
             repo = Jagare(path)
             obj_dict = repo.show(ref)
             return get_gitobject_from_show(obj_dict)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def rev_list(self, path, to_ref, from_ref, file_path, skip, max_count,
+                 author, query, first_parent, since, no_merges):
+        try:
+            repo = Jagare(path)
+            commit_list = repo.rev_list(to_ref=to_ref, from_ref=from_ref,
+                                        path=file_path, skip=skip,
+                                        max_count=max_count, author=author,
+                                        query=query, first_parent=first_parent,
+                                        since=since, no_merges=no_merges)
+            return [CommitConverter(**commit_dict).convert()
+                    for commit_dict in commit_list]
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 

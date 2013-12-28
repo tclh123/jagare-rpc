@@ -148,10 +148,13 @@ service Jagare {
 
     # ls_tree  # TODO: refactor ellen
 
-    # rev_list, return commits list
-    # def rev_list(repository, to_ref, from_ref=None, path=None, skip=0,
-    #              max_count=0, author=None, query=None, first_parent=None,
-    #              since=0, no_merges=None):
+    list<Commit> rev_list(1:string path, 2:string to_ref, 3:string from_ref,
+                          4:string file_path, 5:i32 skip, 6:i32 max_count, 7:string author,
+                          8:string query, 9:bool first_parent, 10:i64 since,
+                          11:bool no_merges)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
     # blame  # I give up... # TODO: refactor ellen
 
