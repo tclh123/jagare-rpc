@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import json
+
 from ellen.repo import Jagare
 
 from jagare.converter.gitobject import get_gitobject_from_show
@@ -56,6 +58,17 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    def ls_tree(self, path, ref, req_path, recursive, with_size,
+                with_commit, name_only):
+        try:
+            repo = Jagare(path)
+            ret = repo.ls_tree(ref, path=req_path, recursive=recursive,
+                               size=with_size, with_commit=with_commit,
+                               name_only=name_only)
+            return json.dumps(ret)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
     def rev_list(self, path, to_ref, from_ref, file_path, skip, max_count,
                  author, query, first_parent, since, no_merges):
         try:
@@ -67,6 +80,14 @@ class Handler(object):
                                         since=since, no_merges=no_merges)
             return [CommitConverter(**commit_dict).convert()
                     for commit_dict in commit_list]
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def blame(self, path, ref, req_path, lineno):
+        try:
+            repo = Jagare(path)
+            ret = repo.blame(ref, path=req_path, lineno=lineno)
+            return json.dumps(ret[1])
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 

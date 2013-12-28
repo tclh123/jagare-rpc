@@ -146,7 +146,12 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # ls_tree  # TODO: refactor ellen
+    # TODO: fix retval after refactor ellen
+    string ls_tree(1:string path, 2:string ref, 3:string req_path, 4:bool recursive,
+                   5:bool with_size, 6:bool with_commit, 7:bool name_only)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
     list<Commit> rev_list(1:string path, 2:string to_ref, 3:string from_ref,
                           4:string file_path, 5:i32 skip, 6:i32 max_count, 7:string author,
@@ -156,7 +161,11 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # blame  # I give up... # TODO: refactor ellen
+    # TODO: fix retval after refactor ellen
+    string blame(1:string path, 2:string ref, 3:string req_path, 4:i32 lineno)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
     string format_patch(1:string path, 2:string ref, 3:string from_ref)
         throws (
