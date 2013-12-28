@@ -28,6 +28,9 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '   list_remotes(string path)'
   print '   list_tags(string path)'
   print '  GitObject show(string path, string ref)'
+  print '  string ls_tree(string path, string ref, string req_path, bool recursive, bool with_size, bool with_commit, bool name_only)'
+  print '   rev_list(string path, string to_ref, string from_ref, string file_path, i32 skip, i32 max_count, string author, string query, bool first_parent, i64 since, bool no_merges)'
+  print '  string blame(string path, string ref, string req_path, i32 lineno)'
   print '  string format_patch(string path, string ref, string from_ref)'
   print '   detect_renamed(string path, string ref)'
   print '  bool commit(string path, string branch, string parent_ref, string author_name, string author_email, string message, string reflog,  data)'
@@ -130,6 +133,24 @@ elif cmd == 'show':
     print 'show requires 2 args'
     sys.exit(1)
   pp.pprint(client.show(args[0],args[1],))
+
+elif cmd == 'ls_tree':
+  if len(args) != 7:
+    print 'ls_tree requires 7 args'
+    sys.exit(1)
+  pp.pprint(client.ls_tree(args[0],args[1],args[2],eval(args[3]),eval(args[4]),eval(args[5]),eval(args[6]),))
+
+elif cmd == 'rev_list':
+  if len(args) != 11:
+    print 'rev_list requires 11 args'
+    sys.exit(1)
+  pp.pprint(client.rev_list(args[0],args[1],args[2],args[3],eval(args[4]),eval(args[5]),args[6],args[7],eval(args[8]),eval(args[9]),eval(args[10]),))
+
+elif cmd == 'blame':
+  if len(args) != 4:
+    print 'blame requires 4 args'
+    sys.exit(1)
+  pp.pprint(client.blame(args[0],args[1],args[2],eval(args[3]),))
 
 elif cmd == 'format_patch':
   if len(args) != 3:

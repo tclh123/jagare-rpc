@@ -54,6 +54,46 @@ class Iface(object):
     """
     pass
 
+  def ls_tree(self, path, ref, req_path, recursive, with_size, with_commit, name_only):
+    """
+    Parameters:
+     - path
+     - ref
+     - req_path
+     - recursive
+     - with_size
+     - with_commit
+     - name_only
+    """
+    pass
+
+  def rev_list(self, path, to_ref, from_ref, file_path, skip, max_count, author, query, first_parent, since, no_merges):
+    """
+    Parameters:
+     - path
+     - to_ref
+     - from_ref
+     - file_path
+     - skip
+     - max_count
+     - author
+     - query
+     - first_parent
+     - since
+     - no_merges
+    """
+    pass
+
+  def blame(self, path, ref, req_path, lineno):
+    """
+    Parameters:
+     - path
+     - ref
+     - req_path
+     - lineno
+    """
+    pass
+
   def format_patch(self, path, ref, from_ref):
     """
     Parameters:
@@ -430,6 +470,140 @@ class Client(Iface):
     if result.unavailable is not None:
       raise result.unavailable
     raise TApplicationException(TApplicationException.MISSING_RESULT, "show failed: unknown result");
+
+  def ls_tree(self, path, ref, req_path, recursive, with_size, with_commit, name_only):
+    """
+    Parameters:
+     - path
+     - ref
+     - req_path
+     - recursive
+     - with_size
+     - with_commit
+     - name_only
+    """
+    self.send_ls_tree(path, ref, req_path, recursive, with_size, with_commit, name_only)
+    return self.recv_ls_tree()
+
+  def send_ls_tree(self, path, ref, req_path, recursive, with_size, with_commit, name_only):
+    self._oprot.writeMessageBegin('ls_tree', TMessageType.CALL, self._seqid)
+    args = ls_tree_args()
+    args.path = path
+    args.ref = ref
+    args.req_path = req_path
+    args.recursive = recursive
+    args.with_size = with_size
+    args.with_commit = with_commit
+    args.name_only = name_only
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_ls_tree(self, ):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = ls_tree_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    if result.success is not None:
+      return result.success
+    if result.unavailable is not None:
+      raise result.unavailable
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "ls_tree failed: unknown result");
+
+  def rev_list(self, path, to_ref, from_ref, file_path, skip, max_count, author, query, first_parent, since, no_merges):
+    """
+    Parameters:
+     - path
+     - to_ref
+     - from_ref
+     - file_path
+     - skip
+     - max_count
+     - author
+     - query
+     - first_parent
+     - since
+     - no_merges
+    """
+    self.send_rev_list(path, to_ref, from_ref, file_path, skip, max_count, author, query, first_parent, since, no_merges)
+    return self.recv_rev_list()
+
+  def send_rev_list(self, path, to_ref, from_ref, file_path, skip, max_count, author, query, first_parent, since, no_merges):
+    self._oprot.writeMessageBegin('rev_list', TMessageType.CALL, self._seqid)
+    args = rev_list_args()
+    args.path = path
+    args.to_ref = to_ref
+    args.from_ref = from_ref
+    args.file_path = file_path
+    args.skip = skip
+    args.max_count = max_count
+    args.author = author
+    args.query = query
+    args.first_parent = first_parent
+    args.since = since
+    args.no_merges = no_merges
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_rev_list(self, ):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = rev_list_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    if result.success is not None:
+      return result.success
+    if result.unavailable is not None:
+      raise result.unavailable
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "rev_list failed: unknown result");
+
+  def blame(self, path, ref, req_path, lineno):
+    """
+    Parameters:
+     - path
+     - ref
+     - req_path
+     - lineno
+    """
+    self.send_blame(path, ref, req_path, lineno)
+    return self.recv_blame()
+
+  def send_blame(self, path, ref, req_path, lineno):
+    self._oprot.writeMessageBegin('blame', TMessageType.CALL, self._seqid)
+    args = blame_args()
+    args.path = path
+    args.ref = ref
+    args.req_path = req_path
+    args.lineno = lineno
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_blame(self, ):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = blame_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    if result.success is not None:
+      return result.success
+    if result.unavailable is not None:
+      raise result.unavailable
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "blame failed: unknown result");
 
   def format_patch(self, path, ref, from_ref):
     """
@@ -1215,6 +1389,9 @@ class Processor(Iface, TProcessor):
     self._processMap["list_remotes"] = Processor.process_list_remotes
     self._processMap["list_tags"] = Processor.process_list_tags
     self._processMap["show"] = Processor.process_show
+    self._processMap["ls_tree"] = Processor.process_ls_tree
+    self._processMap["rev_list"] = Processor.process_rev_list
+    self._processMap["blame"] = Processor.process_blame
     self._processMap["format_patch"] = Processor.process_format_patch
     self._processMap["detect_renamed"] = Processor.process_detect_renamed
     self._processMap["commit"] = Processor.process_commit
@@ -1319,6 +1496,48 @@ class Processor(Iface, TProcessor):
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
     oprot.writeMessageBegin("show", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_ls_tree(self, seqid, iprot, oprot):
+    args = ls_tree_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = ls_tree_result()
+    try:
+      result.success = self._handler.ls_tree(args.path, args.ref, args.req_path, args.recursive, args.with_size, args.with_commit, args.name_only)
+    except ServiceUnavailable as unavailable:
+      result.unavailable = unavailable
+    oprot.writeMessageBegin("ls_tree", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_rev_list(self, seqid, iprot, oprot):
+    args = rev_list_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = rev_list_result()
+    try:
+      result.success = self._handler.rev_list(args.path, args.to_ref, args.from_ref, args.file_path, args.skip, args.max_count, args.author, args.query, args.first_parent, args.since, args.no_merges)
+    except ServiceUnavailable as unavailable:
+      result.unavailable = unavailable
+    oprot.writeMessageBegin("rev_list", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_blame(self, seqid, iprot, oprot):
+    args = blame_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = blame_result()
+    try:
+      result.success = self._handler.blame(args.path, args.ref, args.req_path, args.lineno)
+    except ServiceUnavailable as unavailable:
+      result.unavailable = unavailable
+    oprot.writeMessageBegin("blame", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -2328,6 +2547,645 @@ class show_result(object):
   def __ne__(self, other):
     return not (self == other)
 
+class ls_tree_args(object):
+  """
+  Attributes:
+   - path
+   - ref
+   - req_path
+   - recursive
+   - with_size
+   - with_commit
+   - name_only
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'path', None, None, ), # 1
+    (2, TType.STRING, 'ref', None, None, ), # 2
+    (3, TType.STRING, 'req_path', None, None, ), # 3
+    (4, TType.BOOL, 'recursive', None, None, ), # 4
+    (5, TType.BOOL, 'with_size', None, None, ), # 5
+    (6, TType.BOOL, 'with_commit', None, None, ), # 6
+    (7, TType.BOOL, 'name_only', None, None, ), # 7
+  )
+
+  def __init__(self, path=None, ref=None, req_path=None, recursive=None, with_size=None, with_commit=None, name_only=None,):
+    self.path = path
+    self.ref = ref
+    self.req_path = req_path
+    self.recursive = recursive
+    self.with_size = with_size
+    self.with_commit = with_commit
+    self.name_only = name_only
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.ref = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.req_path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.BOOL:
+          self.recursive = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.BOOL:
+          self.with_size = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.BOOL:
+          self.with_commit = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      elif fid == 7:
+        if ftype == TType.BOOL:
+          self.name_only = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('ls_tree_args')
+    if self.path is not None:
+      oprot.writeFieldBegin('path', TType.STRING, 1)
+      oprot.writeString(self.path)
+      oprot.writeFieldEnd()
+    if self.ref is not None:
+      oprot.writeFieldBegin('ref', TType.STRING, 2)
+      oprot.writeString(self.ref)
+      oprot.writeFieldEnd()
+    if self.req_path is not None:
+      oprot.writeFieldBegin('req_path', TType.STRING, 3)
+      oprot.writeString(self.req_path)
+      oprot.writeFieldEnd()
+    if self.recursive is not None:
+      oprot.writeFieldBegin('recursive', TType.BOOL, 4)
+      oprot.writeBool(self.recursive)
+      oprot.writeFieldEnd()
+    if self.with_size is not None:
+      oprot.writeFieldBegin('with_size', TType.BOOL, 5)
+      oprot.writeBool(self.with_size)
+      oprot.writeFieldEnd()
+    if self.with_commit is not None:
+      oprot.writeFieldBegin('with_commit', TType.BOOL, 6)
+      oprot.writeBool(self.with_commit)
+      oprot.writeFieldEnd()
+    if self.name_only is not None:
+      oprot.writeFieldBegin('name_only', TType.BOOL, 7)
+      oprot.writeBool(self.name_only)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class ls_tree_result(object):
+  """
+  Attributes:
+   - success
+   - unavailable
+  """
+
+  thrift_spec = (
+    (0, TType.STRING, 'success', None, None, ), # 0
+    (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+  )
+
+  def __init__(self, success=None, unavailable=None,):
+    self.success = success
+    self.unavailable = unavailable
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 0:
+        if ftype == TType.STRING:
+          self.success = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 1:
+        if ftype == TType.STRUCT:
+          self.unavailable = ServiceUnavailable()
+          self.unavailable.read(iprot)
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('ls_tree_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.STRING, 0)
+      oprot.writeString(self.success)
+      oprot.writeFieldEnd()
+    if self.unavailable is not None:
+      oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
+      self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class rev_list_args(object):
+  """
+  Attributes:
+   - path
+   - to_ref
+   - from_ref
+   - file_path
+   - skip
+   - max_count
+   - author
+   - query
+   - first_parent
+   - since
+   - no_merges
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'path', None, None, ), # 1
+    (2, TType.STRING, 'to_ref', None, None, ), # 2
+    (3, TType.STRING, 'from_ref', None, None, ), # 3
+    (4, TType.STRING, 'file_path', None, None, ), # 4
+    (5, TType.I32, 'skip', None, None, ), # 5
+    (6, TType.I32, 'max_count', None, None, ), # 6
+    (7, TType.STRING, 'author', None, None, ), # 7
+    (8, TType.STRING, 'query', None, None, ), # 8
+    (9, TType.BOOL, 'first_parent', None, None, ), # 9
+    (10, TType.I64, 'since', None, None, ), # 10
+    (11, TType.BOOL, 'no_merges', None, None, ), # 11
+  )
+
+  def __init__(self, path=None, to_ref=None, from_ref=None, file_path=None, skip=None, max_count=None, author=None, query=None, first_parent=None, since=None, no_merges=None,):
+    self.path = path
+    self.to_ref = to_ref
+    self.from_ref = from_ref
+    self.file_path = file_path
+    self.skip = skip
+    self.max_count = max_count
+    self.author = author
+    self.query = query
+    self.first_parent = first_parent
+    self.since = since
+    self.no_merges = no_merges
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.to_ref = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.from_ref = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.file_path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.I32:
+          self.skip = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.I32:
+          self.max_count = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 7:
+        if ftype == TType.STRING:
+          self.author = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 8:
+        if ftype == TType.STRING:
+          self.query = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 9:
+        if ftype == TType.BOOL:
+          self.first_parent = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      elif fid == 10:
+        if ftype == TType.I64:
+          self.since = iprot.readI64();
+        else:
+          iprot.skip(ftype)
+      elif fid == 11:
+        if ftype == TType.BOOL:
+          self.no_merges = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('rev_list_args')
+    if self.path is not None:
+      oprot.writeFieldBegin('path', TType.STRING, 1)
+      oprot.writeString(self.path)
+      oprot.writeFieldEnd()
+    if self.to_ref is not None:
+      oprot.writeFieldBegin('to_ref', TType.STRING, 2)
+      oprot.writeString(self.to_ref)
+      oprot.writeFieldEnd()
+    if self.from_ref is not None:
+      oprot.writeFieldBegin('from_ref', TType.STRING, 3)
+      oprot.writeString(self.from_ref)
+      oprot.writeFieldEnd()
+    if self.file_path is not None:
+      oprot.writeFieldBegin('file_path', TType.STRING, 4)
+      oprot.writeString(self.file_path)
+      oprot.writeFieldEnd()
+    if self.skip is not None:
+      oprot.writeFieldBegin('skip', TType.I32, 5)
+      oprot.writeI32(self.skip)
+      oprot.writeFieldEnd()
+    if self.max_count is not None:
+      oprot.writeFieldBegin('max_count', TType.I32, 6)
+      oprot.writeI32(self.max_count)
+      oprot.writeFieldEnd()
+    if self.author is not None:
+      oprot.writeFieldBegin('author', TType.STRING, 7)
+      oprot.writeString(self.author)
+      oprot.writeFieldEnd()
+    if self.query is not None:
+      oprot.writeFieldBegin('query', TType.STRING, 8)
+      oprot.writeString(self.query)
+      oprot.writeFieldEnd()
+    if self.first_parent is not None:
+      oprot.writeFieldBegin('first_parent', TType.BOOL, 9)
+      oprot.writeBool(self.first_parent)
+      oprot.writeFieldEnd()
+    if self.since is not None:
+      oprot.writeFieldBegin('since', TType.I64, 10)
+      oprot.writeI64(self.since)
+      oprot.writeFieldEnd()
+    if self.no_merges is not None:
+      oprot.writeFieldBegin('no_merges', TType.BOOL, 11)
+      oprot.writeBool(self.no_merges)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class rev_list_result(object):
+  """
+  Attributes:
+   - success
+   - unavailable
+  """
+
+  thrift_spec = (
+    (0, TType.LIST, 'success', (TType.STRUCT,(Commit, Commit.thrift_spec)), None, ), # 0
+    (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+  )
+
+  def __init__(self, success=None, unavailable=None,):
+    self.success = success
+    self.unavailable = unavailable
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 0:
+        if ftype == TType.LIST:
+          self.success = []
+          (_etype59, _size56) = iprot.readListBegin()
+          for _i60 in xrange(_size56):
+            _elem61 = Commit()
+            _elem61.read(iprot)
+            self.success.append(_elem61)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      elif fid == 1:
+        if ftype == TType.STRUCT:
+          self.unavailable = ServiceUnavailable()
+          self.unavailable.read(iprot)
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('rev_list_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.LIST, 0)
+      oprot.writeListBegin(TType.STRUCT, len(self.success))
+      for iter62 in self.success:
+        iter62.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    if self.unavailable is not None:
+      oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
+      self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class blame_args(object):
+  """
+  Attributes:
+   - path
+   - ref
+   - req_path
+   - lineno
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'path', None, None, ), # 1
+    (2, TType.STRING, 'ref', None, None, ), # 2
+    (3, TType.STRING, 'req_path', None, None, ), # 3
+    (4, TType.I32, 'lineno', None, None, ), # 4
+  )
+
+  def __init__(self, path=None, ref=None, req_path=None, lineno=None,):
+    self.path = path
+    self.ref = ref
+    self.req_path = req_path
+    self.lineno = lineno
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.ref = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.req_path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.I32:
+          self.lineno = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('blame_args')
+    if self.path is not None:
+      oprot.writeFieldBegin('path', TType.STRING, 1)
+      oprot.writeString(self.path)
+      oprot.writeFieldEnd()
+    if self.ref is not None:
+      oprot.writeFieldBegin('ref', TType.STRING, 2)
+      oprot.writeString(self.ref)
+      oprot.writeFieldEnd()
+    if self.req_path is not None:
+      oprot.writeFieldBegin('req_path', TType.STRING, 3)
+      oprot.writeString(self.req_path)
+      oprot.writeFieldEnd()
+    if self.lineno is not None:
+      oprot.writeFieldBegin('lineno', TType.I32, 4)
+      oprot.writeI32(self.lineno)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class blame_result(object):
+  """
+  Attributes:
+   - success
+   - unavailable
+  """
+
+  thrift_spec = (
+    (0, TType.STRING, 'success', None, None, ), # 0
+    (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+  )
+
+  def __init__(self, success=None, unavailable=None,):
+    self.success = success
+    self.unavailable = unavailable
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 0:
+        if ftype == TType.STRING:
+          self.success = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 1:
+        if ftype == TType.STRUCT:
+          self.unavailable = ServiceUnavailable()
+          self.unavailable.read(iprot)
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('blame_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.STRING, 0)
+      oprot.writeString(self.success)
+      oprot.writeFieldEnd()
+    if self.unavailable is not None:
+      oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
+      self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
 class format_patch_args(object):
   """
   Attributes:
@@ -2587,11 +3445,11 @@ class detect_renamed_result(object):
       if fid == 0:
         if ftype == TType.MAP:
           self.success = {}
-          (_ktype57, _vtype58, _size56 ) = iprot.readMapBegin() 
-          for _i60 in xrange(_size56):
-            _key61 = iprot.readString();
-            _val62 = iprot.readString();
-            self.success[_key61] = _val62
+          (_ktype64, _vtype65, _size63 ) = iprot.readMapBegin() 
+          for _i67 in xrange(_size63):
+            _key68 = iprot.readString();
+            _val69 = iprot.readString();
+            self.success[_key68] = _val69
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -2615,9 +3473,9 @@ class detect_renamed_result(object):
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.MAP, 0)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.success))
-      for kiter63,viter64 in self.success.items():
-        oprot.writeString(kiter63)
-        oprot.writeString(viter64)
+      for kiter70,viter71 in self.success.items():
+        oprot.writeString(kiter70)
+        oprot.writeString(viter71)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     if self.unavailable is not None:
@@ -2724,15 +3582,15 @@ class commit_args(object):
       elif fid == 8:
         if ftype == TType.LIST:
           self.data = []
-          (_etype68, _size65) = iprot.readListBegin()
-          for _i69 in xrange(_size65):
-            _elem70 = []
-            (_etype74, _size71) = iprot.readListBegin()
-            for _i75 in xrange(_size71):
-              _elem76 = iprot.readString();
-              _elem70.append(_elem76)
+          (_etype75, _size72) = iprot.readListBegin()
+          for _i76 in xrange(_size72):
+            _elem77 = []
+            (_etype81, _size78) = iprot.readListBegin()
+            for _i82 in xrange(_size78):
+              _elem83 = iprot.readString();
+              _elem77.append(_elem83)
             iprot.readListEnd()
-            self.data.append(_elem70)
+            self.data.append(_elem77)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -2778,10 +3636,10 @@ class commit_args(object):
     if self.data is not None:
       oprot.writeFieldBegin('data', TType.LIST, 8)
       oprot.writeListBegin(TType.LIST, len(self.data))
-      for iter77 in self.data:
-        oprot.writeListBegin(TType.STRING, len(iter77))
-        for iter78 in iter77:
-          oprot.writeString(iter78)
+      for iter84 in self.data:
+        oprot.writeListBegin(TType.STRING, len(iter84))
+        for iter85 in iter84:
+          oprot.writeString(iter85)
         oprot.writeListEnd()
       oprot.writeListEnd()
       oprot.writeFieldEnd()
@@ -2953,10 +3811,10 @@ class diff_args(object):
       elif fid == 7:
         if ftype == TType.LIST:
           self.paths = []
-          (_etype82, _size79) = iprot.readListBegin()
-          for _i83 in xrange(_size79):
-            _elem84 = iprot.readString();
-            self.paths.append(_elem84)
+          (_etype89, _size86) = iprot.readListBegin()
+          for _i90 in xrange(_size86):
+            _elem91 = iprot.readString();
+            self.paths.append(_elem91)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -3003,8 +3861,8 @@ class diff_args(object):
     if self.paths is not None:
       oprot.writeFieldBegin('paths', TType.LIST, 7)
       oprot.writeListBegin(TType.STRING, len(self.paths))
-      for iter85 in self.paths:
-        oprot.writeString(iter85)
+      for iter92 in self.paths:
+        oprot.writeString(iter92)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.rename_detection is not None:
@@ -3777,11 +4635,11 @@ class clone_to_args(object):
       elif fid == 6:
         if ftype == TType.MAP:
           self.env = {}
-          (_ktype87, _vtype88, _size86 ) = iprot.readMapBegin() 
-          for _i90 in xrange(_size86):
-            _key91 = iprot.readString();
-            _val92 = iprot.readString();
-            self.env[_key91] = _val92
+          (_ktype94, _vtype95, _size93 ) = iprot.readMapBegin() 
+          for _i97 in xrange(_size93):
+            _key98 = iprot.readString();
+            _val99 = iprot.readString();
+            self.env[_key98] = _val99
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -3819,9 +4677,9 @@ class clone_to_args(object):
     if self.env is not None:
       oprot.writeFieldBegin('env', TType.MAP, 6)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
-      for kiter93,viter94 in self.env.items():
-        oprot.writeString(kiter93)
-        oprot.writeString(viter94)
+      for kiter100,viter101 in self.env.items():
+        oprot.writeString(kiter100)
+        oprot.writeString(viter101)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -3974,11 +4832,11 @@ class mirror_args(object):
       elif fid == 5:
         if ftype == TType.MAP:
           self.env = {}
-          (_ktype96, _vtype97, _size95 ) = iprot.readMapBegin() 
-          for _i99 in xrange(_size95):
-            _key100 = iprot.readString();
-            _val101 = iprot.readString();
-            self.env[_key100] = _val101
+          (_ktype103, _vtype104, _size102 ) = iprot.readMapBegin() 
+          for _i106 in xrange(_size102):
+            _key107 = iprot.readString();
+            _val108 = iprot.readString();
+            self.env[_key107] = _val108
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -4012,9 +4870,9 @@ class mirror_args(object):
     if self.env is not None:
       oprot.writeFieldBegin('env', TType.MAP, 5)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
-      for kiter102,viter103 in self.env.items():
-        oprot.writeString(kiter102)
-        oprot.writeString(viter103)
+      for kiter109,viter110 in self.env.items():
+        oprot.writeString(kiter109)
+        oprot.writeString(viter110)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -4357,10 +5215,10 @@ class list_references_result(object):
       if fid == 0:
         if ftype == TType.LIST:
           self.success = []
-          (_etype107, _size104) = iprot.readListBegin()
-          for _i108 in xrange(_size104):
-            _elem109 = iprot.readString();
-            self.success.append(_elem109)
+          (_etype114, _size111) = iprot.readListBegin()
+          for _i115 in xrange(_size111):
+            _elem116 = iprot.readString();
+            self.success.append(_elem116)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -4384,8 +5242,8 @@ class list_references_result(object):
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.LIST, 0)
       oprot.writeListBegin(TType.STRING, len(self.success))
-      for iter110 in self.success:
-        oprot.writeString(iter110)
+      for iter117 in self.success:
+        oprot.writeString(iter117)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.unavailable is not None:
@@ -5376,11 +6234,11 @@ class merge_args(object):
       elif fid == 6:
         if ftype == TType.MAP:
           self.env = {}
-          (_ktype112, _vtype113, _size111 ) = iprot.readMapBegin() 
-          for _i115 in xrange(_size111):
-            _key116 = iprot.readString();
-            _val117 = iprot.readString();
-            self.env[_key116] = _val117
+          (_ktype119, _vtype120, _size118 ) = iprot.readMapBegin() 
+          for _i122 in xrange(_size118):
+            _key123 = iprot.readString();
+            _val124 = iprot.readString();
+            self.env[_key123] = _val124
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -5418,9 +6276,9 @@ class merge_args(object):
     if self.env is not None:
       oprot.writeFieldBegin('env', TType.MAP, 6)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
-      for kiter118,viter119 in self.env.items():
-        oprot.writeString(kiter118)
-        oprot.writeString(viter119)
+      for kiter125,viter126 in self.env.items():
+        oprot.writeString(kiter125)
+        oprot.writeString(viter126)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -5565,11 +6423,11 @@ class push_args(object):
       elif fid == 4:
         if ftype == TType.MAP:
           self.env = {}
-          (_ktype121, _vtype122, _size120 ) = iprot.readMapBegin() 
-          for _i124 in xrange(_size120):
-            _key125 = iprot.readString();
-            _val126 = iprot.readString();
-            self.env[_key125] = _val126
+          (_ktype128, _vtype129, _size127 ) = iprot.readMapBegin() 
+          for _i131 in xrange(_size127):
+            _key132 = iprot.readString();
+            _val133 = iprot.readString();
+            self.env[_key132] = _val133
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -5599,9 +6457,9 @@ class push_args(object):
     if self.env is not None:
       oprot.writeFieldBegin('env', TType.MAP, 4)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
-      for kiter127,viter128 in self.env.items():
-        oprot.writeString(kiter127)
-        oprot.writeString(viter128)
+      for kiter134,viter135 in self.env.items():
+        oprot.writeString(kiter134)
+        oprot.writeString(viter135)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
