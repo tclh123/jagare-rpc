@@ -1,8 +1,12 @@
 # coding: utf-8
 
+import json
+
 from ellen.repo import Jagare
 
 from jagare.converter.gitobject import get_gitobject_from_show
+from jagare.converter.diff import DiffConverter
+from jagare.converter.commit import CommitConverter
 
 from service_gen.jagare.ttypes import (Repository,
                                        ProcessResult,
@@ -54,6 +58,39 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    def ls_tree(self, path, ref, req_path, recursive, with_size,
+                with_commit, name_only):
+        try:
+            repo = Jagare(path)
+            ret = repo.ls_tree(ref, path=req_path, recursive=recursive,
+                               size=with_size, with_commit=with_commit,
+                               name_only=name_only)
+            return json.dumps(ret)
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def rev_list(self, path, to_ref, from_ref, file_path, skip, max_count,
+                 author, query, first_parent, since, no_merges):
+        try:
+            repo = Jagare(path)
+            commit_list = repo.rev_list(to_ref=to_ref, from_ref=from_ref,
+                                        path=file_path, skip=skip,
+                                        max_count=max_count, author=author,
+                                        query=query, first_parent=first_parent,
+                                        since=since, no_merges=no_merges)
+            return [CommitConverter(**commit_dict).convert()
+                    for commit_dict in commit_list]
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def blame(self, path, ref, req_path, lineno):
+        try:
+            repo = Jagare(path)
+            ret = repo.blame(ref, path=req_path, lineno=lineno)
+            return json.dumps(ret[1])
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
     def format_patch(self, path, ref, from_ref):
         try:
             repo = Jagare(path)
@@ -76,6 +113,18 @@ class Handler(object):
                              author_name, author_email,
                              message, reflog, data)
             return True
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def diff(self, path, ref, from_ref, ignore_space, flags,
+             context_lines, paths, rename_detection):
+        try:
+            repo = Jagare(path)
+            diff_dict = repo.diff(ref, from_ref=from_ref,
+                                  ignore_space=ignore_space, flags=flags,
+                                  context_lines=context_lines, paths=paths,
+                                  rename_detection=rename_detection)
+            return DiffConverter(**diff_dict).convert()
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
@@ -220,8 +269,7 @@ class Handler(object):
     def archive(self, path, prefix, ref):
         try:
             repo = Jagare(path)
-            # TODO: ref, fix ellen
-            stdout = repo.archive(prefix=prefix)
+            stdout = repo.archive(prefix=prefix, ref=ref)
             return stdout
         except Exception as e:
             raise ServiceUnavailable(repr(e))

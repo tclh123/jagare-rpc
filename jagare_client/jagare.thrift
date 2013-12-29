@@ -63,6 +63,7 @@ struct Tag {
     7: required string body,
 }
 
+# TODO: modify this after ellen ls-tree refactor
 struct LightWeightTag {
     1: required string type,  # 'commit'  ????
     2: required string name,  # short reference name
@@ -79,36 +80,29 @@ struct GitObject {
     5: optional Tag tag,
 }
 
-# TODO: struct  Diff Patch Hunk
-
 struct DiffLine {
-    1: required string attr,
+    1: required string attr,  # char
     2: required string line,
 }
 
-struct MdiffLine {
-#    old, new, changed
-}
-
 struct Hunk {
-    1: required string old_start,
-    2: required string new_start,
-    3: required string old_lines,
-    4: required string new_lines,
+    1: required i32 old_start,
+    2: required i32 new_start,
+    3: required i32 old_lines,
+    4: required i32 new_lines,
     5: required list<DiffLine> lines,  # hunk.lines,
-    6: required list<MdiffLine> mdiff,  # mdiff2(hunk.lines),  # FIXME:
 }
 
 struct Patch {
     1: required string amode,
     2: required string bmode,
-    3: required string old_sha,  # commit from_sha
+    3: optional string old_sha,  # commit from_sha, may be None
     4: required string new_sha,  # commit to_sha
     5: required i32 additions,
     6: required i32 deletions,
     7: required i32 similarity,
     8: required list<Hunk> hunks,
-    9: required string old_oid,
+    9: required string old_oid,  # may be 0 * 40
     10: required string new_oid,
     11: required string status,  # char
     12: required bool is_binary,
@@ -117,7 +111,7 @@ struct Patch {
 }
 
 struct Diff {
-    1: required string old_sha,
+    1: optional string old_sha,  # may be None
     2: required string new_sha,
     3: required list<Patch> patches,
 }
@@ -152,14 +146,26 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # ls_tree  # TODO: refactor ellen
+    # TODO: fix retval after refactor ellen
+    string ls_tree(1:string path, 2:string ref, 3:string req_path, 4:bool recursive,
+                   5:bool with_size, 6:bool with_commit, 7:bool name_only)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
-    # rev_list, return commits list
-    # def rev_list(repository, to_ref, from_ref=None, path=None, skip=0,
-    #              max_count=0, author=None, query=None, first_parent=None,
-    #              since=0, no_merges=None):
+    list<Commit> rev_list(1:string path, 2:string to_ref, 3:string from_ref,
+                          4:string file_path, 5:i32 skip, 6:i32 max_count, 7:string author,
+                          8:string query, 9:bool first_parent, 10:i64 since,
+                          11:bool no_merges)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
-    # blame  # I give up... # TODO: refactor ellen
+    # TODO: fix retval after refactor ellen
+    string blame(1:string path, 2:string ref, 3:string req_path, 4:i32 lineno)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
     string format_patch(1:string path, 2:string ref, 3:string from_ref)
         throws (
@@ -178,7 +184,12 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # diff, TODO: refactor ellen
+    Diff diff(1:string path, 2:string ref, 3:string from_ref, 4:bool ignore_space,
+              5:i16 flags, 6:bool context_lines, 7:list<string> paths,
+              8:bool rename_detection)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
 
     string resolve_commit(1:string path, 2:string version)
         throws (
