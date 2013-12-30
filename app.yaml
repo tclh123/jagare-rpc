@@ -6,6 +6,7 @@ irc_report_channel: code
 report_observer_emails: lihan@intern.douban.com
 
 worker: sync
+enable_jenkins: true
 
 release_managers:
 - xutao
