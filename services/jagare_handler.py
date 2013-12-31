@@ -87,7 +87,7 @@ class Handler(object):
         try:
             repo = Jagare(path)
             ret = repo.blame(ref, path=req_path, lineno=lineno)
-            return json.dumps(ret[1])
+            return json.dumps(ret)
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
