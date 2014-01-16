@@ -1232,6 +1232,255 @@ class GitObject(object):
   def __ne__(self, other):
     return not (self == other)
 
+class BlameHunk(object):
+  """
+  Attributes:
+   - lines_in_hunk
+   - final_commit_id
+   - final_start_line_number
+   - final_committer
+   - orig_commit_id
+   - orig_path
+   - orig_start_line_number
+   - boundary
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.I32, 'lines_in_hunk', None, None, ), # 1
+    (2, TType.STRING, 'final_commit_id', None, None, ), # 2
+    (3, TType.I32, 'final_start_line_number', None, None, ), # 3
+    (4, TType.STRUCT, 'final_committer', (Signature, Signature.thrift_spec), None, ), # 4
+    (5, TType.STRING, 'orig_commit_id', None, None, ), # 5
+    (6, TType.STRING, 'orig_path', None, None, ), # 6
+    (7, TType.I32, 'orig_start_line_number', None, None, ), # 7
+    (8, TType.BOOL, 'boundary', None, None, ), # 8
+  )
+
+  def __init__(self, lines_in_hunk=None, final_commit_id=None, final_start_line_number=None, final_committer=None, orig_commit_id=None, orig_path=None, orig_start_line_number=None, boundary=None,):
+    self.lines_in_hunk = lines_in_hunk
+    self.final_commit_id = final_commit_id
+    self.final_start_line_number = final_start_line_number
+    self.final_committer = final_committer
+    self.orig_commit_id = orig_commit_id
+    self.orig_path = orig_path
+    self.orig_start_line_number = orig_start_line_number
+    self.boundary = boundary
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.I32:
+          self.lines_in_hunk = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.final_commit_id = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.I32:
+          self.final_start_line_number = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRUCT:
+          self.final_committer = Signature()
+          self.final_committer.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRING:
+          self.orig_commit_id = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.STRING:
+          self.orig_path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 7:
+        if ftype == TType.I32:
+          self.orig_start_line_number = iprot.readI32();
+        else:
+          iprot.skip(ftype)
+      elif fid == 8:
+        if ftype == TType.BOOL:
+          self.boundary = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('BlameHunk')
+    if self.lines_in_hunk is not None:
+      oprot.writeFieldBegin('lines_in_hunk', TType.I32, 1)
+      oprot.writeI32(self.lines_in_hunk)
+      oprot.writeFieldEnd()
+    if self.final_commit_id is not None:
+      oprot.writeFieldBegin('final_commit_id', TType.STRING, 2)
+      oprot.writeString(self.final_commit_id)
+      oprot.writeFieldEnd()
+    if self.final_start_line_number is not None:
+      oprot.writeFieldBegin('final_start_line_number', TType.I32, 3)
+      oprot.writeI32(self.final_start_line_number)
+      oprot.writeFieldEnd()
+    if self.final_committer is not None:
+      oprot.writeFieldBegin('final_committer', TType.STRUCT, 4)
+      self.final_committer.write(oprot)
+      oprot.writeFieldEnd()
+    if self.orig_commit_id is not None:
+      oprot.writeFieldBegin('orig_commit_id', TType.STRING, 5)
+      oprot.writeString(self.orig_commit_id)
+      oprot.writeFieldEnd()
+    if self.orig_path is not None:
+      oprot.writeFieldBegin('orig_path', TType.STRING, 6)
+      oprot.writeString(self.orig_path)
+      oprot.writeFieldEnd()
+    if self.orig_start_line_number is not None:
+      oprot.writeFieldBegin('orig_start_line_number', TType.I32, 7)
+      oprot.writeI32(self.orig_start_line_number)
+      oprot.writeFieldEnd()
+    if self.boundary is not None:
+      oprot.writeFieldBegin('boundary', TType.BOOL, 8)
+      oprot.writeBool(self.boundary)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.lines_in_hunk is None:
+      raise TProtocol.TProtocolException(message='Required field lines_in_hunk is unset!')
+    if self.final_commit_id is None:
+      raise TProtocol.TProtocolException(message='Required field final_commit_id is unset!')
+    if self.final_start_line_number is None:
+      raise TProtocol.TProtocolException(message='Required field final_start_line_number is unset!')
+    if self.final_committer is None:
+      raise TProtocol.TProtocolException(message='Required field final_committer is unset!')
+    if self.orig_commit_id is None:
+      raise TProtocol.TProtocolException(message='Required field orig_commit_id is unset!')
+    if self.orig_path is None:
+      raise TProtocol.TProtocolException(message='Required field orig_path is unset!')
+    if self.orig_start_line_number is None:
+      raise TProtocol.TProtocolException(message='Required field orig_start_line_number is unset!')
+    if self.boundary is None:
+      raise TProtocol.TProtocolException(message='Required field boundary is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class Blame(object):
+  """
+  Attributes:
+   - blob
+   - hunks
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRUCT, 'blob', (Blob, Blob.thrift_spec), None, ), # 1
+    (2, TType.LIST, 'hunks', (TType.STRUCT,(BlameHunk, BlameHunk.thrift_spec)), None, ), # 2
+  )
+
+  def __init__(self, blob=None, hunks=None,):
+    self.blob = blob
+    self.hunks = hunks
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRUCT:
+          self.blob = Blob()
+          self.blob.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.LIST:
+          self.hunks = []
+          (_etype17, _size14) = iprot.readListBegin()
+          for _i18 in xrange(_size14):
+            _elem19 = BlameHunk()
+            _elem19.read(iprot)
+            self.hunks.append(_elem19)
+          iprot.readListEnd()
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('Blame')
+    if self.blob is not None:
+      oprot.writeFieldBegin('blob', TType.STRUCT, 1)
+      self.blob.write(oprot)
+      oprot.writeFieldEnd()
+    if self.hunks is not None:
+      oprot.writeFieldBegin('hunks', TType.LIST, 2)
+      oprot.writeListBegin(TType.STRUCT, len(self.hunks))
+      for iter20 in self.hunks:
+        iter20.write(oprot)
+      oprot.writeListEnd()
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.blob is None:
+      raise TProtocol.TProtocolException(message='Required field blob is unset!')
+    if self.hunks is None:
+      raise TProtocol.TProtocolException(message='Required field hunks is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
 class DiffLine(object):
   """
   Attributes:
@@ -1367,11 +1616,11 @@ class Hunk(object):
       elif fid == 5:
         if ftype == TType.LIST:
           self.lines = []
-          (_etype17, _size14) = iprot.readListBegin()
-          for _i18 in xrange(_size14):
-            _elem19 = DiffLine()
-            _elem19.read(iprot)
-            self.lines.append(_elem19)
+          (_etype24, _size21) = iprot.readListBegin()
+          for _i25 in xrange(_size21):
+            _elem26 = DiffLine()
+            _elem26.read(iprot)
+            self.lines.append(_elem26)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1405,8 +1654,8 @@ class Hunk(object):
     if self.lines is not None:
       oprot.writeFieldBegin('lines', TType.LIST, 5)
       oprot.writeListBegin(TType.STRUCT, len(self.lines))
-      for iter20 in self.lines:
-        iter20.write(oprot)
+      for iter27 in self.lines:
+        iter27.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -1537,11 +1786,11 @@ class Patch(object):
       elif fid == 8:
         if ftype == TType.LIST:
           self.hunks = []
-          (_etype24, _size21) = iprot.readListBegin()
-          for _i25 in xrange(_size21):
-            _elem26 = Hunk()
-            _elem26.read(iprot)
-            self.hunks.append(_elem26)
+          (_etype31, _size28) = iprot.readListBegin()
+          for _i32 in xrange(_size28):
+            _elem33 = Hunk()
+            _elem33.read(iprot)
+            self.hunks.append(_elem33)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1617,8 +1866,8 @@ class Patch(object):
     if self.hunks is not None:
       oprot.writeFieldBegin('hunks', TType.LIST, 8)
       oprot.writeListBegin(TType.STRUCT, len(self.hunks))
-      for iter27 in self.hunks:
-        iter27.write(oprot)
+      for iter34 in self.hunks:
+        iter34.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.old_oid is not None:
@@ -1731,11 +1980,11 @@ class Diff(object):
       elif fid == 3:
         if ftype == TType.LIST:
           self.patches = []
-          (_etype31, _size28) = iprot.readListBegin()
-          for _i32 in xrange(_size28):
-            _elem33 = Patch()
-            _elem33.read(iprot)
-            self.patches.append(_elem33)
+          (_etype38, _size35) = iprot.readListBegin()
+          for _i39 in xrange(_size35):
+            _elem40 = Patch()
+            _elem40.read(iprot)
+            self.patches.append(_elem40)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -1761,8 +2010,8 @@ class Diff(object):
     if self.patches is not None:
       oprot.writeFieldBegin('patches', TType.LIST, 3)
       oprot.writeListBegin(TType.STRUCT, len(self.patches))
-      for iter34 in self.patches:
-        iter34.write(oprot)
+      for iter41 in self.patches:
+        iter41.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
