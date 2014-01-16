@@ -1,5 +1,5 @@
-nothing:
-	@echo "Better make nothing be default"
+targets:
+	@echo test, service, service_stop, service_gen, clean_pyc
 
 test: service_stop
 	dae venv py.test tests
