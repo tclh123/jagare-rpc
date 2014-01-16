@@ -7,6 +7,7 @@ from service_gen.jagare.ttypes import (ProcessResult,
                                        Blob,
                                        Tag,
                                        GitObject,
+                                       Blame, BlameHunk,
                                        Diff, Patch, Hunk, DiffLine)
 
 
