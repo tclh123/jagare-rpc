@@ -12,5 +12,6 @@ def test_blame(tmpdir):
     assert blobs
 
     for b in blobs:
-        ret = Jagare.blame(path, ref='master', req_path=b, lineno=1)
-        assert ret
+        blame = Jagare.blame(path, ref='master', req_path=b, lineno=1)
+        assert blame.blob
+        assert blame.hunks

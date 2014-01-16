@@ -7,6 +7,7 @@ from ellen.repo import Jagare
 from jagare.converter.gitobject import get_gitobject_from_show
 from jagare.converter.diff import DiffConverter
 from jagare.converter.commit import CommitConverter
+from jagare.converter.blame import BlameConverter
 
 from service_gen.jagare.ttypes import (Repository,
                                        ProcessResult,
@@ -87,7 +88,7 @@ class Handler(object):
         try:
             repo = Jagare(path)
             ret = repo.blame(ref, path=req_path, lineno=lineno)
-            return json.dumps(ret)
+            return BlameConverter(**ret).convert()
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 

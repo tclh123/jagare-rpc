@@ -80,6 +80,23 @@ struct GitObject {
     5: optional Tag tag,
 }
 
+struct BlameHunk {
+    1: required i32 lines_in_hunk,
+    2: required string final_commit_id,
+    3: required i32 final_start_line_number,
+    4: required Signature final_committer,
+    5: required string orig_commit_id,
+    6: required string orig_path,
+    7: required i32 orig_start_line_number,
+    # 2: required Signature orig_committer,  #  orig_committer is None
+    8: required bool boundary,  # Tracked to a boundary commit.
+}
+
+struct Blame {
+    1: required Blob blob,
+    2: required list<BlameHunk> hunks,
+}
+
 struct DiffLine {
     1: required string attr,  # char
     2: required string line,
@@ -161,8 +178,7 @@ service Jagare {
             1: ServiceUnavailable unavailable,
         ),
 
-    # TODO: fix retval after refactor ellen
-    string blame(1:string path, 2:string ref, 3:string req_path, 4:i32 lineno)
+    Blame blame(1:string path, 2:string ref, 3:string req_path, 4:i32 lineno)
         throws (
             1: ServiceUnavailable unavailable,
         ),

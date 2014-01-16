@@ -30,7 +30,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  GitObject show(string path, string ref)'
   print '  string ls_tree(string path, string ref, string req_path, bool recursive, bool with_size, bool with_commit, bool name_only)'
   print '   rev_list(string path, string to_ref, string from_ref, string file_path, i32 skip, i32 max_count, string author, string query, bool first_parent, i64 since, bool no_merges)'
-  print '  string blame(string path, string ref, string req_path, i32 lineno)'
+  print '  Blame blame(string path, string ref, string req_path, i32 lineno)'
   print '  string format_patch(string path, string ref, string from_ref)'
   print '   detect_renamed(string path, string ref)'
   print '  bool commit(string path, string branch, string parent_ref, string author_name, string author_email, string message, string reflog,  data)'

@@ -2063,10 +2063,10 @@ class list_branches_result(object):
       if fid == 0:
         if ftype == TType.LIST:
           self.success = []
-          (_etype38, _size35) = iprot.readListBegin()
-          for _i39 in xrange(_size35):
-            _elem40 = iprot.readString();
-            self.success.append(_elem40)
+          (_etype45, _size42) = iprot.readListBegin()
+          for _i46 in xrange(_size42):
+            _elem47 = iprot.readString();
+            self.success.append(_elem47)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -2090,8 +2090,8 @@ class list_branches_result(object):
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.LIST, 0)
       oprot.writeListBegin(TType.STRING, len(self.success))
-      for iter41 in self.success:
-        oprot.writeString(iter41)
+      for iter48 in self.success:
+        oprot.writeString(iter48)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.unavailable is not None:
@@ -2205,10 +2205,10 @@ class list_remotes_result(object):
       if fid == 0:
         if ftype == TType.LIST:
           self.success = []
-          (_etype45, _size42) = iprot.readListBegin()
-          for _i46 in xrange(_size42):
-            _elem47 = iprot.readString();
-            self.success.append(_elem47)
+          (_etype52, _size49) = iprot.readListBegin()
+          for _i53 in xrange(_size49):
+            _elem54 = iprot.readString();
+            self.success.append(_elem54)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -2232,8 +2232,8 @@ class list_remotes_result(object):
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.LIST, 0)
       oprot.writeListBegin(TType.STRING, len(self.success))
-      for iter48 in self.success:
-        oprot.writeString(iter48)
+      for iter55 in self.success:
+        oprot.writeString(iter55)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.unavailable is not None:
@@ -2347,10 +2347,10 @@ class list_tags_result(object):
       if fid == 0:
         if ftype == TType.LIST:
           self.success = []
-          (_etype52, _size49) = iprot.readListBegin()
-          for _i53 in xrange(_size49):
-            _elem54 = iprot.readString();
-            self.success.append(_elem54)
+          (_etype59, _size56) = iprot.readListBegin()
+          for _i60 in xrange(_size56):
+            _elem61 = iprot.readString();
+            self.success.append(_elem61)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -2374,8 +2374,8 @@ class list_tags_result(object):
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.LIST, 0)
       oprot.writeListBegin(TType.STRING, len(self.success))
-      for iter55 in self.success:
-        oprot.writeString(iter55)
+      for iter62 in self.success:
+        oprot.writeString(iter62)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.unavailable is not None:
@@ -2962,11 +2962,11 @@ class rev_list_result(object):
       if fid == 0:
         if ftype == TType.LIST:
           self.success = []
-          (_etype59, _size56) = iprot.readListBegin()
-          for _i60 in xrange(_size56):
-            _elem61 = Commit()
-            _elem61.read(iprot)
-            self.success.append(_elem61)
+          (_etype66, _size63) = iprot.readListBegin()
+          for _i67 in xrange(_size63):
+            _elem68 = Commit()
+            _elem68.read(iprot)
+            self.success.append(_elem68)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -2990,8 +2990,8 @@ class rev_list_result(object):
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.LIST, 0)
       oprot.writeListBegin(TType.STRUCT, len(self.success))
-      for iter62 in self.success:
-        iter62.write(oprot)
+      for iter69 in self.success:
+        iter69.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.unavailable is not None:
@@ -3121,7 +3121,7 @@ class blame_result(object):
   """
 
   thrift_spec = (
-    (0, TType.STRING, 'success', None, None, ), # 0
+    (0, TType.STRUCT, 'success', (Blame, Blame.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
   )
 
@@ -3139,8 +3139,9 @@ class blame_result(object):
       if ftype == TType.STOP:
         break
       if fid == 0:
-        if ftype == TType.STRING:
-          self.success = iprot.readString();
+        if ftype == TType.STRUCT:
+          self.success = Blame()
+          self.success.read(iprot)
         else:
           iprot.skip(ftype)
       elif fid == 1:
@@ -3161,8 +3162,8 @@ class blame_result(object):
       return
     oprot.writeStructBegin('blame_result')
     if self.success is not None:
-      oprot.writeFieldBegin('success', TType.STRING, 0)
-      oprot.writeString(self.success)
+      oprot.writeFieldBegin('success', TType.STRUCT, 0)
+      self.success.write(oprot)
       oprot.writeFieldEnd()
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
@@ -3445,11 +3446,11 @@ class detect_renamed_result(object):
       if fid == 0:
         if ftype == TType.MAP:
           self.success = {}
-          (_ktype64, _vtype65, _size63 ) = iprot.readMapBegin() 
-          for _i67 in xrange(_size63):
-            _key68 = iprot.readString();
-            _val69 = iprot.readString();
-            self.success[_key68] = _val69
+          (_ktype71, _vtype72, _size70 ) = iprot.readMapBegin() 
+          for _i74 in xrange(_size70):
+            _key75 = iprot.readString();
+            _val76 = iprot.readString();
+            self.success[_key75] = _val76
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -3473,9 +3474,9 @@ class detect_renamed_result(object):
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.MAP, 0)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.success))
-      for kiter70,viter71 in self.success.items():
-        oprot.writeString(kiter70)
-        oprot.writeString(viter71)
+      for kiter77,viter78 in self.success.items():
+        oprot.writeString(kiter77)
+        oprot.writeString(viter78)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     if self.unavailable is not None:
@@ -3582,15 +3583,15 @@ class commit_args(object):
       elif fid == 8:
         if ftype == TType.LIST:
           self.data = []
-          (_etype75, _size72) = iprot.readListBegin()
-          for _i76 in xrange(_size72):
-            _elem77 = []
-            (_etype81, _size78) = iprot.readListBegin()
-            for _i82 in xrange(_size78):
-              _elem83 = iprot.readString();
-              _elem77.append(_elem83)
+          (_etype82, _size79) = iprot.readListBegin()
+          for _i83 in xrange(_size79):
+            _elem84 = []
+            (_etype88, _size85) = iprot.readListBegin()
+            for _i89 in xrange(_size85):
+              _elem90 = iprot.readString();
+              _elem84.append(_elem90)
             iprot.readListEnd()
-            self.data.append(_elem77)
+            self.data.append(_elem84)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -3636,10 +3637,10 @@ class commit_args(object):
     if self.data is not None:
       oprot.writeFieldBegin('data', TType.LIST, 8)
       oprot.writeListBegin(TType.LIST, len(self.data))
-      for iter84 in self.data:
-        oprot.writeListBegin(TType.STRING, len(iter84))
-        for iter85 in iter84:
-          oprot.writeString(iter85)
+      for iter91 in self.data:
+        oprot.writeListBegin(TType.STRING, len(iter91))
+        for iter92 in iter91:
+          oprot.writeString(iter92)
         oprot.writeListEnd()
       oprot.writeListEnd()
       oprot.writeFieldEnd()
@@ -3811,10 +3812,10 @@ class diff_args(object):
       elif fid == 7:
         if ftype == TType.LIST:
           self.paths = []
-          (_etype89, _size86) = iprot.readListBegin()
-          for _i90 in xrange(_size86):
-            _elem91 = iprot.readString();
-            self.paths.append(_elem91)
+          (_etype96, _size93) = iprot.readListBegin()
+          for _i97 in xrange(_size93):
+            _elem98 = iprot.readString();
+            self.paths.append(_elem98)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -3861,8 +3862,8 @@ class diff_args(object):
     if self.paths is not None:
       oprot.writeFieldBegin('paths', TType.LIST, 7)
       oprot.writeListBegin(TType.STRING, len(self.paths))
-      for iter92 in self.paths:
-        oprot.writeString(iter92)
+      for iter99 in self.paths:
+        oprot.writeString(iter99)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.rename_detection is not None:
@@ -4635,11 +4636,11 @@ class clone_to_args(object):
       elif fid == 6:
         if ftype == TType.MAP:
           self.env = {}
-          (_ktype94, _vtype95, _size93 ) = iprot.readMapBegin() 
-          for _i97 in xrange(_size93):
-            _key98 = iprot.readString();
-            _val99 = iprot.readString();
-            self.env[_key98] = _val99
+          (_ktype101, _vtype102, _size100 ) = iprot.readMapBegin() 
+          for _i104 in xrange(_size100):
+            _key105 = iprot.readString();
+            _val106 = iprot.readString();
+            self.env[_key105] = _val106
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -4677,9 +4678,9 @@ class clone_to_args(object):
     if self.env is not None:
       oprot.writeFieldBegin('env', TType.MAP, 6)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
-      for kiter100,viter101 in self.env.items():
-        oprot.writeString(kiter100)
-        oprot.writeString(viter101)
+      for kiter107,viter108 in self.env.items():
+        oprot.writeString(kiter107)
+        oprot.writeString(viter108)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -4832,11 +4833,11 @@ class mirror_args(object):
       elif fid == 5:
         if ftype == TType.MAP:
           self.env = {}
-          (_ktype103, _vtype104, _size102 ) = iprot.readMapBegin() 
-          for _i106 in xrange(_size102):
-            _key107 = iprot.readString();
-            _val108 = iprot.readString();
-            self.env[_key107] = _val108
+          (_ktype110, _vtype111, _size109 ) = iprot.readMapBegin() 
+          for _i113 in xrange(_size109):
+            _key114 = iprot.readString();
+            _val115 = iprot.readString();
+            self.env[_key114] = _val115
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -4870,9 +4871,9 @@ class mirror_args(object):
     if self.env is not None:
       oprot.writeFieldBegin('env', TType.MAP, 5)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
-      for kiter109,viter110 in self.env.items():
-        oprot.writeString(kiter109)
-        oprot.writeString(viter110)
+      for kiter116,viter117 in self.env.items():
+        oprot.writeString(kiter116)
+        oprot.writeString(viter117)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -5215,10 +5216,10 @@ class list_references_result(object):
       if fid == 0:
         if ftype == TType.LIST:
           self.success = []
-          (_etype114, _size111) = iprot.readListBegin()
-          for _i115 in xrange(_size111):
-            _elem116 = iprot.readString();
-            self.success.append(_elem116)
+          (_etype121, _size118) = iprot.readListBegin()
+          for _i122 in xrange(_size118):
+            _elem123 = iprot.readString();
+            self.success.append(_elem123)
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
@@ -5242,8 +5243,8 @@ class list_references_result(object):
     if self.success is not None:
       oprot.writeFieldBegin('success', TType.LIST, 0)
       oprot.writeListBegin(TType.STRING, len(self.success))
-      for iter117 in self.success:
-        oprot.writeString(iter117)
+      for iter124 in self.success:
+        oprot.writeString(iter124)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
     if self.unavailable is not None:
@@ -6234,11 +6235,11 @@ class merge_args(object):
       elif fid == 6:
         if ftype == TType.MAP:
           self.env = {}
-          (_ktype119, _vtype120, _size118 ) = iprot.readMapBegin() 
-          for _i122 in xrange(_size118):
-            _key123 = iprot.readString();
-            _val124 = iprot.readString();
-            self.env[_key123] = _val124
+          (_ktype126, _vtype127, _size125 ) = iprot.readMapBegin() 
+          for _i129 in xrange(_size125):
+            _key130 = iprot.readString();
+            _val131 = iprot.readString();
+            self.env[_key130] = _val131
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -6276,9 +6277,9 @@ class merge_args(object):
     if self.env is not None:
       oprot.writeFieldBegin('env', TType.MAP, 6)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
-      for kiter125,viter126 in self.env.items():
-        oprot.writeString(kiter125)
-        oprot.writeString(viter126)
+      for kiter132,viter133 in self.env.items():
+        oprot.writeString(kiter132)
+        oprot.writeString(viter133)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -6423,11 +6424,11 @@ class push_args(object):
       elif fid == 4:
         if ftype == TType.MAP:
           self.env = {}
-          (_ktype128, _vtype129, _size127 ) = iprot.readMapBegin() 
-          for _i131 in xrange(_size127):
-            _key132 = iprot.readString();
-            _val133 = iprot.readString();
-            self.env[_key132] = _val133
+          (_ktype135, _vtype136, _size134 ) = iprot.readMapBegin() 
+          for _i138 in xrange(_size134):
+            _key139 = iprot.readString();
+            _val140 = iprot.readString();
+            self.env[_key139] = _val140
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -6457,9 +6458,9 @@ class push_args(object):
     if self.env is not None:
       oprot.writeFieldBegin('env', TType.MAP, 4)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
-      for kiter134,viter135 in self.env.items():
-        oprot.writeString(kiter134)
-        oprot.writeString(viter135)
+      for kiter141,viter142 in self.env.items():
+        oprot.writeString(kiter141)
+        oprot.writeString(viter142)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
