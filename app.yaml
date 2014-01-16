@@ -8,11 +8,6 @@ report_observer_emails: lihan@intern.douban.com
 worker: sync
 enable_jenkins: true
 
-release_managers:
-- xutao
-- lh_intern
-- lihan
-
 services:
 - interface: jagare.Jagare
   handler: services.jagare_handler:Handler
