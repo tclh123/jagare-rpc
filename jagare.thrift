@@ -131,6 +131,7 @@ struct Diff {
     1: optional string old_sha,  # may be None
     2: required string new_sha,
     3: required list<Patch> patches,
+    # 4: required string patch,  # patch diff string  # TODO
 }
 
 exception ServiceUnavailable {
