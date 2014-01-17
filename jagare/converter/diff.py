@@ -70,3 +70,5 @@ class DiffLineConverter(Converter):
 
     def prepare(self):
         self.attr, self.line = self.line
+
+        self.unicode_str('line')
