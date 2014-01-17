@@ -30,3 +30,6 @@ class CommitConverter(Converter):
         self.type = 'commit'
         self.committer = SignatureConverter(**self.committer).convert()
         self.author = SignatureConverter(**self.author).convert()
+
+        self.unicode_str('message')
+        self.unicode_str('body')

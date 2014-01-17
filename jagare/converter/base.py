@@ -33,3 +33,8 @@ class Converter(object):
     def convert(self):
         self.prepare()
         return self.target_type(**self.export())
+
+    def unicode_str(self, name):
+        """thrift 竟然不支持 unicode"""
+        string = self.__dict__[name].encode('utf-8')
+        self.__dict__[name] = string

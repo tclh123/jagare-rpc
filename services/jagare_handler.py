@@ -55,7 +55,8 @@ class Handler(object):
         try:
             repo = Jagare(path)
             obj_dict = repo.show(ref)
-            return get_gitobject_from_show(obj_dict)
+            ret = get_gitobject_from_show(obj_dict)
+            return ret
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 

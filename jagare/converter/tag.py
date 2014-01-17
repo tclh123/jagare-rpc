@@ -23,3 +23,6 @@ class TagConverter(Converter):
         self.tagger = SignatureConverter(**self.tagger).convert()
 
         self.drop('tag')
+
+        self.unicode_str('message')
+        self.unicode_str('body')
