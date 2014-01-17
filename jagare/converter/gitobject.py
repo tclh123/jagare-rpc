@@ -18,6 +18,10 @@ from jagare.converter.tag import TagConverter
 
 
 def get_gitobject_from_show(formatted_dict):
+    # FIXME: hack
+    if not formatted_dict:
+        return GitObject(type='')
+
     type_ = formatted_dict.get('type', 'commit')
     converter = {
         'blob': BlobConverter,
