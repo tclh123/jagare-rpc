@@ -35,17 +35,18 @@ struct Diff {
 }
 """
 
-from jagare.converter.base import Converter, Diff, Patch, Hunk, DiffLine
+from .base import Converter, Diff, Patch, Hunk, DiffLine
 
 
 class DiffConverter(Converter):
     target_type = Diff
 
     def prepare(self):
-        self.drop('diff')
 
         self.patches = [PatchConverter(**patch).convert()
                         for patch in self.patches]
+        self.patch = self.diff.patch
+        self.drop('diff')
 
 
 class PatchConverter(Converter):
@@ -70,3 +71,5 @@ class DiffLineConverter(Converter):
 
     def prepare(self):
         self.attr, self.line = self.line
+
+        self.unicode_str('line')

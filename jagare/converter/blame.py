@@ -19,9 +19,9 @@ struct Blame {
 }
 """
 
-from jagare.converter.base import Converter, Blame, BlameHunk
-from jagare.converter.signature import SignatureConverter
-from jagare.converter.blob import BlobConverter
+from .base import Converter, Blame, BlameHunk
+from .signature import SignatureConverter
+from .blob import BlobConverter
 
 
 class BlameConverter(Converter):

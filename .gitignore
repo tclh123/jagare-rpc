@@ -1,8 +1,9 @@
 # DAE
 /venv
 /permdir
-dev.yaml
-local_config.py
+/dev.yaml
+/local_config.py
+/tmpdir
 
 # Python
 *.py[cod]

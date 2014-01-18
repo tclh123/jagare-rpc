@@ -1944,6 +1944,7 @@ class Diff(object):
    - old_sha
    - new_sha
    - patches
+   - patch
   """
 
   thrift_spec = (
@@ -1951,12 +1952,14 @@ class Diff(object):
     (1, TType.STRING, 'old_sha', None, None, ), # 1
     (2, TType.STRING, 'new_sha', None, None, ), # 2
     (3, TType.LIST, 'patches', (TType.STRUCT,(Patch, Patch.thrift_spec)), None, ), # 3
+    (4, TType.STRING, 'patch', None, None, ), # 4
   )
 
-  def __init__(self, old_sha=None, new_sha=None, patches=None,):
+  def __init__(self, old_sha=None, new_sha=None, patches=None, patch=None,):
     self.old_sha = old_sha
     self.new_sha = new_sha
     self.patches = patches
+    self.patch = patch
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1988,6 +1991,11 @@ class Diff(object):
           iprot.readListEnd()
         else:
           iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.patch = iprot.readString();
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -2014,6 +2022,10 @@ class Diff(object):
         iter41.write(oprot)
       oprot.writeListEnd()
       oprot.writeFieldEnd()
+    if self.patch is not None:
+      oprot.writeFieldBegin('patch', TType.STRING, 4)
+      oprot.writeString(self.patch)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -2022,6 +2034,162 @@ class Diff(object):
       raise TProtocol.TProtocolException(message='Required field new_sha is unset!')
     if self.patches is None:
       raise TProtocol.TProtocolException(message='Required field patches is unset!')
+    if self.patch is None:
+      raise TProtocol.TProtocolException(message='Required field patch is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class MergeResult(object):
+  """
+  Attributes:
+   - is_uptodate
+   - is_fastforward
+   - fastforward_oid
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.BOOL, 'is_uptodate', None, None, ), # 1
+    (2, TType.BOOL, 'is_fastforward', None, None, ), # 2
+    (3, TType.STRING, 'fastforward_oid', None, None, ), # 3
+  )
+
+  def __init__(self, is_uptodate=None, is_fastforward=None, fastforward_oid=None,):
+    self.is_uptodate = is_uptodate
+    self.is_fastforward = is_fastforward
+    self.fastforward_oid = fastforward_oid
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.BOOL:
+          self.is_uptodate = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.BOOL:
+          self.is_fastforward = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.fastforward_oid = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('MergeResult')
+    if self.is_uptodate is not None:
+      oprot.writeFieldBegin('is_uptodate', TType.BOOL, 1)
+      oprot.writeBool(self.is_uptodate)
+      oprot.writeFieldEnd()
+    if self.is_fastforward is not None:
+      oprot.writeFieldBegin('is_fastforward', TType.BOOL, 2)
+      oprot.writeBool(self.is_fastforward)
+      oprot.writeFieldEnd()
+    if self.fastforward_oid is not None:
+      oprot.writeFieldBegin('fastforward_oid', TType.STRING, 3)
+      oprot.writeString(self.fastforward_oid)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.is_uptodate is None:
+      raise TProtocol.TProtocolException(message='Required field is_uptodate is unset!')
+    if self.is_fastforward is None:
+      raise TProtocol.TProtocolException(message='Required field is_fastforward is unset!')
+    if self.fastforward_oid is None:
+      raise TProtocol.TProtocolException(message='Required field fastforward_oid is unset!')
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class MergeIndex(object):
+  """
+  Attributes:
+   - has_conflicts
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.BOOL, 'has_conflicts', None, None, ), # 1
+  )
+
+  def __init__(self, has_conflicts=None,):
+    self.has_conflicts = has_conflicts
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.BOOL:
+          self.has_conflicts = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('MergeIndex')
+    if self.has_conflicts is not None:
+      oprot.writeFieldBegin('has_conflicts', TType.BOOL, 1)
+      oprot.writeBool(self.has_conflicts)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    if self.has_conflicts is None:
+      raise TProtocol.TProtocolException(message='Required field has_conflicts is unset!')
     return
 
 

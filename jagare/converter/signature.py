@@ -9,7 +9,7 @@ struct Signature {
 }
 """
 
-from jagare.converter.base import Converter, Signature
+from .base import Converter, Signature
 
 
 class SignatureConverter(Converter):

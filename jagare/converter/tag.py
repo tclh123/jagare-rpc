@@ -12,8 +12,8 @@ struct Tag {
 }
 """
 
-from jagare.converter.base import Converter, Tag
-from jagare.converter.signature import SignatureConverter
+from .base import Converter, Tag
+from .signature import SignatureConverter
 
 
 class TagConverter(Converter):
@@ -23,3 +23,6 @@ class TagConverter(Converter):
         self.tagger = SignatureConverter(**self.tagger).convert()
 
         self.drop('tag')
+
+        self.unicode_str('message')
+        self.unicode_str('body')

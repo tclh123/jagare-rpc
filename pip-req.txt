@@ -1,5 +1,5 @@
 argparse==1.2.1
--e git+http://code.dapps.douban.com/xutao/ellen.git@a9dba0134528eebb2293941d545c8bd7fc541f31#egg=ellen-master
+-e git+http://code.dapps.douban.com/lh_intern/ellen.git@7a0bf957870e057d315caa20c4756397451e2ba6#egg=ellen-origin/dev
 execnet==1.1
 mime==0.0.3
 py==1.4.18

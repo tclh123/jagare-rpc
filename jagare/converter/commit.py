@@ -17,8 +17,8 @@ struct Commit {
 }
 """
 
-from jagare.converter.base import Converter, Commit
-from jagare.converter.signature import SignatureConverter
+from .base import Converter, Commit
+from .signature import SignatureConverter
 
 
 class CommitConverter(Converter):
@@ -30,3 +30,6 @@ class CommitConverter(Converter):
         self.type = 'commit'
         self.committer = SignatureConverter(**self.committer).convert()
         self.author = SignatureConverter(**self.author).convert()
+
+        self.unicode_str('message')
+        self.unicode_str('body')

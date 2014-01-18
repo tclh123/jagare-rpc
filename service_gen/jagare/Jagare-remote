@@ -51,6 +51,9 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  void fetch_all(string path)'
   print '  void fetch(string path, string name)'
   print '  ProcessResult merge(string path, string ref, string msg, string commit_msg, bool no_ff,  env)'
+  print '  MergeIndex merge_tree(string path, string ours, string theirs)'
+  print '  MergeResult merge_head(string path, string ref)'
+  print '  MergeIndex merge_commits(string path, string ours, string theirs)'
   print '  ProcessResult push(string path, string remote, string ref,  env)'
   print '  string archive(string path, string prefix, string ref)'
   print ''
@@ -271,6 +274,24 @@ elif cmd == 'merge':
     print 'merge requires 6 args'
     sys.exit(1)
   pp.pprint(client.merge(args[0],args[1],args[2],args[3],eval(args[4]),eval(args[5]),))
+
+elif cmd == 'merge_tree':
+  if len(args) != 3:
+    print 'merge_tree requires 3 args'
+    sys.exit(1)
+  pp.pprint(client.merge_tree(args[0],args[1],args[2],))
+
+elif cmd == 'merge_head':
+  if len(args) != 2:
+    print 'merge_head requires 2 args'
+    sys.exit(1)
+  pp.pprint(client.merge_head(args[0],args[1],))
+
+elif cmd == 'merge_commits':
+  if len(args) != 3:
+    print 'merge_commits requires 3 args'
+    sys.exit(1)
+  pp.pprint(client.merge_commits(args[0],args[1],args[2],))
 
 elif cmd == 'push':
   if len(args) != 4:

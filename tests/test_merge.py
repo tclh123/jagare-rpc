@@ -54,3 +54,83 @@ def test_merge(tmpdir, no_ff):
     assert ret.stderr == ''
     assert ret.fullcmd
     assert ret.returncode == 0
+
+
+def test_merge_tree(tmpdir):
+    path = tmpdir.strpath
+    git_dir = os.path.join(path, '.git')
+
+    # `git merge` must be run in a work tree
+    t_repo = JagareRepo.init(git_dir,
+                             work_path=path, bare=False)
+    temp_repo.commit_something(git_dir, file_name='git_init')
+
+    BR = 'br_test_merge'
+
+    ret = t_repo.create_branch(BR, 'master')
+    assert ret is True
+    sha1 = t_repo.sha('master')
+
+    temp_repo.commit_something(path, branch=BR)
+
+    ret = Jagare.merge_tree(path, 'master', BR)
+    # sha2 = t_repo.sha('master')
+
+    # assert sha1 != sha2
+    assert t_repo.sha(sha1) == sha1
+
+    assert ret.has_conflicts is False
+
+
+def test_merge_head(tmpdir):
+    path = tmpdir.strpath
+    git_dir = os.path.join(path, '.git')
+
+    # `git merge` must be run in a work tree
+    t_repo = JagareRepo.init(git_dir,
+                             work_path=path, bare=False)
+    temp_repo.commit_something(git_dir, file_name='git_init')
+
+    BR = 'br_test_merge'
+
+    ret = t_repo.create_branch(BR, 'master')
+    assert ret is True
+    sha1 = t_repo.sha('master')
+
+    temp_repo.commit_something(path, branch=BR)
+
+    ret = Jagare.merge_head(path, BR)
+    # sha2 = t_repo.sha('master')
+
+    # assert sha1 != sha2
+    assert t_repo.sha(sha1) == sha1
+
+    assert ret.is_fastforward is True
+    assert ret.fastforward_oid
+    assert ret.is_uptodate is False
+
+
+def test_merge_commits(tmpdir):
+    path = tmpdir.strpath
+    git_dir = os.path.join(path, '.git')
+
+    # `git merge` must be run in a work tree
+    t_repo = JagareRepo.init(git_dir,
+                             work_path=path, bare=False)
+    temp_repo.commit_something(git_dir, file_name='git_init')
+
+    BR = 'br_test_merge'
+
+    ret = t_repo.create_branch(BR, 'master')
+    assert ret is True
+    sha1 = t_repo.sha('master')
+
+    temp_repo.commit_something(path, branch=BR)
+
+    ret = Jagare.merge_commits(path, 'master', BR)
+    # sha2 = t_repo.sha('master')
+
+    # assert sha1 != sha2
+    assert t_repo.sha(sha1) == sha1
+
+    assert ret.has_conflicts is False

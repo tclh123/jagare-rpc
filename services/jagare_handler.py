@@ -5,18 +5,18 @@ import json
 from ellen.repo import Jagare
 
 from jagare.converter.gitobject import get_gitobject_from_show
+from jagare.converter.process import ProcessResultConverter
 from jagare.converter.diff import DiffConverter
 from jagare.converter.commit import CommitConverter
 from jagare.converter.blame import BlameConverter
+from jagare.converter.merge import MergeResultConverter, MergeIndexConverter
 
 from service_gen.jagare.ttypes import (Repository,
-                                       ProcessResult,
                                        ServiceUnavailable)
 
 # Code provide jagare_client wrapper, save `path` arg.
 
 
-# TODO: wrap commands to Handler
 class Handler(object):
 
     def get(self, path):
@@ -55,7 +55,8 @@ class Handler(object):
         try:
             repo = Jagare(path)
             obj_dict = repo.show(ref)
-            return get_gitobject_from_show(obj_dict)
+            ret = get_gitobject_from_show(obj_dict)
+            return ret
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
@@ -255,7 +256,31 @@ class Handler(object):
             repo = Jagare(path)
             ret = repo.merge(ref=ref, msg=msg, commit_msg=commit_msg,
                              no_ff=no_ff, _env=env)
-            return ProcessResult(**ret)
+            return ProcessResultConverter(**ret).convert()
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def merge_tree(self, path, ours, theirs):
+        try:
+            repo = Jagare(path)
+            ret = repo.merge_tree(ours, theirs)
+            return MergeIndexConverter(**ret).convert()
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def merge_head(self, path, ref):
+        try:
+            repo = Jagare(path)
+            ret = repo.merge_head(ref)
+            return MergeResultConverter(**ret).convert()
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    def merge_commits(self, path, ours, theirs):
+        try:
+            repo = Jagare(path)
+            ret = repo.merge_tree(ours, theirs)
+            return MergeIndexConverter(**ret).convert()
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
@@ -263,7 +288,7 @@ class Handler(object):
         try:
             repo = Jagare(path)
             ret = repo.push(remote, ref, _env=env)
-            return ProcessResult(**ret)
+            return ProcessResultConverter(**ret).convert()
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
