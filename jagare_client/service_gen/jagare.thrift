@@ -44,7 +44,7 @@ struct Tree {
 struct Commit {
     1: required string type,  # 'commit'
     2: required string sha,
-    3: required list<string> parents,  # shas
+    3: required list<string> parents,  # shas  # FIXME: 可能为None？应为 optional
     4: required string tree,  # sha of the tree object attached to the commit
     5: required Signature committer,
     6: required Signature author,
@@ -132,6 +132,17 @@ struct Diff {
     1: optional string old_sha,  # may be None
     2: required string new_sha,
     3: required list<Patch> patches,
+    4: required string patch,  # patch diff string
+}
+
+struct MergeResult {
+    1: required bool is_uptodate,
+    2: required bool is_fastforward,
+    3: required string fastforward_oid,
+}
+
+struct MergeIndex {
+    1: required bool has_conflicts,
 }
 
 exception ServiceUnavailable {
@@ -283,6 +294,21 @@ service Jagare {
 
     ProcessResult merge(1:string path, 2:string ref, 3:string msg, 4:string commit_msg,
                         5:bool no_ff, 6:map<string, string> env)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    MergeIndex merge_tree(1:string path, 2:string ours, 3:string theirs)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    MergeResult merge_head(1:string path, 2:string ref)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    MergeIndex merge_commits(1:string path, 2:string ours, 3:string theirs)
         throws (
             1: ServiceUnavailable unavailable,
         ),
