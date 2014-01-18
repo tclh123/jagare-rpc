@@ -35,7 +35,7 @@ struct Diff {
 }
 """
 
-from jagare.converter.base import Converter, Diff, Patch, Hunk, DiffLine
+from .base import Converter, Diff, Patch, Hunk, DiffLine
 
 
 class DiffConverter(Converter):

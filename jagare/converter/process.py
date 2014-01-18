@@ -9,7 +9,7 @@ struct ProcessResult {
 }
 """
 
-from jagare.converter.base import Converter, ProcessResult
+from .base import Converter, ProcessResult
 
 
 class ProcessResultConverter(Converter):

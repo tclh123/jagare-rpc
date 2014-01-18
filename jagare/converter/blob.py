@@ -10,7 +10,7 @@ struct Blob {
 }
 """
 
-from jagare.converter.base import Converter, Blob
+from .base import Converter, Blob
 
 
 class BlobConverter(Converter):

@@ -17,8 +17,8 @@ struct Commit {
 }
 """
 
-from jagare.converter.base import Converter, Commit
-from jagare.converter.signature import SignatureConverter
+from .base import Converter, Commit
+from .signature import SignatureConverter
 
 
 class CommitConverter(Converter):

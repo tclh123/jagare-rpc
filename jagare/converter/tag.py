@@ -12,8 +12,8 @@ struct Tag {
 }
 """
 
-from jagare.converter.base import Converter, Tag
-from jagare.converter.signature import SignatureConverter
+from .base import Converter, Tag
+from .signature import SignatureConverter
 
 
 class TagConverter(Converter):

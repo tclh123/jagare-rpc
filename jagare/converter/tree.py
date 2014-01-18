@@ -14,7 +14,7 @@ struct Tree {
 }
 """
 
-from jagare.converter.base import Converter, Tree, TreeEntry
+from .base import Converter, Tree, TreeEntry
 
 
 class TreeConverter(Converter):

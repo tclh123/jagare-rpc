@@ -10,11 +10,11 @@ struct GitObject {
 }
 """
 
-from jagare.converter.base import GitObject
-from jagare.converter.blob import BlobConverter
-from jagare.converter.tree import TreeConverter
-from jagare.converter.commit import CommitConverter
-from jagare.converter.tag import TagConverter
+from .base import GitObject
+from .blob import BlobConverter
+from .tree import TreeConverter
+from .commit import CommitConverter
+from .tag import TagConverter
 
 
 def get_gitobject_from_show(formatted_dict):

@@ -12,7 +12,7 @@ struct MergeIndex {
 }
 """
 
-from jagare.converter.base import Converter, MergeResult, MergeIndex
+from .base import Converter, MergeResult, MergeIndex
 
 
 class MergeResultConverter(Converter):
