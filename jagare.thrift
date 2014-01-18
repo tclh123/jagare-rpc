@@ -43,7 +43,7 @@ struct Tree {
 struct Commit {
     1: required string type,  # 'commit'
     2: required string sha,
-    3: required list<string> parents,  # shas  # FIXME: 可能为None？应为 optional
+    3: required list<string> parents,  # shas  # 可能为空list
     4: required string tree,  # sha of the tree object attached to the commit
     5: required Signature committer,
     6: required Signature author,
