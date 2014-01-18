@@ -42,10 +42,11 @@ class DiffConverter(Converter):
     target_type = Diff
 
     def prepare(self):
-        self.drop('diff')
 
         self.patches = [PatchConverter(**patch).convert()
                         for patch in self.patches]
+        self.patch = self.diff.patch
+        self.drop('diff')
 
 
 class PatchConverter(Converter):

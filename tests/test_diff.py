@@ -13,3 +13,4 @@ def test_diff(tmpdir):
                        rename_detection=None)
 
     assert diff.patches[0].hunks[0].lines[0].attr == '+'
+    assert diff.patch
