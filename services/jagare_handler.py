@@ -5,13 +5,13 @@ import json
 from ellen.repo import Jagare
 
 from jagare.converter.gitobject import get_gitobject_from_show
+from jagare.converter.process import ProcessResultConverter
 from jagare.converter.diff import DiffConverter
 from jagare.converter.commit import CommitConverter
 from jagare.converter.blame import BlameConverter
 from jagare.converter.merge import MergeResultConverter, MergeIndexConverter
 
 from service_gen.jagare.ttypes import (Repository,
-                                       ProcessResult,
                                        ServiceUnavailable)
 
 # Code provide jagare_client wrapper, save `path` arg.
@@ -256,7 +256,7 @@ class Handler(object):
             repo = Jagare(path)
             ret = repo.merge(ref=ref, msg=msg, commit_msg=commit_msg,
                              no_ff=no_ff, _env=env)
-            return ProcessResult(**ret)
+            return ProcessResultConverter(**ret).convert()
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
@@ -288,7 +288,7 @@ class Handler(object):
         try:
             repo = Jagare(path)
             ret = repo.push(remote, ref, _env=env)
-            return ProcessResult(**ret)
+            return ProcessResultConverter(**ret).convert()
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
