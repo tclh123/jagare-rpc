@@ -134,6 +134,16 @@ struct Diff {
     # 4: required string patch,  # patch diff string  # TODO
 }
 
+struct MergeResult {
+    1: required bool is_uptodate,
+    2: required bool is_fastforward,
+    3: required string fastforward_oid,
+}
+
+struct MergeIndex {
+    1: required bool has_conflicts,
+}
+
 exception ServiceUnavailable {
     1: string message,
 }
@@ -283,6 +293,21 @@ service Jagare {
 
     ProcessResult merge(1:string path, 2:string ref, 3:string msg, 4:string commit_msg,
                         5:bool no_ff, 6:map<string, string> env)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    MergeIndex merge_tree(1:string path, 2:string ours, 3:string theirs)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    MergeResult merge_head(1:string path, 2:string ref)
+        throws (
+            1: ServiceUnavailable unavailable,
+        ),
+
+    MergeIndex merge_commits(1:string path, 2:string ours, 3:string theirs)
         throws (
             1: ServiceUnavailable unavailable,
         ),

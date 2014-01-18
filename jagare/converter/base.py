@@ -8,7 +8,8 @@ from service_gen.jagare.ttypes import (ProcessResult,
                                        Tag,
                                        GitObject,
                                        Blame, BlameHunk,
-                                       Diff, Patch, Hunk, DiffLine)
+                                       Diff, Patch, Hunk, DiffLine,
+                                       MergeResult, MergeIndex)
 
 
 class Converter(object):
