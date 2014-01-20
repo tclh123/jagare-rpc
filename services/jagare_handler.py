@@ -47,7 +47,7 @@ class Handler(object):
     def list_tags(self, path):
         try:
             repo = Jagare(path)
-            return repo.tags
+            return list(repo.tags)
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 

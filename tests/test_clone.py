@@ -2,11 +2,10 @@
 
 import os
 
-from jagare_client import Jagare
 from ellen.utils import temp_repo
 
 
-def test_clone(tmpdir):
+def test_clone(tmpdir, Jagare):
     path = tmpdir.mkdir('source').strpath
     to_path = tmpdir.mkdir('target').strpath
 
@@ -21,7 +20,7 @@ def test_clone(tmpdir):
     assert to_repo.head == t_repo.head.name
 
 
-def test_mirror(tmpdir):
+def test_mirror(tmpdir, Jagare):
     path = tmpdir.mkdir('source').strpath
     to_path = tmpdir.mkdir('target').strpath
 

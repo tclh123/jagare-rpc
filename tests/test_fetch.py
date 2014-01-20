@@ -1,10 +1,9 @@
 # coding: utf-8
 
-from jagare_client import Jagare
 from ellen.utils import temp_repo
 
 
-def test_fetch_all(tmpdir):
+def test_fetch_all(tmpdir, Jagare):
     path = tmpdir.mkdir('local').strpath
     path_remote = tmpdir.mkdir('remote').strpath
 
@@ -17,7 +16,7 @@ def test_fetch_all(tmpdir):
     Jagare.fetch_all(path)
 
 
-def test_fetch(tmpdir):
+def test_fetch(tmpdir, Jagare):
     path = tmpdir.mkdir('local').strpath
     path_remote = tmpdir.mkdir('remote').strpath
 

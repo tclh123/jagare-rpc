@@ -2,6 +2,9 @@
 
 import pytest
 
+from jagare_client import Jagare as JagareClient
+from jagare.mock import Jagare as JagareMock
+
 
 pytest_plugins = "xprocess"
 
@@ -24,3 +27,9 @@ def pytest_unconfigure(config):
         import py
         tw = py.io.TerminalWriter()
         xprocess_plugin.do_xkill(info, tw)
+
+
+@pytest.fixture(scope="module",
+                params=[JagareClient, JagareMock])
+def Jagare(request):
+    return request.param

@@ -2,11 +2,10 @@
 
 import os
 
-from jagare_client import Jagare
 from ellen.utils import temp_repo
 
 
-def test_show_commit(tmpdir):
+def test_show_commit(tmpdir, Jagare):
     path = tmpdir.strpath
     temp_repo.create_temp_repo(path, is_bare=True)
 
@@ -16,7 +15,7 @@ def test_show_commit(tmpdir):
     assert ret.commit.sha
 
 
-def test_show_tree(tmpdir):
+def test_show_tree(tmpdir, Jagare):
     path = tmpdir.strpath
     repo = temp_repo.create_temp_repo(path, is_bare=True)
 
@@ -35,7 +34,7 @@ def test_show_tree(tmpdir):
         assert ret.tree
 
 
-def test_show_blob(tmpdir):
+def test_show_blob(tmpdir, Jagare):
     path = tmpdir.strpath
     repo = temp_repo.create_temp_repo(path, is_bare=True)
 
@@ -50,7 +49,7 @@ def test_show_blob(tmpdir):
         assert ret.blob
 
 
-def test_show_tag(tmpdir):
+def test_show_tag(tmpdir, Jagare):
     path = tmpdir.strpath
     repo = temp_repo.create_temp_repo(path, is_bare=True)
 

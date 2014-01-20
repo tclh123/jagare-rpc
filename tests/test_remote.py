@@ -1,11 +1,10 @@
 # coding: utf-8
 
-from jagare_client import Jagare
 from ellen.utils import temp_repo
 from ellen.repo import Jagare as JagareRepo
 
 
-def test_list_remotes(tmpdir):
+def test_list_remotes(tmpdir, Jagare):
     path = tmpdir.strpath
     t_repo = temp_repo.create_temp_repo(path, is_bare=True)
     remotes = Jagare.list_remotes(path)
@@ -18,7 +17,7 @@ def test_list_remotes(tmpdir):
     assert 'upstream' in remotes
 
 
-def test_add_remote(tmpdir):
+def test_add_remote(tmpdir, Jagare):
     path = tmpdir.strpath
     t_repo = temp_repo.create_temp_repo(path, is_bare=True)
     ret = Jagare.add_remote(path, 'upstream', 'git@localhost:test.git')

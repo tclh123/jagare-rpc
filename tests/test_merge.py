@@ -4,13 +4,11 @@ import os
 
 import pytest
 
-from jagare_client import Jagare
-
 from ellen.utils import temp_repo
 from ellen.repo import Jagare as JagareRepo
 
 
-def test_merge_base(tmpdir):
+def test_merge_base(tmpdir, Jagare):
     path = tmpdir.strpath
     t_repo = temp_repo.create_temp_repo(path, is_bare=True)
 
@@ -26,7 +24,7 @@ def no_ff(request):
     return request.param
 
 
-def test_merge(tmpdir, no_ff):
+def test_merge(tmpdir, no_ff, Jagare):
     path = tmpdir.strpath
     git_dir = os.path.join(path, '.git')
 
@@ -56,7 +54,7 @@ def test_merge(tmpdir, no_ff):
     assert ret.returncode == 0
 
 
-def test_merge_tree(tmpdir):
+def test_merge_tree(tmpdir, Jagare):
     path = tmpdir.strpath
     git_dir = os.path.join(path, '.git')
 
@@ -82,7 +80,7 @@ def test_merge_tree(tmpdir):
     assert ret.has_conflicts is False
 
 
-def test_merge_head(tmpdir):
+def test_merge_head(tmpdir, Jagare):
     path = tmpdir.strpath
     git_dir = os.path.join(path, '.git')
 
@@ -110,7 +108,7 @@ def test_merge_head(tmpdir):
     assert ret.is_uptodate is False
 
 
-def test_merge_commits(tmpdir):
+def test_merge_commits(tmpdir, Jagare):
     path = tmpdir.strpath
     git_dir = os.path.join(path, '.git')
 
