@@ -1,10 +1,12 @@
 argparse==1.2.1
--e git+http://code.dapps.douban.com/xutao/ellen.git@a628f9b95e88fdd68c9bf39c253d9eb3ee9078a8#egg=ellen-master
+distribute==0.6.28
+-e git+http://code.dapps.douban.com/lh_intern/ellen.git@6813d6c1feb828d6d3da4c36ff71c8b58b88a0a0#egg=ellen
 execnet==1.1
 mime==0.0.3
 py==1.4.18
--e git+http://code.dapps.douban.com/pygit2.git@b096ebc7a2e811427bbf266587d2894e3bc7b1dd#egg=pygit2-master
+-e git+http://code.dapps.douban.com/pygit2.git@b096ebc7a2e811427bbf266587d2894e3bc7b1dd#egg=pygit2
 pytest==2.4.2
 pytest-cache==1.0
 pytest-xprocess==0.7
 python-magic==0.4.6
+wsgiref==0.1.2
