@@ -1243,6 +1243,7 @@ class BlameHunk(object):
    - orig_path
    - orig_start_line_number
    - boundary
+   - orig_committer
   """
 
   thrift_spec = (
@@ -1255,9 +1256,10 @@ class BlameHunk(object):
     (6, TType.STRING, 'orig_path', None, None, ), # 6
     (7, TType.I32, 'orig_start_line_number', None, None, ), # 7
     (8, TType.BOOL, 'boundary', None, None, ), # 8
+    (9, TType.STRUCT, 'orig_committer', (Signature, Signature.thrift_spec), None, ), # 9
   )
 
-  def __init__(self, lines_in_hunk=None, final_commit_id=None, final_start_line_number=None, final_committer=None, orig_commit_id=None, orig_path=None, orig_start_line_number=None, boundary=None,):
+  def __init__(self, lines_in_hunk=None, final_commit_id=None, final_start_line_number=None, final_committer=None, orig_commit_id=None, orig_path=None, orig_start_line_number=None, boundary=None, orig_committer=None,):
     self.lines_in_hunk = lines_in_hunk
     self.final_commit_id = final_commit_id
     self.final_start_line_number = final_start_line_number
@@ -1266,6 +1268,7 @@ class BlameHunk(object):
     self.orig_path = orig_path
     self.orig_start_line_number = orig_start_line_number
     self.boundary = boundary
+    self.orig_committer = orig_committer
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -1317,6 +1320,12 @@ class BlameHunk(object):
           self.boundary = iprot.readBool();
         else:
           iprot.skip(ftype)
+      elif fid == 9:
+        if ftype == TType.STRUCT:
+          self.orig_committer = Signature()
+          self.orig_committer.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -1360,6 +1369,10 @@ class BlameHunk(object):
       oprot.writeFieldBegin('boundary', TType.BOOL, 8)
       oprot.writeBool(self.boundary)
       oprot.writeFieldEnd()
+    if self.orig_committer is not None:
+      oprot.writeFieldBegin('orig_committer', TType.STRUCT, 9)
+      self.orig_committer.write(oprot)
+      oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
 
@@ -1380,6 +1393,8 @@ class BlameHunk(object):
       raise TProtocol.TProtocolException(message='Required field orig_start_line_number is unset!')
     if self.boundary is None:
       raise TProtocol.TProtocolException(message='Required field boundary is unset!')
+    if self.orig_committer is None:
+      raise TProtocol.TProtocolException(message='Required field orig_committer is unset!')
     return
 
 

@@ -88,8 +88,9 @@ struct BlameHunk {
     5: required string orig_commit_id,
     6: required string orig_path,
     7: required i32 orig_start_line_number,
-    # 2: required Signature orig_committer,  #  orig_committer is None
     8: required bool boundary,  # Tracked to a boundary commit.
+    9: required Signature orig_committer,  #  orig_committer is None
+
 }
 
 struct Blame {

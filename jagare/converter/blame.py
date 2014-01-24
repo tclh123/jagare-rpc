@@ -39,3 +39,5 @@ class BlameHunkConverter(Converter):
     def prepare(self):
         self.final_committer = (SignatureConverter(**self.final_committer)
                                 .convert())
+        self.orig_committer = (SignatureConverter(**self.orig_committer)
+                                .convert())
