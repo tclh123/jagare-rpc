@@ -1,6 +1,6 @@
 argparse==1.2.1
 distribute==0.6.28
--e git+http://code.dapps.douban.com/lh_intern/ellen.git@6813d6c1feb828d6d3da4c36ff71c8b58b88a0a0#egg=ellen
+-e git+http://code.dapps.douban.com/lh_intern/ellen.git@3b56b342c957f7d9641c41585bce8313750f002f#egg=ellen
 execnet==1.1
 mime==0.0.3
 py==1.4.18
