@@ -86,12 +86,13 @@ class Handler(object):
             raise ServiceUnavailable(repr(e))
 
     def blame(self, path, ref, req_path, lineno):
-        try:
+        # try:
             repo = Jagare(path)
             ret = repo.blame(ref, path=req_path, lineno=lineno)
+            # assert 0, (path, ref, req_path, lineno)
             return BlameConverter(**ret).convert()
-        except Exception as e:
-            raise ServiceUnavailable(repr(e))
+        # except Exception as e:
+        #     raise ServiceUnavailable(repr(e))
 
     def format_patch(self, path, ref, from_ref):
         try:
