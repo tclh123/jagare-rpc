@@ -318,6 +318,34 @@ class Handler(object):
             raise ServiceUnavailable(repr(e))
 
     @check_none_result
+    def merge_flow(self, path, merger_name, merger_email,
+                   message_header, message_body, tmpdir,
+                   from_repo_path, from_ref, to_ref,
+                   remote_name, no_ff):
+        """merge with worktree(tmpdir)"""
+        try:
+            repo = Jagare(path)
+            ret = repo.merge_flow(merger_name, merger_email,
+                                  message_header, message_body, tmpdir,
+                                  from_repo_path, from_ref, to_ref,
+                                  remote_name=remote_name, no_ff=no_ff)
+            return ret
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    @check_none_result
+    def can_merge(self, path, tmpdir, from_repo_path, from_ref, to_ref,
+                  remote_name=None):
+        """test auto merge"""
+        try:
+            repo = Jagare(path)
+            ret = repo.can_merge(tmpdir, from_repo_path, from_ref, to_ref,
+                                 remote_name=remote_name)
+            return ret
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    @check_none_result
     def push(self, path, remote, ref, env):
         try:
             repo = Jagare(path)

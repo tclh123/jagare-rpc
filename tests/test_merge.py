@@ -132,3 +132,58 @@ def test_merge_commits(tmpdir, Jagare):
     assert t_repo.sha(sha1) == sha1
 
     assert ret.has_conflicts is False
+
+
+def test_merge_flow(tmpdir, no_ff, Jagare):
+    path = tmpdir.mkdir('to').strpath
+    from_repo_path = tmpdir.mkdir('from').strpath
+    tmpdir_ = tmpdir.mkdir('tmpdir').strpath
+    tmpdir2 = tmpdir.mkdir('tmpdir2').strpath
+
+    BR = 'br_test_merge'
+
+    repo = temp_repo.create_temp_repo(path, is_bare=True)
+    from_repo = repo.clone(from_repo_path, branch='master',
+                           bare=True)
+
+    # commit more things to from_repo:BR
+    ret = from_repo.create_branch(BR, 'master')
+    assert ret is True
+    temp_repo.commit_something(from_repo_path, branch=BR)
+
+    # different repo: from -> to
+    sha = Jagare.merge_flow(path, 'lh', 'lh@xxx.com',
+                            'test_header', 'test_body', tmpdir_,
+                            from_repo_path, BR, 'master',
+                            remote_name='hub/xxxproject', no_ff=no_ff)
+    assert sha
+
+    # same repo: from -> from
+    sha = Jagare.merge_flow(from_repo_path, 'lh', 'lh@xxx.com',
+                            'test_header', 'test_body', tmpdir2,
+                            from_repo_path, BR, 'master',
+                            remote_name=None, no_ff=True)
+    assert sha
+
+
+def test_can_merge(tmpdir, Jagare):
+    path = tmpdir.mkdir('to').strpath
+    from_repo_path = tmpdir.mkdir('from').strpath
+    tmp_dir = tmpdir.mkdir('tmpdir').strpath
+
+    BR = 'br_test_merge'
+
+    repo = temp_repo.create_temp_repo(path, is_bare=True)
+    from_repo = repo.clone(from_repo_path, branch='master',
+                           bare=True)
+
+    # commit more things to from_repo:BR
+    ret = from_repo.create_branch(BR, 'master')
+    assert ret is True
+    temp_repo.commit_something(from_repo_path, branch=BR)
+
+    # can_merge
+    ret = Jagare.can_merge(path, tmp_dir,
+                           from_repo_path, BR, 'master',
+                           remote_name='hub/xxxproject')
+    assert ret is True
