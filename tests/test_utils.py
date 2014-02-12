@@ -12,7 +12,5 @@ def test_check_none_result(tmpdir, Jagare):
 
     try:
         sha = Jagare.resolve_commit(path, 'master')
-    except NoneResult:
-        pass
-    except NoneResultMock:
-        pass
+    except Exception as e:
+        assert type(e) in (NoneResult, NoneResultMock)
