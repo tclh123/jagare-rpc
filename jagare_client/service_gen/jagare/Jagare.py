@@ -318,7 +318,7 @@ class Iface(object):
     """
     pass
 
-  def merge_flow(self, path, merger_name, merger_email, message_header, message_body, tmpdir, from_repo_path, from_ref, to_ref, remote_name, no_ff):
+  def merge_flow(self, path, merger_name, merger_email, message_header, message_body, from_repo_path, from_ref, to_ref, remote_name, no_ff):
     """
     Parameters:
      - path
@@ -326,7 +326,6 @@ class Iface(object):
      - merger_email
      - message_header
      - message_body
-     - tmpdir
      - from_repo_path
      - from_ref
      - to_ref
@@ -335,11 +334,10 @@ class Iface(object):
     """
     pass
 
-  def can_merge(self, path, tmpdir, from_repo_path, from_ref, to_ref, remote_name):
+  def can_merge(self, path, from_repo_path, from_ref, to_ref, remote_name):
     """
     Parameters:
      - path
-     - tmpdir
      - from_repo_path
      - from_ref
      - to_ref
@@ -1554,7 +1552,7 @@ class Client(Iface):
       raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "merge_commits failed: unknown result");
 
-  def merge_flow(self, path, merger_name, merger_email, message_header, message_body, tmpdir, from_repo_path, from_ref, to_ref, remote_name, no_ff):
+  def merge_flow(self, path, merger_name, merger_email, message_header, message_body, from_repo_path, from_ref, to_ref, remote_name, no_ff):
     """
     Parameters:
      - path
@@ -1562,17 +1560,16 @@ class Client(Iface):
      - merger_email
      - message_header
      - message_body
-     - tmpdir
      - from_repo_path
      - from_ref
      - to_ref
      - remote_name
      - no_ff
     """
-    self.send_merge_flow(path, merger_name, merger_email, message_header, message_body, tmpdir, from_repo_path, from_ref, to_ref, remote_name, no_ff)
+    self.send_merge_flow(path, merger_name, merger_email, message_header, message_body, from_repo_path, from_ref, to_ref, remote_name, no_ff)
     return self.recv_merge_flow()
 
-  def send_merge_flow(self, path, merger_name, merger_email, message_header, message_body, tmpdir, from_repo_path, from_ref, to_ref, remote_name, no_ff):
+  def send_merge_flow(self, path, merger_name, merger_email, message_header, message_body, from_repo_path, from_ref, to_ref, remote_name, no_ff):
     self._oprot.writeMessageBegin('merge_flow', TMessageType.CALL, self._seqid)
     args = merge_flow_args()
     args.path = path
@@ -1580,7 +1577,6 @@ class Client(Iface):
     args.merger_email = merger_email
     args.message_header = message_header
     args.message_body = message_body
-    args.tmpdir = tmpdir
     args.from_repo_path = from_repo_path
     args.from_ref = from_ref
     args.to_ref = to_ref
@@ -1608,24 +1604,22 @@ class Client(Iface):
       raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "merge_flow failed: unknown result");
 
-  def can_merge(self, path, tmpdir, from_repo_path, from_ref, to_ref, remote_name):
+  def can_merge(self, path, from_repo_path, from_ref, to_ref, remote_name):
     """
     Parameters:
      - path
-     - tmpdir
      - from_repo_path
      - from_ref
      - to_ref
      - remote_name
     """
-    self.send_can_merge(path, tmpdir, from_repo_path, from_ref, to_ref, remote_name)
+    self.send_can_merge(path, from_repo_path, from_ref, to_ref, remote_name)
     return self.recv_can_merge()
 
-  def send_can_merge(self, path, tmpdir, from_repo_path, from_ref, to_ref, remote_name):
+  def send_can_merge(self, path, from_repo_path, from_ref, to_ref, remote_name):
     self._oprot.writeMessageBegin('can_merge', TMessageType.CALL, self._seqid)
     args = can_merge_args()
     args.path = path
-    args.tmpdir = tmpdir
     args.from_repo_path = from_repo_path
     args.from_ref = from_ref
     args.to_ref = to_ref
@@ -2278,7 +2272,7 @@ class Processor(Iface, TProcessor):
     iprot.readMessageEnd()
     result = merge_flow_result()
     try:
-      result.success = self._handler.merge_flow(args.path, args.merger_name, args.merger_email, args.message_header, args.message_body, args.tmpdir, args.from_repo_path, args.from_ref, args.to_ref, args.remote_name, args.no_ff)
+      result.success = self._handler.merge_flow(args.path, args.merger_name, args.merger_email, args.message_header, args.message_body, args.from_repo_path, args.from_ref, args.to_ref, args.remote_name, args.no_ff)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
     except NoneResult as none_result:
@@ -2294,7 +2288,7 @@ class Processor(Iface, TProcessor):
     iprot.readMessageEnd()
     result = can_merge_result()
     try:
-      result.success = self._handler.can_merge(args.path, args.tmpdir, args.from_repo_path, args.from_ref, args.to_ref, args.remote_name)
+      result.success = self._handler.can_merge(args.path, args.from_repo_path, args.from_ref, args.to_ref, args.remote_name)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
     except NoneResult as none_result:
@@ -7831,7 +7825,6 @@ class merge_flow_args(object):
    - merger_email
    - message_header
    - message_body
-   - tmpdir
    - from_repo_path
    - from_ref
    - to_ref
@@ -7846,21 +7839,19 @@ class merge_flow_args(object):
     (3, TType.STRING, 'merger_email', None, None, ), # 3
     (4, TType.STRING, 'message_header', None, None, ), # 4
     (5, TType.STRING, 'message_body', None, None, ), # 5
-    (6, TType.STRING, 'tmpdir', None, None, ), # 6
-    (7, TType.STRING, 'from_repo_path', None, None, ), # 7
-    (8, TType.STRING, 'from_ref', None, None, ), # 8
-    (9, TType.STRING, 'to_ref', None, None, ), # 9
-    (10, TType.STRING, 'remote_name', None, None, ), # 10
-    (11, TType.BOOL, 'no_ff', None, None, ), # 11
+    (6, TType.STRING, 'from_repo_path', None, None, ), # 6
+    (7, TType.STRING, 'from_ref', None, None, ), # 7
+    (8, TType.STRING, 'to_ref', None, None, ), # 8
+    (9, TType.STRING, 'remote_name', None, None, ), # 9
+    (10, TType.BOOL, 'no_ff', None, None, ), # 10
   )
 
-  def __init__(self, path=None, merger_name=None, merger_email=None, message_header=None, message_body=None, tmpdir=None, from_repo_path=None, from_ref=None, to_ref=None, remote_name=None, no_ff=None,):
+  def __init__(self, path=None, merger_name=None, merger_email=None, message_header=None, message_body=None, from_repo_path=None, from_ref=None, to_ref=None, remote_name=None, no_ff=None,):
     self.path = path
     self.merger_name = merger_name
     self.merger_email = merger_email
     self.message_header = message_header
     self.message_body = message_body
-    self.tmpdir = tmpdir
     self.from_repo_path = from_repo_path
     self.from_ref = from_ref
     self.to_ref = to_ref
@@ -7903,30 +7894,25 @@ class merge_flow_args(object):
           iprot.skip(ftype)
       elif fid == 6:
         if ftype == TType.STRING:
-          self.tmpdir = iprot.readString();
+          self.from_repo_path = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 7:
         if ftype == TType.STRING:
-          self.from_repo_path = iprot.readString();
+          self.from_ref = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 8:
         if ftype == TType.STRING:
-          self.from_ref = iprot.readString();
+          self.to_ref = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 9:
         if ftype == TType.STRING:
-          self.to_ref = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 10:
-        if ftype == TType.STRING:
           self.remote_name = iprot.readString();
         else:
           iprot.skip(ftype)
-      elif fid == 11:
+      elif fid == 10:
         if ftype == TType.BOOL:
           self.no_ff = iprot.readBool();
         else:
@@ -7962,28 +7948,24 @@ class merge_flow_args(object):
       oprot.writeFieldBegin('message_body', TType.STRING, 5)
       oprot.writeString(self.message_body)
       oprot.writeFieldEnd()
-    if self.tmpdir is not None:
-      oprot.writeFieldBegin('tmpdir', TType.STRING, 6)
-      oprot.writeString(self.tmpdir)
-      oprot.writeFieldEnd()
     if self.from_repo_path is not None:
-      oprot.writeFieldBegin('from_repo_path', TType.STRING, 7)
+      oprot.writeFieldBegin('from_repo_path', TType.STRING, 6)
       oprot.writeString(self.from_repo_path)
       oprot.writeFieldEnd()
     if self.from_ref is not None:
-      oprot.writeFieldBegin('from_ref', TType.STRING, 8)
+      oprot.writeFieldBegin('from_ref', TType.STRING, 7)
       oprot.writeString(self.from_ref)
       oprot.writeFieldEnd()
     if self.to_ref is not None:
-      oprot.writeFieldBegin('to_ref', TType.STRING, 9)
+      oprot.writeFieldBegin('to_ref', TType.STRING, 8)
       oprot.writeString(self.to_ref)
       oprot.writeFieldEnd()
     if self.remote_name is not None:
-      oprot.writeFieldBegin('remote_name', TType.STRING, 10)
+      oprot.writeFieldBegin('remote_name', TType.STRING, 9)
       oprot.writeString(self.remote_name)
       oprot.writeFieldEnd()
     if self.no_ff is not None:
-      oprot.writeFieldBegin('no_ff', TType.BOOL, 11)
+      oprot.writeFieldBegin('no_ff', TType.BOOL, 10)
       oprot.writeBool(self.no_ff)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -8094,7 +8076,6 @@ class can_merge_args(object):
   """
   Attributes:
    - path
-   - tmpdir
    - from_repo_path
    - from_ref
    - to_ref
@@ -8104,16 +8085,14 @@ class can_merge_args(object):
   thrift_spec = (
     None, # 0
     (1, TType.STRING, 'path', None, None, ), # 1
-    (2, TType.STRING, 'tmpdir', None, None, ), # 2
-    (3, TType.STRING, 'from_repo_path', None, None, ), # 3
-    (4, TType.STRING, 'from_ref', None, None, ), # 4
-    (5, TType.STRING, 'to_ref', None, None, ), # 5
-    (6, TType.STRING, 'remote_name', None, None, ), # 6
+    (2, TType.STRING, 'from_repo_path', None, None, ), # 2
+    (3, TType.STRING, 'from_ref', None, None, ), # 3
+    (4, TType.STRING, 'to_ref', None, None, ), # 4
+    (5, TType.STRING, 'remote_name', None, None, ), # 5
   )
 
-  def __init__(self, path=None, tmpdir=None, from_repo_path=None, from_ref=None, to_ref=None, remote_name=None,):
+  def __init__(self, path=None, from_repo_path=None, from_ref=None, to_ref=None, remote_name=None,):
     self.path = path
-    self.tmpdir = tmpdir
     self.from_repo_path = from_repo_path
     self.from_ref = from_ref
     self.to_ref = to_ref
@@ -8135,25 +8114,20 @@ class can_merge_args(object):
           iprot.skip(ftype)
       elif fid == 2:
         if ftype == TType.STRING:
-          self.tmpdir = iprot.readString();
+          self.from_repo_path = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 3:
         if ftype == TType.STRING:
-          self.from_repo_path = iprot.readString();
+          self.from_ref = iprot.readString();
         else:
           iprot.skip(ftype)
       elif fid == 4:
         if ftype == TType.STRING:
-          self.from_ref = iprot.readString();
-        else:
-          iprot.skip(ftype)
-      elif fid == 5:
-        if ftype == TType.STRING:
           self.to_ref = iprot.readString();
         else:
           iprot.skip(ftype)
-      elif fid == 6:
+      elif fid == 5:
         if ftype == TType.STRING:
           self.remote_name = iprot.readString();
         else:
@@ -8173,24 +8147,20 @@ class can_merge_args(object):
       oprot.writeFieldBegin('path', TType.STRING, 1)
       oprot.writeString(self.path)
       oprot.writeFieldEnd()
-    if self.tmpdir is not None:
-      oprot.writeFieldBegin('tmpdir', TType.STRING, 2)
-      oprot.writeString(self.tmpdir)
-      oprot.writeFieldEnd()
     if self.from_repo_path is not None:
-      oprot.writeFieldBegin('from_repo_path', TType.STRING, 3)
+      oprot.writeFieldBegin('from_repo_path', TType.STRING, 2)
       oprot.writeString(self.from_repo_path)
       oprot.writeFieldEnd()
     if self.from_ref is not None:
-      oprot.writeFieldBegin('from_ref', TType.STRING, 4)
+      oprot.writeFieldBegin('from_ref', TType.STRING, 3)
       oprot.writeString(self.from_ref)
       oprot.writeFieldEnd()
     if self.to_ref is not None:
-      oprot.writeFieldBegin('to_ref', TType.STRING, 5)
+      oprot.writeFieldBegin('to_ref', TType.STRING, 4)
       oprot.writeString(self.to_ref)
       oprot.writeFieldEnd()
     if self.remote_name is not None:
-      oprot.writeFieldBegin('remote_name', TType.STRING, 6)
+      oprot.writeFieldBegin('remote_name', TType.STRING, 5)
       oprot.writeString(self.remote_name)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()

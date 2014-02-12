@@ -351,16 +351,16 @@ service Jagare {
         ),
 
     string merge_flow(1:string path, 2:string merger_name, 3:string merger_email,
-                      4:string message_header, 5:string message_body, 6:string tmpdir,
-                      7:string from_repo_path, 8:string from_ref, 9:string to_ref,
-                      10:string remote_name, 11:bool no_ff)
+                      4:string message_header, 5:string message_body,
+                      6:string from_repo_path, 7:string from_ref, 8:string to_ref,
+                      9:string remote_name, 10:bool no_ff)
         throws (
             1: ServiceUnavailable unavailable,
             2: NoneResult none_result,
         ),
 
-    bool can_merge(1:string path, 2:string tmpdir, 3:string from_repo_path,
-                   4:string from_ref, 5:string to_ref, 6:string remote_name)
+    bool can_merge(1:string path, 2:string from_repo_path,
+                   3:string from_ref, 4:string to_ref, 5:string remote_name)
         throws (
             1: ServiceUnavailable unavailable,
             2: NoneResult none_result,
