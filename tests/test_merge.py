@@ -137,8 +137,6 @@ def test_merge_commits(tmpdir, Jagare):
 def test_merge_flow(tmpdir, no_ff, Jagare):
     path = tmpdir.mkdir('to').strpath
     from_repo_path = tmpdir.mkdir('from').strpath
-    tmpdir_ = tmpdir.mkdir('tmpdir').strpath
-    tmpdir2 = tmpdir.mkdir('tmpdir2').strpath
 
     BR = 'br_test_merge'
 
@@ -153,14 +151,14 @@ def test_merge_flow(tmpdir, no_ff, Jagare):
 
     # different repo: from -> to
     sha = Jagare.merge_flow(path, 'lh', 'lh@xxx.com',
-                            'test_header', 'test_body', tmpdir_,
+                            'test_header', 'test_body',
                             from_repo_path, BR, 'master',
                             remote_name='hub/xxxproject', no_ff=no_ff)
     assert sha
 
     # same repo: from -> from
     sha = Jagare.merge_flow(from_repo_path, 'lh', 'lh@xxx.com',
-                            'test_header', 'test_body', tmpdir2,
+                            'test_header', 'test_body',
                             from_repo_path, BR, 'master',
                             remote_name=None, no_ff=True)
     assert sha
@@ -169,7 +167,6 @@ def test_merge_flow(tmpdir, no_ff, Jagare):
 def test_can_merge(tmpdir, Jagare):
     path = tmpdir.mkdir('to').strpath
     from_repo_path = tmpdir.mkdir('from').strpath
-    tmp_dir = tmpdir.mkdir('tmpdir').strpath
 
     BR = 'br_test_merge'
 
@@ -183,7 +180,7 @@ def test_can_merge(tmpdir, Jagare):
     temp_repo.commit_something(from_repo_path, branch=BR)
 
     # can_merge
-    ret = Jagare.can_merge(path, tmp_dir,
+    ret = Jagare.can_merge(path,
                            from_repo_path, BR, 'master',
                            remote_name='hub/xxxproject')
     assert ret is True
