@@ -270,6 +270,16 @@ class Iface(object):
     """
     pass
 
+  def fetch_raw(self, path, name, is_q, env):
+    """
+    Parameters:
+     - path
+     - name
+     - is_q
+     - env
+    """
+    pass
+
   def merge(self, path, ref, msg, commit_msg, no_ff, env):
     """
     Parameters:
@@ -305,6 +315,35 @@ class Iface(object):
      - path
      - ours
      - theirs
+    """
+    pass
+
+  def merge_flow(self, path, merger_name, merger_email, message_header, message_body, tmpdir, from_repo_path, from_ref, to_ref, remote_name, no_ff):
+    """
+    Parameters:
+     - path
+     - merger_name
+     - merger_email
+     - message_header
+     - message_body
+     - tmpdir
+     - from_repo_path
+     - from_ref
+     - to_ref
+     - remote_name
+     - no_ff
+    """
+    pass
+
+  def can_merge(self, path, tmpdir, from_repo_path, from_ref, to_ref, remote_name):
+    """
+    Parameters:
+     - path
+     - tmpdir
+     - from_repo_path
+     - from_ref
+     - to_ref
+     - remote_name
     """
     pass
 
@@ -1339,6 +1378,26 @@ class Client(Iface):
     args.write(self._oprot)
     self._oprot.writeMessageEnd()
     self._oprot.trans.flush()
+  def fetch_raw(self, path, name, is_q, env):
+    """
+    Parameters:
+     - path
+     - name
+     - is_q
+     - env
+    """
+    self.send_fetch_raw(path, name, is_q, env)
+
+  def send_fetch_raw(self, path, name, is_q, env):
+    self._oprot.writeMessageBegin('fetch_raw', TMessageType.CALL, self._seqid)
+    args = fetch_raw_args()
+    args.path = path
+    args.name = name
+    args.is_q = is_q
+    args.env = env
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
   def merge(self, path, ref, msg, commit_msg, no_ff, env):
     """
     Parameters:
@@ -1495,6 +1554,104 @@ class Client(Iface):
       raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "merge_commits failed: unknown result");
 
+  def merge_flow(self, path, merger_name, merger_email, message_header, message_body, tmpdir, from_repo_path, from_ref, to_ref, remote_name, no_ff):
+    """
+    Parameters:
+     - path
+     - merger_name
+     - merger_email
+     - message_header
+     - message_body
+     - tmpdir
+     - from_repo_path
+     - from_ref
+     - to_ref
+     - remote_name
+     - no_ff
+    """
+    self.send_merge_flow(path, merger_name, merger_email, message_header, message_body, tmpdir, from_repo_path, from_ref, to_ref, remote_name, no_ff)
+    return self.recv_merge_flow()
+
+  def send_merge_flow(self, path, merger_name, merger_email, message_header, message_body, tmpdir, from_repo_path, from_ref, to_ref, remote_name, no_ff):
+    self._oprot.writeMessageBegin('merge_flow', TMessageType.CALL, self._seqid)
+    args = merge_flow_args()
+    args.path = path
+    args.merger_name = merger_name
+    args.merger_email = merger_email
+    args.message_header = message_header
+    args.message_body = message_body
+    args.tmpdir = tmpdir
+    args.from_repo_path = from_repo_path
+    args.from_ref = from_ref
+    args.to_ref = to_ref
+    args.remote_name = remote_name
+    args.no_ff = no_ff
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_merge_flow(self, ):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = merge_flow_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    if result.success is not None:
+      return result.success
+    if result.unavailable is not None:
+      raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "merge_flow failed: unknown result");
+
+  def can_merge(self, path, tmpdir, from_repo_path, from_ref, to_ref, remote_name):
+    """
+    Parameters:
+     - path
+     - tmpdir
+     - from_repo_path
+     - from_ref
+     - to_ref
+     - remote_name
+    """
+    self.send_can_merge(path, tmpdir, from_repo_path, from_ref, to_ref, remote_name)
+    return self.recv_can_merge()
+
+  def send_can_merge(self, path, tmpdir, from_repo_path, from_ref, to_ref, remote_name):
+    self._oprot.writeMessageBegin('can_merge', TMessageType.CALL, self._seqid)
+    args = can_merge_args()
+    args.path = path
+    args.tmpdir = tmpdir
+    args.from_repo_path = from_repo_path
+    args.from_ref = from_ref
+    args.to_ref = to_ref
+    args.remote_name = remote_name
+    args.write(self._oprot)
+    self._oprot.writeMessageEnd()
+    self._oprot.trans.flush()
+
+  def recv_can_merge(self, ):
+    (fname, mtype, rseqid) = self._iprot.readMessageBegin()
+    if mtype == TMessageType.EXCEPTION:
+      x = TApplicationException()
+      x.read(self._iprot)
+      self._iprot.readMessageEnd()
+      raise x
+    result = can_merge_result()
+    result.read(self._iprot)
+    self._iprot.readMessageEnd()
+    if result.success is not None:
+      return result.success
+    if result.unavailable is not None:
+      raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
+    raise TApplicationException(TApplicationException.MISSING_RESULT, "can_merge failed: unknown result");
+
   def push(self, path, remote, ref, env):
     """
     Parameters:
@@ -1605,10 +1762,13 @@ class Processor(Iface, TProcessor):
     self._processMap["merge_base"] = Processor.process_merge_base
     self._processMap["fetch_all"] = Processor.process_fetch_all
     self._processMap["fetch"] = Processor.process_fetch
+    self._processMap["fetch_raw"] = Processor.process_fetch_raw
     self._processMap["merge"] = Processor.process_merge
     self._processMap["merge_tree"] = Processor.process_merge_tree
     self._processMap["merge_head"] = Processor.process_merge_head
     self._processMap["merge_commits"] = Processor.process_merge_commits
+    self._processMap["merge_flow"] = Processor.process_merge_flow
+    self._processMap["can_merge"] = Processor.process_can_merge
     self._processMap["push"] = Processor.process_push
     self._processMap["archive"] = Processor.process_archive
 
@@ -2041,6 +2201,13 @@ class Processor(Iface, TProcessor):
     self._handler.fetch(args.path, args.name)
     return
 
+  def process_fetch_raw(self, seqid, iprot, oprot):
+    args = fetch_raw_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    self._handler.fetch_raw(args.path, args.name, args.is_q, args.env)
+    return
+
   def process_merge(self, seqid, iprot, oprot):
     args = merge_args()
     args.read(iprot)
@@ -2101,6 +2268,38 @@ class Processor(Iface, TProcessor):
     except NoneResult as none_result:
       result.none_result = none_result
     oprot.writeMessageBegin("merge_commits", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_merge_flow(self, seqid, iprot, oprot):
+    args = merge_flow_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = merge_flow_result()
+    try:
+      result.success = self._handler.merge_flow(args.path, args.merger_name, args.merger_email, args.message_header, args.message_body, args.tmpdir, args.from_repo_path, args.from_ref, args.to_ref, args.remote_name, args.no_ff)
+    except ServiceUnavailable as unavailable:
+      result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
+    oprot.writeMessageBegin("merge_flow", TMessageType.REPLY, seqid)
+    result.write(oprot)
+    oprot.writeMessageEnd()
+    oprot.trans.flush()
+
+  def process_can_merge(self, seqid, iprot, oprot):
+    args = can_merge_args()
+    args.read(iprot)
+    iprot.readMessageEnd()
+    result = can_merge_result()
+    try:
+      result.success = self._handler.can_merge(args.path, args.tmpdir, args.from_repo_path, args.from_ref, args.to_ref, args.remote_name)
+    except ServiceUnavailable as unavailable:
+      result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
+    oprot.writeMessageBegin("can_merge", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
     oprot.trans.flush()
@@ -6795,6 +6994,113 @@ class fetch_args(object):
   def __ne__(self, other):
     return not (self == other)
 
+class fetch_raw_args(object):
+  """
+  Attributes:
+   - path
+   - name
+   - is_q
+   - env
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'path', None, None, ), # 1
+    (2, TType.STRING, 'name', None, None, ), # 2
+    (3, TType.BOOL, 'is_q', None, None, ), # 3
+    (4, TType.MAP, 'env', (TType.STRING,None,TType.STRING,None), None, ), # 4
+  )
+
+  def __init__(self, path=None, name=None, is_q=None, env=None,):
+    self.path = path
+    self.name = name
+    self.is_q = is_q
+    self.env = env
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.name = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.BOOL:
+          self.is_q = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.MAP:
+          self.env = {}
+          (_ktype126, _vtype127, _size125 ) = iprot.readMapBegin() 
+          for _i129 in xrange(_size125):
+            _key130 = iprot.readString();
+            _val131 = iprot.readString();
+            self.env[_key130] = _val131
+          iprot.readMapEnd()
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('fetch_raw_args')
+    if self.path is not None:
+      oprot.writeFieldBegin('path', TType.STRING, 1)
+      oprot.writeString(self.path)
+      oprot.writeFieldEnd()
+    if self.name is not None:
+      oprot.writeFieldBegin('name', TType.STRING, 2)
+      oprot.writeString(self.name)
+      oprot.writeFieldEnd()
+    if self.is_q is not None:
+      oprot.writeFieldBegin('is_q', TType.BOOL, 3)
+      oprot.writeBool(self.is_q)
+      oprot.writeFieldEnd()
+    if self.env is not None:
+      oprot.writeFieldBegin('env', TType.MAP, 4)
+      oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
+      for kiter132,viter133 in self.env.items():
+        oprot.writeString(kiter132)
+        oprot.writeString(viter133)
+      oprot.writeMapEnd()
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
 class merge_args(object):
   """
   Attributes:
@@ -6861,11 +7167,11 @@ class merge_args(object):
       elif fid == 6:
         if ftype == TType.MAP:
           self.env = {}
-          (_ktype126, _vtype127, _size125 ) = iprot.readMapBegin() 
-          for _i129 in xrange(_size125):
-            _key130 = iprot.readString();
-            _val131 = iprot.readString();
-            self.env[_key130] = _val131
+          (_ktype135, _vtype136, _size134 ) = iprot.readMapBegin() 
+          for _i138 in xrange(_size134):
+            _key139 = iprot.readString();
+            _val140 = iprot.readString();
+            self.env[_key139] = _val140
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -6903,9 +7209,9 @@ class merge_args(object):
     if self.env is not None:
       oprot.writeFieldBegin('env', TType.MAP, 6)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
-      for kiter132,viter133 in self.env.items():
-        oprot.writeString(kiter132)
-        oprot.writeString(viter133)
+      for kiter141,viter142 in self.env.items():
+        oprot.writeString(kiter141)
+        oprot.writeString(viter142)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
@@ -7517,6 +7823,480 @@ class merge_commits_result(object):
   def __ne__(self, other):
     return not (self == other)
 
+class merge_flow_args(object):
+  """
+  Attributes:
+   - path
+   - merger_name
+   - merger_email
+   - message_header
+   - message_body
+   - tmpdir
+   - from_repo_path
+   - from_ref
+   - to_ref
+   - remote_name
+   - no_ff
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'path', None, None, ), # 1
+    (2, TType.STRING, 'merger_name', None, None, ), # 2
+    (3, TType.STRING, 'merger_email', None, None, ), # 3
+    (4, TType.STRING, 'message_header', None, None, ), # 4
+    (5, TType.STRING, 'message_body', None, None, ), # 5
+    (6, TType.STRING, 'tmpdir', None, None, ), # 6
+    (7, TType.STRING, 'from_repo_path', None, None, ), # 7
+    (8, TType.STRING, 'from_ref', None, None, ), # 8
+    (9, TType.STRING, 'to_ref', None, None, ), # 9
+    (10, TType.STRING, 'remote_name', None, None, ), # 10
+    (11, TType.BOOL, 'no_ff', None, None, ), # 11
+  )
+
+  def __init__(self, path=None, merger_name=None, merger_email=None, message_header=None, message_body=None, tmpdir=None, from_repo_path=None, from_ref=None, to_ref=None, remote_name=None, no_ff=None,):
+    self.path = path
+    self.merger_name = merger_name
+    self.merger_email = merger_email
+    self.message_header = message_header
+    self.message_body = message_body
+    self.tmpdir = tmpdir
+    self.from_repo_path = from_repo_path
+    self.from_ref = from_ref
+    self.to_ref = to_ref
+    self.remote_name = remote_name
+    self.no_ff = no_ff
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.merger_name = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.merger_email = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.message_header = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRING:
+          self.message_body = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.STRING:
+          self.tmpdir = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 7:
+        if ftype == TType.STRING:
+          self.from_repo_path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 8:
+        if ftype == TType.STRING:
+          self.from_ref = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 9:
+        if ftype == TType.STRING:
+          self.to_ref = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 10:
+        if ftype == TType.STRING:
+          self.remote_name = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 11:
+        if ftype == TType.BOOL:
+          self.no_ff = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('merge_flow_args')
+    if self.path is not None:
+      oprot.writeFieldBegin('path', TType.STRING, 1)
+      oprot.writeString(self.path)
+      oprot.writeFieldEnd()
+    if self.merger_name is not None:
+      oprot.writeFieldBegin('merger_name', TType.STRING, 2)
+      oprot.writeString(self.merger_name)
+      oprot.writeFieldEnd()
+    if self.merger_email is not None:
+      oprot.writeFieldBegin('merger_email', TType.STRING, 3)
+      oprot.writeString(self.merger_email)
+      oprot.writeFieldEnd()
+    if self.message_header is not None:
+      oprot.writeFieldBegin('message_header', TType.STRING, 4)
+      oprot.writeString(self.message_header)
+      oprot.writeFieldEnd()
+    if self.message_body is not None:
+      oprot.writeFieldBegin('message_body', TType.STRING, 5)
+      oprot.writeString(self.message_body)
+      oprot.writeFieldEnd()
+    if self.tmpdir is not None:
+      oprot.writeFieldBegin('tmpdir', TType.STRING, 6)
+      oprot.writeString(self.tmpdir)
+      oprot.writeFieldEnd()
+    if self.from_repo_path is not None:
+      oprot.writeFieldBegin('from_repo_path', TType.STRING, 7)
+      oprot.writeString(self.from_repo_path)
+      oprot.writeFieldEnd()
+    if self.from_ref is not None:
+      oprot.writeFieldBegin('from_ref', TType.STRING, 8)
+      oprot.writeString(self.from_ref)
+      oprot.writeFieldEnd()
+    if self.to_ref is not None:
+      oprot.writeFieldBegin('to_ref', TType.STRING, 9)
+      oprot.writeString(self.to_ref)
+      oprot.writeFieldEnd()
+    if self.remote_name is not None:
+      oprot.writeFieldBegin('remote_name', TType.STRING, 10)
+      oprot.writeString(self.remote_name)
+      oprot.writeFieldEnd()
+    if self.no_ff is not None:
+      oprot.writeFieldBegin('no_ff', TType.BOOL, 11)
+      oprot.writeBool(self.no_ff)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class merge_flow_result(object):
+  """
+  Attributes:
+   - success
+   - unavailable
+   - none_result
+  """
+
+  thrift_spec = (
+    (0, TType.STRING, 'success', None, None, ), # 0
+    (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
+  )
+
+  def __init__(self, success=None, unavailable=None, none_result=None,):
+    self.success = success
+    self.unavailable = unavailable
+    self.none_result = none_result
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 0:
+        if ftype == TType.STRING:
+          self.success = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 1:
+        if ftype == TType.STRUCT:
+          self.unavailable = ServiceUnavailable()
+          self.unavailable.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('merge_flow_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.STRING, 0)
+      oprot.writeString(self.success)
+      oprot.writeFieldEnd()
+    if self.unavailable is not None:
+      oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
+      self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class can_merge_args(object):
+  """
+  Attributes:
+   - path
+   - tmpdir
+   - from_repo_path
+   - from_ref
+   - to_ref
+   - remote_name
+  """
+
+  thrift_spec = (
+    None, # 0
+    (1, TType.STRING, 'path', None, None, ), # 1
+    (2, TType.STRING, 'tmpdir', None, None, ), # 2
+    (3, TType.STRING, 'from_repo_path', None, None, ), # 3
+    (4, TType.STRING, 'from_ref', None, None, ), # 4
+    (5, TType.STRING, 'to_ref', None, None, ), # 5
+    (6, TType.STRING, 'remote_name', None, None, ), # 6
+  )
+
+  def __init__(self, path=None, tmpdir=None, from_repo_path=None, from_ref=None, to_ref=None, remote_name=None,):
+    self.path = path
+    self.tmpdir = tmpdir
+    self.from_repo_path = from_repo_path
+    self.from_ref = from_ref
+    self.to_ref = to_ref
+    self.remote_name = remote_name
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 1:
+        if ftype == TType.STRING:
+          self.path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRING:
+          self.tmpdir = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 3:
+        if ftype == TType.STRING:
+          self.from_repo_path = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 4:
+        if ftype == TType.STRING:
+          self.from_ref = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 5:
+        if ftype == TType.STRING:
+          self.to_ref = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      elif fid == 6:
+        if ftype == TType.STRING:
+          self.remote_name = iprot.readString();
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('can_merge_args')
+    if self.path is not None:
+      oprot.writeFieldBegin('path', TType.STRING, 1)
+      oprot.writeString(self.path)
+      oprot.writeFieldEnd()
+    if self.tmpdir is not None:
+      oprot.writeFieldBegin('tmpdir', TType.STRING, 2)
+      oprot.writeString(self.tmpdir)
+      oprot.writeFieldEnd()
+    if self.from_repo_path is not None:
+      oprot.writeFieldBegin('from_repo_path', TType.STRING, 3)
+      oprot.writeString(self.from_repo_path)
+      oprot.writeFieldEnd()
+    if self.from_ref is not None:
+      oprot.writeFieldBegin('from_ref', TType.STRING, 4)
+      oprot.writeString(self.from_ref)
+      oprot.writeFieldEnd()
+    if self.to_ref is not None:
+      oprot.writeFieldBegin('to_ref', TType.STRING, 5)
+      oprot.writeString(self.to_ref)
+      oprot.writeFieldEnd()
+    if self.remote_name is not None:
+      oprot.writeFieldBegin('remote_name', TType.STRING, 6)
+      oprot.writeString(self.remote_name)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
+class can_merge_result(object):
+  """
+  Attributes:
+   - success
+   - unavailable
+   - none_result
+  """
+
+  thrift_spec = (
+    (0, TType.BOOL, 'success', None, None, ), # 0
+    (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
+  )
+
+  def __init__(self, success=None, unavailable=None, none_result=None,):
+    self.success = success
+    self.unavailable = unavailable
+    self.none_result = none_result
+
+  def read(self, iprot):
+    if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
+      fastbinary.decode_binary(self, iprot.trans, (self.__class__, self.thrift_spec))
+      return
+    iprot.readStructBegin()
+    while True:
+      (fname, ftype, fid) = iprot.readFieldBegin()
+      if ftype == TType.STOP:
+        break
+      if fid == 0:
+        if ftype == TType.BOOL:
+          self.success = iprot.readBool();
+        else:
+          iprot.skip(ftype)
+      elif fid == 1:
+        if ftype == TType.STRUCT:
+          self.unavailable = ServiceUnavailable()
+          self.unavailable.read(iprot)
+        else:
+          iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
+      else:
+        iprot.skip(ftype)
+      iprot.readFieldEnd()
+    iprot.readStructEnd()
+
+  def write(self, oprot):
+    self.validate()
+    if oprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and self.thrift_spec is not None and fastbinary is not None:
+      oprot.trans.write(fastbinary.encode_binary(self, (self.__class__, self.thrift_spec)))
+      return
+    oprot.writeStructBegin('can_merge_result')
+    if self.success is not None:
+      oprot.writeFieldBegin('success', TType.BOOL, 0)
+      oprot.writeBool(self.success)
+      oprot.writeFieldEnd()
+    if self.unavailable is not None:
+      oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
+      self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
+      oprot.writeFieldEnd()
+    oprot.writeFieldStop()
+    oprot.writeStructEnd()
+
+  def validate(self):
+    return
+
+
+  def __repr__(self):
+    L = ['%s=%r' % (key, value)
+      for key, value in self.__dict__.iteritems()]
+    return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+  def __eq__(self, other):
+    return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+  def __ne__(self, other):
+    return not (self == other)
+
 class push_args(object):
   """
   Attributes:
@@ -7567,11 +8347,11 @@ class push_args(object):
       elif fid == 4:
         if ftype == TType.MAP:
           self.env = {}
-          (_ktype135, _vtype136, _size134 ) = iprot.readMapBegin() 
-          for _i138 in xrange(_size134):
-            _key139 = iprot.readString();
-            _val140 = iprot.readString();
-            self.env[_key139] = _val140
+          (_ktype144, _vtype145, _size143 ) = iprot.readMapBegin() 
+          for _i147 in xrange(_size143):
+            _key148 = iprot.readString();
+            _val149 = iprot.readString();
+            self.env[_key148] = _val149
           iprot.readMapEnd()
         else:
           iprot.skip(ftype)
@@ -7601,9 +8381,9 @@ class push_args(object):
     if self.env is not None:
       oprot.writeFieldBegin('env', TType.MAP, 4)
       oprot.writeMapBegin(TType.STRING, TType.STRING, len(self.env))
-      for kiter141,viter142 in self.env.items():
-        oprot.writeString(kiter141)
-        oprot.writeString(viter142)
+      for kiter150,viter151 in self.env.items():
+        oprot.writeString(kiter150)
+        oprot.writeString(viter151)
       oprot.writeMapEnd()
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
