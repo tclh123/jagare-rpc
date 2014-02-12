@@ -280,6 +280,10 @@ class Handler(object):
         repo = Jagare(path)
         repo.fetch(name)
 
+    def fetch_raw(self, path, name, is_q, env):
+        repo = Jagare(path)
+        repo.fetch_(name, is_q, env)
+
     @check_none_result
     def merge(self, path, ref, msg, commit_msg, no_ff, env):
         try:

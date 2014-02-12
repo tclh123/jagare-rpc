@@ -321,6 +321,9 @@ service Jagare {
 
     oneway void fetch(1:string path, 2:string name)
 
+    oneway void fetch_raw(1:string path, 2:string name, 3:bool is_q,
+                          4:map<string, string> env)
+
     ProcessResult merge(1:string path, 2:string ref, 3:string msg, 4:string commit_msg,
                         5:bool no_ff, 6:map<string, string> env)
         throws (
