@@ -150,30 +150,39 @@ exception ServiceUnavailable {
     1: string message,
 }
 
+exception NoneResult {
+    1: string message,
+}
+
 service Jagare {
     Repository get(1:string path)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     list<string> list_branches(1:string path)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     list<string> list_remotes(1:string path)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     list<string> list_tags(1:string path)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     GitObject show(1:string path, 2:string ref)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     # TODO: fix retval after refactor ellen
@@ -181,6 +190,7 @@ service Jagare {
                    5:bool with_size, 6:bool with_commit, 7:bool name_only)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     list<Commit> rev_list(1:string path, 2:string to_ref, 3:string from_ref,
@@ -189,21 +199,25 @@ service Jagare {
                           11:bool no_merges)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     Blame blame(1:string path, 2:string ref, 3:string req_path, 4:i32 lineno)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     string format_patch(1:string path, 2:string ref, 3:string from_ref)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     map<string, string> detect_renamed(1:string path, 2:string ref)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     bool commit(1:string path, 2:string branch, 3:string parent_ref,
@@ -211,6 +225,7 @@ service Jagare {
                 6:string message, 7:string reflog, 8:list<list<string>> data)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     Diff diff(1:string path, 2:string ref, 3:string from_ref, 4:bool ignore_space,
@@ -218,32 +233,38 @@ service Jagare {
               8:bool rename_detection)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     string resolve_commit(1:string path, 2:string version)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     string resolve_type(1:string path, 2:string version)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     bool create_branch(1:string path, 2:string name, 3:string ref, 4:bool force)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     bool delete_branch(1:string path, 2:string name)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     Repository clone_to(1:string path, 2:string to_path, 3:bool is_bare, 4:string branch,
                      5:bool is_mirror, 6:map<string, string> env)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     # classmethod
@@ -251,42 +272,50 @@ service Jagare {
                       4:string branch, 5:map<string, string> env)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     # classmethod
     Repository init(1:string to_path, 2:string work_path, 3:bool is_bare)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     list<string> list_references(1:string path)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     bool add_remote(1:string path, 2:string name, 3:string url)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     bool update_ref(1:string path, 2:string ref, 3:string newvalue)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     bool update_head(1:string path, 2:string branch_name)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     string sha(1:string path, 2:string rev)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     string merge_base(1:string path, 2:string to_sha, 3:string from_sha)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     oneway void fetch_all(1:string path)
@@ -297,31 +326,37 @@ service Jagare {
                         5:bool no_ff, 6:map<string, string> env)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     MergeIndex merge_tree(1:string path, 2:string ours, 3:string theirs)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     MergeResult merge_head(1:string path, 2:string ref)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     MergeIndex merge_commits(1:string path, 2:string ours, 3:string theirs)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     ProcessResult push(1:string path, 2:string remote, 3:string ref
                        4:map<string, string> env)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 
     string archive(1:string path, 2:string prefix, 3:string ref)
         throws (
             1: ServiceUnavailable unavailable,
+            2: NoneResult none_result,
         ),
 }

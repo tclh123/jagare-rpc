@@ -365,6 +365,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "get failed: unknown result");
 
   def list_branches(self, path):
@@ -397,6 +399,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "list_branches failed: unknown result");
 
   def list_remotes(self, path):
@@ -429,6 +433,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "list_remotes failed: unknown result");
 
   def list_tags(self, path):
@@ -461,6 +467,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "list_tags failed: unknown result");
 
   def show(self, path, ref):
@@ -495,6 +503,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "show failed: unknown result");
 
   def ls_tree(self, path, ref, req_path, recursive, with_size, with_commit, name_only):
@@ -539,6 +549,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "ls_tree failed: unknown result");
 
   def rev_list(self, path, to_ref, from_ref, file_path, skip, max_count, author, query, first_parent, since, no_merges):
@@ -591,6 +603,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "rev_list failed: unknown result");
 
   def blame(self, path, ref, req_path, lineno):
@@ -629,6 +643,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "blame failed: unknown result");
 
   def format_patch(self, path, ref, from_ref):
@@ -665,6 +681,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "format_patch failed: unknown result");
 
   def detect_renamed(self, path, ref):
@@ -699,6 +717,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "detect_renamed failed: unknown result");
 
   def commit(self, path, branch, parent_ref, author_name, author_email, message, reflog, data):
@@ -745,6 +765,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "commit failed: unknown result");
 
   def diff(self, path, ref, from_ref, ignore_space, flags, context_lines, paths, rename_detection):
@@ -791,6 +813,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "diff failed: unknown result");
 
   def resolve_commit(self, path, version):
@@ -825,6 +849,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "resolve_commit failed: unknown result");
 
   def resolve_type(self, path, version):
@@ -859,6 +885,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "resolve_type failed: unknown result");
 
   def create_branch(self, path, name, ref, force):
@@ -897,6 +925,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "create_branch failed: unknown result");
 
   def delete_branch(self, path, name):
@@ -931,6 +961,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "delete_branch failed: unknown result");
 
   def clone_to(self, path, to_path, is_bare, branch, is_mirror, env):
@@ -973,6 +1005,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "clone_to failed: unknown result");
 
   def mirror(self, url, to_path, is_bare, branch, env):
@@ -1013,6 +1047,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "mirror failed: unknown result");
 
   def init(self, to_path, work_path, is_bare):
@@ -1049,6 +1085,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "init failed: unknown result");
 
   def list_references(self, path):
@@ -1081,6 +1119,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "list_references failed: unknown result");
 
   def add_remote(self, path, name, url):
@@ -1117,6 +1157,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "add_remote failed: unknown result");
 
   def update_ref(self, path, ref, newvalue):
@@ -1153,6 +1195,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "update_ref failed: unknown result");
 
   def update_head(self, path, branch_name):
@@ -1187,6 +1231,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "update_head failed: unknown result");
 
   def sha(self, path, rev):
@@ -1221,6 +1267,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "sha failed: unknown result");
 
   def merge_base(self, path, to_sha, from_sha):
@@ -1257,6 +1305,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "merge_base failed: unknown result");
 
   def fetch_all(self, path):
@@ -1329,6 +1379,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "merge failed: unknown result");
 
   def merge_tree(self, path, ours, theirs):
@@ -1365,6 +1417,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "merge_tree failed: unknown result");
 
   def merge_head(self, path, ref):
@@ -1399,6 +1453,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "merge_head failed: unknown result");
 
   def merge_commits(self, path, ours, theirs):
@@ -1435,6 +1491,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "merge_commits failed: unknown result");
 
   def push(self, path, remote, ref, env):
@@ -1473,6 +1531,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "push failed: unknown result");
 
   def archive(self, path, prefix, ref):
@@ -1509,6 +1569,8 @@ class Client(Iface):
       return result.success
     if result.unavailable is not None:
       raise result.unavailable
+    if result.none_result is not None:
+      raise result.none_result
     raise TApplicationException(TApplicationException.MISSING_RESULT, "archive failed: unknown result");
 
 
@@ -1574,6 +1636,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.get(args.path)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("get", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1588,6 +1652,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.list_branches(args.path)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("list_branches", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1602,6 +1668,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.list_remotes(args.path)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("list_remotes", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1616,6 +1684,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.list_tags(args.path)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("list_tags", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1630,6 +1700,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.show(args.path, args.ref)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("show", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1644,6 +1716,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.ls_tree(args.path, args.ref, args.req_path, args.recursive, args.with_size, args.with_commit, args.name_only)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("ls_tree", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1658,6 +1732,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.rev_list(args.path, args.to_ref, args.from_ref, args.file_path, args.skip, args.max_count, args.author, args.query, args.first_parent, args.since, args.no_merges)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("rev_list", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1672,6 +1748,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.blame(args.path, args.ref, args.req_path, args.lineno)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("blame", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1686,6 +1764,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.format_patch(args.path, args.ref, args.from_ref)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("format_patch", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1700,6 +1780,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.detect_renamed(args.path, args.ref)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("detect_renamed", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1714,6 +1796,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.commit(args.path, args.branch, args.parent_ref, args.author_name, args.author_email, args.message, args.reflog, args.data)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("commit", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1728,6 +1812,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.diff(args.path, args.ref, args.from_ref, args.ignore_space, args.flags, args.context_lines, args.paths, args.rename_detection)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("diff", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1742,6 +1828,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.resolve_commit(args.path, args.version)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("resolve_commit", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1756,6 +1844,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.resolve_type(args.path, args.version)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("resolve_type", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1770,6 +1860,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.create_branch(args.path, args.name, args.ref, args.force)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("create_branch", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1784,6 +1876,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.delete_branch(args.path, args.name)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("delete_branch", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1798,6 +1892,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.clone_to(args.path, args.to_path, args.is_bare, args.branch, args.is_mirror, args.env)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("clone_to", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1812,6 +1908,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.mirror(args.url, args.to_path, args.is_bare, args.branch, args.env)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("mirror", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1826,6 +1924,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.init(args.to_path, args.work_path, args.is_bare)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("init", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1840,6 +1940,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.list_references(args.path)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("list_references", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1854,6 +1956,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.add_remote(args.path, args.name, args.url)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("add_remote", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1868,6 +1972,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.update_ref(args.path, args.ref, args.newvalue)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("update_ref", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1882,6 +1988,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.update_head(args.path, args.branch_name)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("update_head", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1896,6 +2004,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.sha(args.path, args.rev)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("sha", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1910,6 +2020,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.merge_base(args.path, args.to_sha, args.from_sha)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("merge_base", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1938,6 +2050,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.merge(args.path, args.ref, args.msg, args.commit_msg, args.no_ff, args.env)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("merge", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1952,6 +2066,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.merge_tree(args.path, args.ours, args.theirs)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("merge_tree", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1966,6 +2082,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.merge_head(args.path, args.ref)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("merge_head", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1980,6 +2098,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.merge_commits(args.path, args.ours, args.theirs)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("merge_commits", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -1994,6 +2114,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.push(args.path, args.remote, args.ref, args.env)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("push", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -2008,6 +2130,8 @@ class Processor(Iface, TProcessor):
       result.success = self._handler.archive(args.path, args.prefix, args.ref)
     except ServiceUnavailable as unavailable:
       result.unavailable = unavailable
+    except NoneResult as none_result:
+      result.none_result = none_result
     oprot.writeMessageBegin("archive", TMessageType.REPLY, seqid)
     result.write(oprot)
     oprot.writeMessageEnd()
@@ -2082,16 +2206,19 @@ class get_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (Repository, Repository.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -2114,6 +2241,12 @@ class get_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -2132,6 +2265,10 @@ class get_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -2217,16 +2354,19 @@ class list_branches_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.LIST, 'success', (TType.STRING,None), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -2253,6 +2393,12 @@ class list_branches_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -2274,6 +2420,10 @@ class list_branches_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -2359,16 +2509,19 @@ class list_remotes_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.LIST, 'success', (TType.STRING,None), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -2395,6 +2548,12 @@ class list_remotes_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -2416,6 +2575,10 @@ class list_remotes_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -2501,16 +2664,19 @@ class list_tags_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.LIST, 'success', (TType.STRING,None), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -2537,6 +2703,12 @@ class list_tags_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -2558,6 +2730,10 @@ class list_tags_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -2655,16 +2831,19 @@ class show_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (GitObject, GitObject.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -2687,6 +2866,12 @@ class show_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -2705,6 +2890,10 @@ class show_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -2862,16 +3051,19 @@ class ls_tree_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRING, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -2893,6 +3085,12 @@ class ls_tree_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -2911,6 +3109,10 @@ class ls_tree_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -3116,16 +3318,19 @@ class rev_list_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.LIST, 'success', (TType.STRUCT,(Commit, Commit.thrift_spec)), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -3153,6 +3358,12 @@ class rev_list_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -3174,6 +3385,10 @@ class rev_list_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -3295,16 +3510,19 @@ class blame_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (Blame, Blame.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -3327,6 +3545,12 @@ class blame_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -3345,6 +3569,10 @@ class blame_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -3454,16 +3682,19 @@ class format_patch_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRING, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -3485,6 +3716,12 @@ class format_patch_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -3503,6 +3740,10 @@ class format_patch_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -3600,16 +3841,19 @@ class detect_renamed_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.MAP, 'success', (TType.STRING,None,TType.STRING,None), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -3637,6 +3881,12 @@ class detect_renamed_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -3659,6 +3909,10 @@ class detect_renamed_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -3844,16 +4098,19 @@ class commit_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.BOOL, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -3875,6 +4132,12 @@ class commit_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -3893,6 +4156,10 @@ class commit_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -4070,16 +4337,19 @@ class diff_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (Diff, Diff.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -4102,6 +4372,12 @@ class diff_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -4120,6 +4396,10 @@ class diff_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -4217,16 +4497,19 @@ class resolve_commit_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRING, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -4248,6 +4531,12 @@ class resolve_commit_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -4266,6 +4555,10 @@ class resolve_commit_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -4363,16 +4656,19 @@ class resolve_type_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRING, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -4394,6 +4690,12 @@ class resolve_type_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -4412,6 +4714,10 @@ class resolve_type_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -4533,16 +4839,19 @@ class create_branch_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.BOOL, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -4564,6 +4873,12 @@ class create_branch_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -4582,6 +4897,10 @@ class create_branch_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -4679,16 +4998,19 @@ class delete_branch_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.BOOL, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -4710,6 +5032,12 @@ class delete_branch_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -4728,6 +5056,10 @@ class delete_branch_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -4883,16 +5215,19 @@ class clone_to_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (Repository, Repository.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -4915,6 +5250,12 @@ class clone_to_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -4933,6 +5274,10 @@ class clone_to_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -5076,16 +5421,19 @@ class mirror_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (Repository, Repository.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -5108,6 +5456,12 @@ class mirror_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -5126,6 +5480,10 @@ class mirror_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -5235,16 +5593,19 @@ class init_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (Repository, Repository.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -5267,6 +5628,12 @@ class init_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -5285,6 +5652,10 @@ class init_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -5370,16 +5741,19 @@ class list_references_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.LIST, 'success', (TType.STRING,None), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -5406,6 +5780,12 @@ class list_references_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -5427,6 +5807,10 @@ class list_references_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -5536,16 +5920,19 @@ class add_remote_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.BOOL, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -5567,6 +5954,12 @@ class add_remote_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -5585,6 +5978,10 @@ class add_remote_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -5694,16 +6091,19 @@ class update_ref_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.BOOL, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -5725,6 +6125,12 @@ class update_ref_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -5743,6 +6149,10 @@ class update_ref_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -5840,16 +6250,19 @@ class update_head_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.BOOL, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -5871,6 +6284,12 @@ class update_head_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -5889,6 +6308,10 @@ class update_head_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -5986,16 +6409,19 @@ class sha_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRING, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -6017,6 +6443,12 @@ class sha_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -6035,6 +6467,10 @@ class sha_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -6144,16 +6580,19 @@ class merge_base_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRING, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -6175,6 +6614,12 @@ class merge_base_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -6193,6 +6638,10 @@ class merge_base_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -6482,16 +6931,19 @@ class merge_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (ProcessResult, ProcessResult.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -6514,6 +6966,12 @@ class merge_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -6532,6 +6990,10 @@ class merge_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -6641,16 +7103,19 @@ class merge_tree_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (MergeIndex, MergeIndex.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -6673,6 +7138,12 @@ class merge_tree_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -6691,6 +7162,10 @@ class merge_tree_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -6788,16 +7263,19 @@ class merge_head_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (MergeResult, MergeResult.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -6820,6 +7298,12 @@ class merge_head_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -6838,6 +7322,10 @@ class merge_head_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -6947,16 +7435,19 @@ class merge_commits_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (MergeIndex, MergeIndex.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -6979,6 +7470,12 @@ class merge_commits_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -6997,6 +7494,10 @@ class merge_commits_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -7128,16 +7629,19 @@ class push_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRUCT, 'success', (ProcessResult, ProcessResult.thrift_spec), None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -7160,6 +7664,12 @@ class push_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -7178,6 +7688,10 @@ class push_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
@@ -7287,16 +7801,19 @@ class archive_result(object):
   Attributes:
    - success
    - unavailable
+   - none_result
   """
 
   thrift_spec = (
     (0, TType.STRING, 'success', None, None, ), # 0
     (1, TType.STRUCT, 'unavailable', (ServiceUnavailable, ServiceUnavailable.thrift_spec), None, ), # 1
+    (2, TType.STRUCT, 'none_result', (NoneResult, NoneResult.thrift_spec), None, ), # 2
   )
 
-  def __init__(self, success=None, unavailable=None,):
+  def __init__(self, success=None, unavailable=None, none_result=None,):
     self.success = success
     self.unavailable = unavailable
+    self.none_result = none_result
 
   def read(self, iprot):
     if iprot.__class__ == TBinaryProtocol.TBinaryProtocolAccelerated and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None and fastbinary is not None:
@@ -7318,6 +7835,12 @@ class archive_result(object):
           self.unavailable.read(iprot)
         else:
           iprot.skip(ftype)
+      elif fid == 2:
+        if ftype == TType.STRUCT:
+          self.none_result = NoneResult()
+          self.none_result.read(iprot)
+        else:
+          iprot.skip(ftype)
       else:
         iprot.skip(ftype)
       iprot.readFieldEnd()
@@ -7336,6 +7859,10 @@ class archive_result(object):
     if self.unavailable is not None:
       oprot.writeFieldBegin('unavailable', TType.STRUCT, 1)
       self.unavailable.write(oprot)
+      oprot.writeFieldEnd()
+    if self.none_result is not None:
+      oprot.writeFieldBegin('none_result', TType.STRUCT, 2)
+      self.none_result.write(oprot)
       oprot.writeFieldEnd()
     oprot.writeFieldStop()
     oprot.writeStructEnd()
