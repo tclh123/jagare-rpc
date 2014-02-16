@@ -330,10 +330,16 @@ class Handler(object):
         try:
             repo = Jagare(path)
             with get_tmpdir() as tmpdir:
+
+                assert tmpdir
+
                 ret = repo.merge_flow(merger_name, merger_email,
                                       message_header, message_body, tmpdir,
                                       from_repo_path, from_ref, to_ref,
                                       remote_name=remote_name, no_ff=no_ff)
+
+                assert ret
+
             return ret
         except Exception as e:
             raise ServiceUnavailable(repr(e))
