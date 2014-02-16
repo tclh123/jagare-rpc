@@ -1,11 +1,9 @@
 # coding: utf-8
 
-from jagare_client import Jagare
-
 from ellen.utils import temp_repo
 
 
-def test_archive(tmpdir):
+def test_archive(tmpdir, Jagare):
     path = tmpdir.strpath
     temp_repo.create_temp_repo(path, is_bare=True)
 

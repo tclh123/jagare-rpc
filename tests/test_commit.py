@@ -1,10 +1,9 @@
 # coding: utf-8
 
-from jagare_client import Jagare
 from ellen.utils import temp_repo
 
 
-def test_commit(tmpdir):
+def test_commit(tmpdir, Jagare):
     path = tmpdir.strpath
     t_repo = temp_repo.create_temp_repo(path, is_bare=False)
 

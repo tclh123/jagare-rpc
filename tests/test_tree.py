@@ -1,10 +1,9 @@
 # coding: utf-8
 
-from jagare_client import Jagare
 from ellen.utils import temp_repo
 
 
-def test_ls_tree(tmpdir):
+def test_ls_tree(tmpdir, Jagare):
     path = tmpdir.strpath
     temp_repo.create_temp_repo(path, is_bare=True)
     ret = Jagare.ls_tree(path, ref='master', req_path=None,

@@ -1,10 +1,9 @@
 # coding: utf-8
 
-from jagare_client import Jagare
 from ellen.utils import temp_repo
 
 
-def test_blame(tmpdir):
+def test_blame(tmpdir, Jagare):
     path = tmpdir.strpath
     repo = temp_repo.create_temp_repo(path, is_bare=True)
 

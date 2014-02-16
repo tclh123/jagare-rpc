@@ -1,10 +1,9 @@
 # coding: utf-8
 
-from jagare_client import Jagare
 from ellen.utils import temp_repo
 
 
-def test_resolve_commit(tmpdir):
+def test_resolve_commit(tmpdir, Jagare):
     path = tmpdir.strpath
     t_repo = temp_repo.create_temp_repo(path, is_bare=True)
 
@@ -14,7 +13,7 @@ def test_resolve_commit(tmpdir):
     assert sha == t_sha
 
 
-def test_resolve_type(tmpdir):
+def test_resolve_type(tmpdir, Jagare):
     path = tmpdir.strpath
     temp_repo.create_temp_repo(path, is_bare=True)
 
@@ -22,7 +21,7 @@ def test_resolve_type(tmpdir):
     assert type_ == 'commit'
 
 
-def test_sha(tmpdir):
+def test_sha(tmpdir, Jagare):
     path = tmpdir.strpath
     t_repo = temp_repo.create_temp_repo(path, is_bare=True)
 

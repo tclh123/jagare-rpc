@@ -50,10 +50,13 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  string merge_base(string path, string to_sha, string from_sha)'
   print '  void fetch_all(string path)'
   print '  void fetch(string path, string name)'
+  print '  void fetch_raw(string path, string name, bool is_q,  env)'
   print '  ProcessResult merge(string path, string ref, string msg, string commit_msg, bool no_ff,  env)'
   print '  MergeIndex merge_tree(string path, string ours, string theirs)'
   print '  MergeResult merge_head(string path, string ref)'
   print '  MergeIndex merge_commits(string path, string ours, string theirs)'
+  print '  string merge_flow(string path, string merger_name, string merger_email, string message_header, string message_body, string from_repo_path, string from_ref, string to_ref, string remote_name, bool no_ff)'
+  print '  bool can_merge(string path, string from_repo_path, string from_ref, string to_ref, string remote_name)'
   print '  ProcessResult push(string path, string remote, string ref,  env)'
   print '  string archive(string path, string prefix, string ref)'
   print ''
@@ -269,6 +272,12 @@ elif cmd == 'fetch':
     sys.exit(1)
   pp.pprint(client.fetch(args[0],args[1],))
 
+elif cmd == 'fetch_raw':
+  if len(args) != 4:
+    print 'fetch_raw requires 4 args'
+    sys.exit(1)
+  pp.pprint(client.fetch_raw(args[0],args[1],eval(args[2]),eval(args[3]),))
+
 elif cmd == 'merge':
   if len(args) != 6:
     print 'merge requires 6 args'
@@ -292,6 +301,18 @@ elif cmd == 'merge_commits':
     print 'merge_commits requires 3 args'
     sys.exit(1)
   pp.pprint(client.merge_commits(args[0],args[1],args[2],))
+
+elif cmd == 'merge_flow':
+  if len(args) != 10:
+    print 'merge_flow requires 10 args'
+    sys.exit(1)
+  pp.pprint(client.merge_flow(args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],args[8],eval(args[9]),))
+
+elif cmd == 'can_merge':
+  if len(args) != 5:
+    print 'can_merge requires 5 args'
+    sys.exit(1)
+  pp.pprint(client.can_merge(args[0],args[1],args[2],args[3],args[4],))
 
 elif cmd == 'push':
   if len(args) != 4:

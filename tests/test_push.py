@@ -1,12 +1,10 @@
 # coding: utf-8
 
-from jagare_client import Jagare
-
 from ellen.utils import temp_repo
 from ellen.repo import Jagare as JagareRepo
 
 
-def test_push(tmpdir):
+def test_push(tmpdir, Jagare):
     path = tmpdir.mkdir('source').strpath
     path2 = tmpdir.mkdir('target').strpath
     repo = temp_repo.create_temp_repo(path, is_bare=True)

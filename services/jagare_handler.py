@@ -12,13 +12,18 @@ from jagare.converter.blame import BlameConverter
 from jagare.converter.merge import MergeResultConverter, MergeIndexConverter
 
 from service_gen.jagare.ttypes import (Repository,
-                                       ServiceUnavailable)
+                                       ServiceUnavailable,
+                                       NoneResult)
+
+from .utils import check_none_result, get_tmpdir
+
 
 # Code provide jagare_client wrapper, save `path` arg.
 
 
 class Handler(object):
 
+    @check_none_result
     def get(self, path):
         try:
             repo = Jagare(path)
@@ -30,6 +35,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def list_branches(self, path):
         try:
             repo = Jagare(path)
@@ -37,6 +43,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def list_remotes(self, path):
         try:
             repo = Jagare(path)
@@ -44,13 +51,15 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def list_tags(self, path):
         try:
             repo = Jagare(path)
-            return repo.tags
+            return list(repo.tags)
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def show(self, path, ref):
         try:
             repo = Jagare(path)
@@ -60,6 +69,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def ls_tree(self, path, ref, req_path, recursive, with_size,
                 with_commit, name_only):
         try:
@@ -71,6 +81,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def rev_list(self, path, to_ref, from_ref, file_path, skip, max_count,
                  author, query, first_parent, since, no_merges):
         try:
@@ -85,6 +96,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def blame(self, path, ref, req_path, lineno):
         try:
             repo = Jagare(path)
@@ -93,6 +105,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def format_patch(self, path, ref, from_ref):
         try:
             repo = Jagare(path)
@@ -100,6 +113,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def detect_renamed(self, path, ref):
         try:
             repo = Jagare(path)
@@ -107,6 +121,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def commit(self, path, branch, parent_ref,
                author_name, author_email, message, reflog, data):
         try:
@@ -118,6 +133,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def diff(self, path, ref, from_ref, ignore_space, flags,
              context_lines, paths, rename_detection):
         try:
@@ -130,6 +146,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def resolve_commit(self, path, ref):
         try:
             repo = Jagare(path)
@@ -137,6 +154,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def resolve_type(self, path, version):
         """version means git object sha, return str of blob/tree/commit/tag"""
         try:
@@ -145,6 +163,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def create_branch(self, path, name, ref, force):
         try:
             repo = Jagare(path)
@@ -152,6 +171,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def delete_branch(self, path, name):
         try:
             repo = Jagare(path)
@@ -160,6 +180,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def clone_to(self, path, to_path, is_bare, branch, is_mirror, env):
         try:
             repo = Jagare(path)
@@ -173,6 +194,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def mirror(self, url, to_path, is_bare, branch, env):
         try:
             to_repo = Jagare.mirror(url=url, path=to_path, bare=is_bare,
@@ -185,6 +207,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def init(self, to_path, work_path, is_bare):
         try:
             to_repo = Jagare.init(path=to_path, work_path=work_path,
@@ -197,6 +220,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def list_references(self, path):
         try:
             repo = Jagare(path)
@@ -204,6 +228,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def add_remote(self, path, name, url):
         try:
             repo = Jagare(path)
@@ -212,6 +237,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def update_ref(self, path, ref, newvalue):
         try:
             repo = Jagare(path)
@@ -220,6 +246,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def update_head(self, path, branch_name):
         try:
             repo = Jagare(path)
@@ -228,6 +255,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def sha(self, path, revision):
         try:
             repo = Jagare(path)
@@ -235,6 +263,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def merge_base(self, path, to_sha, from_sha):
         try:
             repo = Jagare(path)
@@ -251,6 +280,11 @@ class Handler(object):
         repo = Jagare(path)
         repo.fetch(name)
 
+    def fetch_raw(self, path, name, is_q, env):
+        repo = Jagare(path)
+        repo.fetch_(name, is_q, env)
+
+    @check_none_result
     def merge(self, path, ref, msg, commit_msg, no_ff, env):
         try:
             repo = Jagare(path)
@@ -260,6 +294,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def merge_tree(self, path, ours, theirs):
         try:
             repo = Jagare(path)
@@ -268,6 +303,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def merge_head(self, path, ref):
         try:
             repo = Jagare(path)
@@ -276,6 +312,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def merge_commits(self, path, ours, theirs):
         try:
             repo = Jagare(path)
@@ -284,6 +321,37 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
+    def merge_flow(self, path, merger_name, merger_email,
+                   message_header, message_body,
+                   from_repo_path, from_ref, to_ref,
+                   remote_name, no_ff):
+        """merge with worktree(tmpdir)"""
+        try:
+            repo = Jagare(path)
+            with get_tmpdir() as tmpdir:
+                ret = repo.merge_flow(merger_name, merger_email,
+                                      message_header, message_body, tmpdir,
+                                      from_repo_path, from_ref, to_ref,
+                                      remote_name=remote_name, no_ff=no_ff)
+            return ret
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    @check_none_result
+    def can_merge(self, path, from_repo_path, from_ref, to_ref,
+                  remote_name=None):
+        """test auto merge"""
+        try:
+            repo = Jagare(path)
+            with get_tmpdir() as tmpdir:
+                ret = repo.can_merge(tmpdir, from_repo_path, from_ref, to_ref,
+                                     remote_name=remote_name)
+            return ret
+        except Exception as e:
+            raise ServiceUnavailable(repr(e))
+
+    @check_none_result
     def push(self, path, remote, ref, env):
         try:
             repo = Jagare(path)
@@ -292,6 +360,7 @@ class Handler(object):
         except Exception as e:
             raise ServiceUnavailable(repr(e))
 
+    @check_none_result
     def archive(self, path, prefix, ref):
         try:
             repo = Jagare(path)

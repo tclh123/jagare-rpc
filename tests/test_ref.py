@@ -1,10 +1,9 @@
 # coding: utf-8
 
-from jagare_client import Jagare
 from ellen.utils import temp_repo
 
 
-def test_list_references(tmpdir):
+def test_list_references(tmpdir, Jagare):
     path = tmpdir.strpath
     t_repo = temp_repo.create_temp_repo(path, is_bare=True)
     refs = Jagare.list_references(path)
@@ -12,7 +11,7 @@ def test_list_references(tmpdir):
     assert refs == t_repo.listall_references()
 
 
-def test_update_ref(tmpdir):
+def test_update_ref(tmpdir, Jagare):
     path = tmpdir.strpath
     t_repo = temp_repo.create_temp_repo(path, is_bare=False)
 
@@ -27,7 +26,7 @@ def test_update_ref(tmpdir):
     assert t_repo.head.target.hex == head_sha
 
 
-def test_update_head(tmpdir):
+def test_update_head(tmpdir, Jagare):
     path = tmpdir.strpath
     t_repo = temp_repo.create_temp_repo(path, is_bare=False)
     t_repo.create_branch('br_test_update_head', 'master')

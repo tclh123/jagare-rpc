@@ -29,9 +29,10 @@ struct Patch {
     14: required string new_file_path,
 }
 struct Diff {
-    1: required string old_sha,
+    1: optional string old_sha,  # may be None
     2: required string new_sha,
     3: required list<Patch> patches,
+    4: required string patch,  # patch diff string
 }
 """
 
@@ -47,6 +48,8 @@ class DiffConverter(Converter):
                         for patch in self.patches]
         self.patch = self.diff.patch
         self.drop('diff')
+
+        self.unicode_str('patch')
 
 
 class PatchConverter(Converter):

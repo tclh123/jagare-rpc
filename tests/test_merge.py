@@ -4,13 +4,11 @@ import os
 
 import pytest
 
-from jagare_client import Jagare
-
 from ellen.utils import temp_repo
 from ellen.repo import Jagare as JagareRepo
 
 
-def test_merge_base(tmpdir):
+def test_merge_base(tmpdir, Jagare):
     path = tmpdir.strpath
     t_repo = temp_repo.create_temp_repo(path, is_bare=True)
 
@@ -26,7 +24,7 @@ def no_ff(request):
     return request.param
 
 
-def test_merge(tmpdir, no_ff):
+def test_merge(tmpdir, no_ff, Jagare):
     path = tmpdir.strpath
     git_dir = os.path.join(path, '.git')
 
@@ -56,7 +54,7 @@ def test_merge(tmpdir, no_ff):
     assert ret.returncode == 0
 
 
-def test_merge_tree(tmpdir):
+def test_merge_tree(tmpdir, Jagare):
     path = tmpdir.strpath
     git_dir = os.path.join(path, '.git')
 
@@ -82,7 +80,7 @@ def test_merge_tree(tmpdir):
     assert ret.has_conflicts is False
 
 
-def test_merge_head(tmpdir):
+def test_merge_head(tmpdir, Jagare):
     path = tmpdir.strpath
     git_dir = os.path.join(path, '.git')
 
@@ -110,7 +108,7 @@ def test_merge_head(tmpdir):
     assert ret.is_uptodate is False
 
 
-def test_merge_commits(tmpdir):
+def test_merge_commits(tmpdir, Jagare):
     path = tmpdir.strpath
     git_dir = os.path.join(path, '.git')
 
@@ -134,3 +132,55 @@ def test_merge_commits(tmpdir):
     assert t_repo.sha(sha1) == sha1
 
     assert ret.has_conflicts is False
+
+
+def test_merge_flow(tmpdir, no_ff, Jagare):
+    path = tmpdir.mkdir('to').strpath
+    from_repo_path = tmpdir.mkdir('from').strpath
+
+    BR = 'br_test_merge'
+
+    repo = temp_repo.create_temp_repo(path, is_bare=True)
+    from_repo = repo.clone(from_repo_path, branch='master',
+                           bare=True)
+
+    # commit more things to from_repo:BR
+    ret = from_repo.create_branch(BR, 'master')
+    assert ret is True
+    temp_repo.commit_something(from_repo_path, branch=BR)
+
+    # different repo: from -> to
+    sha = Jagare.merge_flow(path, 'lh', 'lh@xxx.com',
+                            'test_header', 'test_body',
+                            from_repo_path, BR, 'master',
+                            remote_name='hub/xxxproject', no_ff=no_ff)
+    assert sha
+
+    # same repo: from -> from
+    sha = Jagare.merge_flow(from_repo_path, 'lh', 'lh@xxx.com',
+                            'test_header', 'test_body',
+                            from_repo_path, BR, 'master',
+                            remote_name=None, no_ff=True)
+    assert sha
+
+
+def test_can_merge(tmpdir, Jagare):
+    path = tmpdir.mkdir('to').strpath
+    from_repo_path = tmpdir.mkdir('from').strpath
+
+    BR = 'br_test_merge'
+
+    repo = temp_repo.create_temp_repo(path, is_bare=True)
+    from_repo = repo.clone(from_repo_path, branch='master',
+                           bare=True)
+
+    # commit more things to from_repo:BR
+    ret = from_repo.create_branch(BR, 'master')
+    assert ret is True
+    temp_repo.commit_something(from_repo_path, branch=BR)
+
+    # can_merge
+    ret = Jagare.can_merge(path,
+                           from_repo_path, BR, 'master',
+                           remote_name='hub/xxxproject')
+    assert ret is True
