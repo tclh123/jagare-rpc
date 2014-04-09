@@ -8,7 +8,7 @@ from contextlib import contextmanager
 
 from service_gen.jagare.ttypes import NoneResult
 
-from dae.api.util import get_tmpdir as get_dae_tmpdir
+# from dae.api.util import get_tmpdir as get_dae_tmpdir
 
 
 def check_none_result(f):
@@ -26,7 +26,7 @@ def check_none_result(f):
 def get_tmpdir():
     """return tmpdir, e.g. xxx/jagare-rpc/tmpdir/pulltmp/tmpRSpeEi """
 
-    tmpdir_root = get_dae_tmpdir()
+    tmpdir_root = tempfile.gettempdir()
     pulltmp = os.path.join(tmpdir_root, 'pulltmp')
     if not os.path.exists(pulltmp):
         os.makedirs(pulltmp)

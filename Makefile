@@ -1,7 +1,8 @@
 targets:
 	@echo test, service, service_stop, service_gen, clean_pyc
 
-test: service_stop
+# test: service_stop
+test:
 	dae venv py.test tests
 
 service:
