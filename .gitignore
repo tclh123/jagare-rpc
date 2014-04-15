@@ -8,6 +8,7 @@
 # Python
 *.py[cod]
 *.egg-info
+/src
 
 # Editor
 *.swp
