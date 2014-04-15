@@ -1,18 +1,20 @@
 targets:
-	@echo test, service, service_stop, service_gen, clean_pyc
+	@echo test, service, service_stop, clean_pyc  # , service_gen
 
-# test: service_stop
-test:
-	dae venv py.test tests
+test: service_restart
+	# dae venv py.test tests
+	py.test tests
+
+service_restart: service_stop service
 
 service:
-	dae service serve > tmp/jagare_service.log 2>&1 &
+	python devserver.py > tmp/jagare_service_2.log 2>&1 &
 
 service_stop:
 	-@kill -9 `lsof -i:7303 -t` 2> /dev/null
 
-service_gen:
-	dae service gen
+# service_gen:
+# 	dae service gen
 
 clean_pyc:
 	@find . -name "*.pyc" -exec rm {} +
