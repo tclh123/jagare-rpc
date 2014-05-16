@@ -19,11 +19,6 @@ class Client(object):
         self.retries = 3
         self.connect_timeout = 10
 
-        transport = TSocket.TSocket(self.host, self.port)
-        self.transport = TTransport.TBufferedTransport(transport)
-        self.protocol = TBinaryProtocol.TBinaryProtocol(self.transport)  # iport
-        self._client = self.thrift_module.Client(self.protocol)
-
         self.closed = True
 
     def __getattr__(self, method_name):
@@ -32,6 +27,11 @@ class Client(object):
         return getattr(self._client, method_name)
 
     def connect(self):
+        transport = TSocket.TSocket(self.host, self.port)
+        self.transport = TTransport.TBufferedTransport(transport)
+        self.protocol = TBinaryProtocol.TBinaryProtocol(self.transport)  # iport
+        self._client = self.thrift_module.Client(self.protocol)
+
         self.transport.open()
         self.closed = False
 
