@@ -9,7 +9,7 @@ from service_gen.jagare import Jagare as genmod
 from services.jagare_handler import Handler
 
 # set host, port
-host = '127.0.0.1'
+host = '0.0.0.0'
 port = 7303
 
 # set handler to our implementation
